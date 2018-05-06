@@ -1,0 +1,58 @@
+﻿@model IEnumerable<WebApplication1.Models.Customer>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+@section scripts {
+    <script src="~/lib/knockout/knockout-3.4.2.js"></script>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/js/ContactViewModel.js"></script>
+    <script src="~/js/CustomerViewModel.js"></script>
+    <script src="~/js/IndexViewModel.js"></script>
+}
+
+<p>
+    <a data-bind="click: createNewCustomer">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr data-bind="foreach: customers">
+            <td>
+                <span data-bind="text:name"></span>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<!-- ko if: newCustomer() -->
+<div data-bind="with: newCustomer">
+    <label class="control-label">Name</label>
+    <input type="text" class="form-control" data-bind="value: name" />
+    <label class="control-label">Contacts</label>
+    <input type="button" class="form-control" value="Add new contact" data-bind="click: addNewContact" />
+    <ul data-bind="foreach: contacts">
+        <li>
+            <span data-bind="text: name"> </span>
+        </li>
+    </ul>
+    <!-- ko if: newContact() -->
+    <div data-bind="with: newContact">
+        <label class="control-label">Name</label>
+        <input type="text" class="form-control" data-bind="value: name" />
+    </div>
+    <input type="button" class="form-control" data-bind="click: saveNewContact" value="Save new contact" />
+    <!-- /ko -->
+</div>
+<input type="button" class="form-control" data-bind="click: saveNewCustomer" value="Save new Customer" />
+<!-- /ko -->
