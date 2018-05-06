@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -18,16 +19,19 @@ namespace WebApplication1
             _context = context;
         }
 
+        [Authorize]
         public ViewResult Index()
         {
             return View();
         }
 
+        [Authorize]
         public JsonResult GetAllCustomers()
         {
             return Json(_context.Customer.ToList());
         }
 
+        [Authorize]
         [HttpPost]
         public IActionResult CreateFromJson([FromBody]Customer customer)
         {
