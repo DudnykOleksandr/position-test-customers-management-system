@@ -29,7 +29,7 @@ namespace WebApplication1
         }
 
         [HttpPost]
-        public JsonResult CreateFromJson([FromBody]Customer customer)
+        public IActionResult CreateFromJson([FromBody]Customer customer)
         {
             if (customer.CustomerId == Guid.Empty) {
                 customer.CustomerId = Guid.NewGuid();
@@ -54,7 +54,7 @@ namespace WebApplication1
                 _context.Add(customer);
                 _context.SaveChanges();
             }
-            return GetAllCustomers();
+            return Ok(_context.Customer.ToList());
         }
     }
 }

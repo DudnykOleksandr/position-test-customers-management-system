@@ -19,3 +19,4 @@ D:\Git Projects\test\WebApplication2Angular\WebApplication1\obj\Debug\netcoreapp
 D:\Git Projects\test\WebApplication2Angular\WebApplication1\obj\Debug\netcoreapp2.0\WebApplication1.AssemblyInfo.cs
 D:\Git Projects\test\WebApplication2Angular\WebApplication1\obj\Debug\netcoreapp2.0\WebApplication1.dll
 D:\Git Projects\test\WebApplication2Angular\WebApplication1\obj\Debug\netcoreapp2.0\WebApplication1.pdb
+D:\Git Projects\test\WebApplication2Angular\WebApplication1\obj\Debug\netcoreapp2.0\WebApplication1.csprojResolveAssemblyReference.cache

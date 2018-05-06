@@ -25,9 +25,9 @@
             </div>
         </div>
     </nav>
-    <div class="container body-content" style="margin-top: 70px;" ng-controller="IndexController as index">
+    <div class="container body-content" style="margin-top: 70px;" ng-controller="CustomersController as customersCtrl">
         <p>
-            <a>Create New</a>
+            <a ng-click="customersCtrl.createNewCustomer()">Create New</a>
         </p>
         <table class="table">
             <thead>
@@ -39,14 +39,32 @@
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="customer in index.customers">
+                <tr ng-repeat="customer in customersCtrl.customers">
                     <td>
                         <span> {{customer.name}} </span>
                     </td>
                 </tr>
             </tbody>
         </table>
-
+        <div ng-show="customersCtrl.currentCustomer">
+            <label class="control-label">Name</label>
+            <input type="text" class="form-control" ng-model="customersCtrl.currentCustomer.Name" />
+            <label class="control-label">Contacts</label>
+            <div ng-controller="ContactsController as contactsCtrl">
+                <input type="button" class="form-control" value="Add new contact" ng-click="contactsCtrl.createNewContact()" />
+                <ul ng-repeat="contact in customersCtrl.currentCustomer.Contacts">
+                    <li>
+                        <span>{{contact.Name}}</span>
+                    </li>
+                </ul>
+                <div ng-show="contactsCtrl.currentContact">
+                    <label class="control-label">Name</label>
+                    <input type="text" class="form-control" ng-model="contactsCtrl.currentContact.Name" />
+                    <input type="button" class="form-control" ng-click="contactsCtrl.saveContact(customersCtrl.currentCustomer)" value="Save new contact" />
+                </div>
+            </div>
+            <input type="button" class="form-control" ng-click="customersCtrl.saveCustomer()" value="Save new Customer" />
+        </div>
         <hr />
         <footer>
             <p>&copy; 2018 - WebApplication1</p>
@@ -57,6 +75,8 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
     <script src="~/lib/angular/angular.min.js"></script>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/js/ContactModel.js"></script>
+    <script src="~/js/CustomerModel.js"></script>
     <script src="~/js/app.js"></script>
 </body>
 </html>
