@@ -11,6 +11,10 @@
             self.currentCustomer = new CustomerModel();
         }
 
+        self.editCustomer = function (customer) {
+            self.currentCustomer = customer;
+        }
+
         self.saveCustomer = function () {
             $http.post('Customers/CreateFromJson',
                 self.currentCustomer,

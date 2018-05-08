@@ -35,13 +35,17 @@
                     <th>
                         Name
                     </th>
-                    <th></th>
+                    <th>
+                    </th>
                 </tr>
             </thead>
             <tbody>
                 <tr ng-repeat="customer in customersCtrl.customers">
                     <td>
-                        <span> {{customer.name}} </span>
+                        <span> {{customer.Name}} </span>
+                    </td>
+                    <td>
+                        <a ng-click="customersCtrl.editCustomer(customer)">Edit</a>
                     </td>
                 </tr>
             </tbody>

@@ -9,6 +9,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using WebApplication1.Models;
 
 namespace WebApplication1
@@ -25,7 +27,13 @@ namespace WebApplication1
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc();
+            services.AddMvc().AddJsonOptions(options =>
+            {
+                options.SerializerSettings.ContractResolver = new DefaultContractResolver();
+                options.SerializerSettings.DefaultValueHandling = DefaultValueHandling.Include;
+                options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
+                options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+            });
 
             //Adds cookie middleware to the services collection and configures it
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
@@ -39,7 +47,7 @@ namespace WebApplication1
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             //Adds the authentication middleware to the pipeline
-            app.UseAuthentication();
+            //app.UseAuthentication();
 
             if (env.IsDevelopment())
             {

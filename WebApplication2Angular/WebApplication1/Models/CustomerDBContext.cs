@@ -31,7 +31,7 @@ namespace WebApplication1.Models
                 entity.HasOne(d => d.Customer)
                     .WithMany(p => p.Contacts)
                     .HasForeignKey(d => d.CustomerId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("FK_Contact_Contact");
             });
 
