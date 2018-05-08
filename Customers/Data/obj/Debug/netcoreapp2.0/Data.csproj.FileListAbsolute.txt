@@ -4,3 +4,6 @@ D:\Git Projects\test\Customers\Data\obj\Debug\netcoreapp2.0\Data.csprojResolveAs
 D:\Git Projects\test\Customers\Data\obj\Debug\netcoreapp2.0\Data.csproj.CoreCompileInputs.cache
 D:\Git Projects\test\Customers\Data\obj\Debug\netcoreapp2.0\Data.AssemblyInfoInputs.cache
 D:\Git Projects\test\Customers\Data\obj\Debug\netcoreapp2.0\Data.AssemblyInfo.cs
+D:\Git Projects\test\Customers\Data\bin\Debug\netcoreapp2.0\Data.pdb
+D:\Git Projects\test\Customers\Data\obj\Debug\netcoreapp2.0\Data.dll
+D:\Git Projects\test\Customers\Data\obj\Debug\netcoreapp2.0\Data.pdb

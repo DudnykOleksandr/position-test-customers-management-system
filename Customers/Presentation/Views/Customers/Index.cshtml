@@ -1,0 +1,88 @@
+﻿<!DOCTYPE html>
+<html ng-app="customers">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WebApplication1</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+</head>
+<body>
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">WebApplication1</a>
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container body-content" style="margin-top: 70px;" ng-controller="CustomersController as customersCtrl">
+        <p>
+            <a ng-click="customersCtrl.createNewCustomer()">Create New</a>
+        </p>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        Name
+                    </th>
+                    <th>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="customer in customersCtrl.customers">
+                    <td>
+                        <span> {{customer.Name}} </span>
+                    </td>
+                    <td>
+                        <a ng-click="customersCtrl.editCustomer(customer)">Edit</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div ng-show="customersCtrl.currentCustomer">
+            <label class="control-label">Name</label>
+            <input type="text" class="form-control" ng-model="customersCtrl.currentCustomer.Name" />
+            <label class="control-label">Contacts</label>
+            <div ng-controller="ContactsController as contactsCtrl">
+                <input type="button" class="form-control" value="Add new contact" ng-click="contactsCtrl.createNewContact()" />
+                <ul ng-repeat="contact in customersCtrl.currentCustomer.Contacts">
+                    <li>
+                        <span>{{contact.Name}}</span>
+                    </li>
+                </ul>
+                <div ng-show="contactsCtrl.currentContact">
+                    <label class="control-label">Name</label>
+                    <input type="text" class="form-control" ng-model="contactsCtrl.currentContact.Name" />
+                    <input type="button" class="form-control" ng-click="contactsCtrl.saveContact(customersCtrl.currentCustomer)" value="Save new contact" />
+                </div>
+            </div>
+            <input type="button" class="form-control" ng-click="customersCtrl.saveCustomer()" value="Save new Customer" />
+        </div>
+        <hr />
+        <footer>
+            <p>&copy; 2018 - WebApplication1</p>
+        </footer>
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="~/lib/angular/angular.min.js"></script>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/js/ContactModel.js"></script>
+    <script src="~/js/CustomerModel.js"></script>
+    <script src="~/js/app.js"></script>
+</body>
+</html>
+
+

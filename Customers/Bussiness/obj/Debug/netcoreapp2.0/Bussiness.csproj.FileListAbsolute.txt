@@ -3,3 +3,10 @@ D:\Git Projects\test\Customers\Bussiness\bin\Debug\netcoreapp2.0\Bussiness.dll
 D:\Git Projects\test\Customers\Bussiness\obj\Debug\netcoreapp2.0\Bussiness.csproj.CoreCompileInputs.cache
 D:\Git Projects\test\Customers\Bussiness\obj\Debug\netcoreapp2.0\Bussiness.AssemblyInfoInputs.cache
 D:\Git Projects\test\Customers\Bussiness\obj\Debug\netcoreapp2.0\Bussiness.AssemblyInfo.cs
+D:\Git Projects\test\Customers\Bussiness\bin\Debug\netcoreapp2.0\Bussiness.pdb
+D:\Git Projects\test\Customers\Bussiness\bin\Debug\netcoreapp2.0\Data.dll
+D:\Git Projects\test\Customers\Bussiness\bin\Debug\netcoreapp2.0\Data.pdb
+D:\Git Projects\test\Customers\Bussiness\obj\Debug\netcoreapp2.0\Bussiness.csprojResolveAssemblyReference.cache
+D:\Git Projects\test\Customers\Bussiness\obj\Debug\netcoreapp2.0\Bussiness.csproj.CopyComplete
+D:\Git Projects\test\Customers\Bussiness\obj\Debug\netcoreapp2.0\Bussiness.dll
+D:\Git Projects\test\Customers\Bussiness\obj\Debug\netcoreapp2.0\Bussiness.pdb
