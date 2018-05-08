@@ -1,0 +1,5 @@
+D:\Git Projects\test\Customers\Bussiness\bin\Debug\netcoreapp2.0\Bussiness.deps.json
+D:\Git Projects\test\Customers\Bussiness\bin\Debug\netcoreapp2.0\Bussiness.dll
+D:\Git Projects\test\Customers\Bussiness\obj\Debug\netcoreapp2.0\Bussiness.csproj.CoreCompileInputs.cache
+D:\Git Projects\test\Customers\Bussiness\obj\Debug\netcoreapp2.0\Bussiness.AssemblyInfoInputs.cache
+D:\Git Projects\test\Customers\Bussiness\obj\Debug\netcoreapp2.0\Bussiness.AssemblyInfo.cs

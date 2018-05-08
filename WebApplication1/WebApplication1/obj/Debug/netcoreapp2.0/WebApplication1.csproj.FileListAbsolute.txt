@@ -9,3 +9,14 @@ c:\users\odu\source\repos\WebApplication1\WebApplication1\obj\Debug\netcoreapp2.
 c:\users\odu\source\repos\WebApplication1\WebApplication1\obj\Debug\netcoreapp2.0\WebApplication1.AssemblyInfo.cs
 c:\users\odu\source\repos\WebApplication1\WebApplication1\obj\Debug\netcoreapp2.0\WebApplication1.dll
 c:\users\odu\source\repos\WebApplication1\WebApplication1\obj\Debug\netcoreapp2.0\WebApplication1.pdb
+D:\Git Projects\test\WebApplication1\WebApplication1\bin\Debug\netcoreapp2.0\WebApplication1.deps.json
+D:\Git Projects\test\WebApplication1\WebApplication1\bin\Debug\netcoreapp2.0\WebApplication1.runtimeconfig.json
+D:\Git Projects\test\WebApplication1\WebApplication1\bin\Debug\netcoreapp2.0\WebApplication1.runtimeconfig.dev.json
+D:\Git Projects\test\WebApplication1\WebApplication1\bin\Debug\netcoreapp2.0\WebApplication1.dll
+D:\Git Projects\test\WebApplication1\WebApplication1\bin\Debug\netcoreapp2.0\WebApplication1.pdb
+D:\Git Projects\test\WebApplication1\WebApplication1\obj\Debug\netcoreapp2.0\WebApplication1.csprojResolveAssemblyReference.cache
+D:\Git Projects\test\WebApplication1\WebApplication1\obj\Debug\netcoreapp2.0\WebApplication1.csproj.CoreCompileInputs.cache
+D:\Git Projects\test\WebApplication1\WebApplication1\obj\Debug\netcoreapp2.0\WebApplication1.AssemblyInfoInputs.cache
+D:\Git Projects\test\WebApplication1\WebApplication1\obj\Debug\netcoreapp2.0\WebApplication1.AssemblyInfo.cs
+D:\Git Projects\test\WebApplication1\WebApplication1\obj\Debug\netcoreapp2.0\WebApplication1.dll
+D:\Git Projects\test\WebApplication1\WebApplication1\obj\Debug\netcoreapp2.0\WebApplication1.pdb
