@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace WebApplication1.Models
+namespace Data.Models
 {
     public partial class Customer
     {
         public Customer()
         {
-            Contact = new HashSet<Contact>();
-            Department = new HashSet<Department>();
-            User = new HashSet<User>();
+            Contacts = new HashSet<Contact>();
+            Departments = new HashSet<Department>();
+            Users = new HashSet<User>();
         }
 
         public Guid Id { get; set; }
@@ -22,8 +22,8 @@ namespace WebApplication1.Models
         public int NumberOfSchools { get; set; }
 
         public Address Address { get; set; }
-        public ICollection<Contact> Contact { get; set; }
-        public ICollection<Department> Department { get; set; }
-        public ICollection<User> User { get; set; }
+        public ICollection<Contact> Contacts { get; set; }
+        public ICollection<Department> Departments { get; set; }
+        public ICollection<User> Users { get; set; }
     }
 }

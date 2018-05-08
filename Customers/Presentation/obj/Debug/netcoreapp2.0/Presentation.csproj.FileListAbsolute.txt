@@ -6,3 +6,11 @@ D:\Git Projects\test\Customers\Presentation\obj\Debug\netcoreapp2.0\Presentation
 D:\Git Projects\test\Customers\Presentation\obj\Debug\netcoreapp2.0\Presentation.csproj.CoreCompileInputs.cache
 D:\Git Projects\test\Customers\Presentation\obj\Debug\netcoreapp2.0\Presentation.AssemblyInfoInputs.cache
 D:\Git Projects\test\Customers\Presentation\obj\Debug\netcoreapp2.0\Presentation.AssemblyInfo.cs
+D:\Git Projects\test\Customers\Presentation\bin\Debug\netcoreapp2.0\Presentation.pdb
+D:\Git Projects\test\Customers\Presentation\bin\Debug\netcoreapp2.0\Bussiness.dll
+D:\Git Projects\test\Customers\Presentation\bin\Debug\netcoreapp2.0\Data.dll
+D:\Git Projects\test\Customers\Presentation\bin\Debug\netcoreapp2.0\Bussiness.pdb
+D:\Git Projects\test\Customers\Presentation\bin\Debug\netcoreapp2.0\Data.pdb
+D:\Git Projects\test\Customers\Presentation\obj\Debug\netcoreapp2.0\Presentation.csproj.CopyComplete
+D:\Git Projects\test\Customers\Presentation\obj\Debug\netcoreapp2.0\Presentation.dll
+D:\Git Projects\test\Customers\Presentation\obj\Debug\netcoreapp2.0\Presentation.pdb

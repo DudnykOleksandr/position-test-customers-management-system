@@ -1,8 +1,7 @@
-﻿using System;
+﻿using Data.Models;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
 
-namespace WebApplication1.Models
+namespace Data.Repositories
 {
     public partial class CustomerDBContext : DbContext
     {
@@ -11,15 +10,6 @@ namespace WebApplication1.Models
         public virtual DbSet<Customer> Customer { get; set; }
         public virtual DbSet<Department> Department { get; set; }
         public virtual DbSet<User> User { get; set; }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            if (!optionsBuilder.IsConfigured)
-            {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseSqlServer(@"Server=PC-218719\SQLEXPRESS;Database=CustomerDB;Trusted_Connection=True;");
-            }
-        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -59,9 +49,10 @@ namespace WebApplication1.Models
                     .HasMaxLength(20);
 
                 entity.HasOne(d => d.Customer)
-                    .WithMany(p => p.Contact)
+                    .WithMany(p => p.Contacts)
                     .HasForeignKey(d => d.CustomerId)
-                    .HasConstraintName("FK_Contact_Customer");
+                    .HasConstraintName("FK_Contact_Customer")
+                    .OnDelete(DeleteBehavior.Cascade);
             });
 
             modelBuilder.Entity<Customer>(entity =>
@@ -106,9 +97,10 @@ namespace WebApplication1.Models
                     .HasConstraintName("FK_Department_Address");
 
                 entity.HasOne(d => d.Customer)
-                    .WithMany(p => p.Department)
+                    .WithMany(p => p.Departments)
                     .HasForeignKey(d => d.CustomerId)
-                    .HasConstraintName("FK_Department_Customer");
+                    .HasConstraintName("FK_Department_Customer")
+                    .OnDelete(DeleteBehavior.Cascade);
             });
 
             modelBuilder.Entity<User>(entity =>
@@ -146,14 +138,16 @@ namespace WebApplication1.Models
                     .HasMaxLength(30);
 
                 entity.HasOne(d => d.Customer)
-                    .WithMany(p => p.User)
+                    .WithMany(p => p.Users)
                     .HasForeignKey(d => d.CustomerId)
-                    .HasConstraintName("FK_User_Customer");
+                    .HasConstraintName("FK_User_Customer")
+                    .OnDelete(DeleteBehavior.Cascade);
 
                 entity.HasOne(d => d.Department)
-                    .WithMany(p => p.User)
+                    .WithMany(p => p.Users)
                     .HasForeignKey(d => d.DepartmentId)
-                    .HasConstraintName("FK_User_Department");
+                    .HasConstraintName("FK_User_Department")
+                    .OnDelete(DeleteBehavior.SetNull);
             });
         }
     }

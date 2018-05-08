@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace WebApplication1.Models
+namespace Data.Models
 {
     public partial class Department
     {
         public Department()
         {
-            User = new HashSet<User>();
+            Users = new HashSet<User>();
         }
 
         public Guid Id { get; set; }
@@ -17,6 +17,6 @@ namespace WebApplication1.Models
 
         public Address Address { get; set; }
         public Customer Customer { get; set; }
-        public ICollection<User> User { get; set; }
+        public ICollection<User> Users { get; set; }
     }
 }

@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 
-namespace WebApplication1.Models
+namespace Data.Models
 {
     public partial class Contact
     {
