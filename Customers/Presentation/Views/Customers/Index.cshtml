@@ -7,27 +7,25 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
 </head>
 <body>
-    <nav class="navbar navbar-inverse navbar-fixed-top">
+    <nav class="navbar" style="background-color: #eee;">
         <div class="container">
             <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">WebApplication1</a>
+                <h4 style="color: #9d9d9d;">
+                    @Html.ActionLink("Customers management application", "Index", "Customers")
+                </h4>
             </div>
             <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
+                <ul class="nav navbar-nav" style="position: fixed; right: 0;">
+                    <li>@Html.ActionLink("Log In", "LogIn", "Account")</li>
+                    <li>@Html.ActionLink("Log Out", "LogOut", "Account")</li>
                 </ul>
             </div>
         </div>
     </nav>
-    <div class="container body-content" style="margin-top: 70px;" ng-controller="CustomersController as customersCtrl">
+    <hr />
+    <div class="container body-content" ng-controller="CustomersController as customersCtrl">
         <p>
-            <a ng-click="customersCtrl.createNewCustomer()">Create New</a>
+            <a ng-click="customersCtrl.createNewCustomer()">Add new customer</a>
         </p>
         <table class="table">
             <thead>
@@ -55,7 +53,7 @@
             <input type="text" class="form-control" ng-model="customersCtrl.currentCustomer.Name" />
             <label class="control-label">Contacts</label>
             <div ng-controller="ContactsController as contactsCtrl">
-                <input type="button" class="form-control" value="Add new contact" ng-click="contactsCtrl.createNewContact()" />
+                <a ng-click="contactsCtrl.createNewContact()">Add new contact</a>
                 <ul ng-repeat="contact in customersCtrl.currentCustomer.Contacts">
                     <li>
                         <span>{{contact.Name}}</span>
@@ -64,17 +62,16 @@
                 <div ng-show="contactsCtrl.currentContact">
                     <label class="control-label">Name</label>
                     <input type="text" class="form-control" ng-model="contactsCtrl.currentContact.Name" />
-                    <input type="button" class="form-control" ng-click="contactsCtrl.saveContact(customersCtrl.currentCustomer)" value="Save new contact" />
+                    <input type="button" class="btn btn-default" ng-click="contactsCtrl.saveContact(customersCtrl.currentCustomer)" value="Save contact" />
                 </div>
             </div>
-            <input type="button" class="form-control" ng-click="customersCtrl.saveCustomer()" value="Save new Customer" />
+            <input type="button" class="btn btn-default" ng-click="customersCtrl.saveCustomer()" value="Save customer" />
         </div>
         <hr />
         <footer>
-            <p>&copy; 2018 - WebApplication1</p>
+            <p>&copy; Customers management application</p>
         </footer>
     </div>
-
     <script src="~/lib/jquery/dist/jquery.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
     <script src="~/lib/angular/angular.min.js"></script>

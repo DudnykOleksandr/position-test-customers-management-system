@@ -47,6 +47,8 @@ namespace Presentation
                 app.UseExceptionHandler("Error");
             }
 
+            app.UseStaticFiles();
+
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

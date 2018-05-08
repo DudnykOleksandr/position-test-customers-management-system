@@ -38,7 +38,7 @@ namespace Presentation.Controllers
         {
             HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
 
-            return RedirectToAction("Account", "Login");
+            return RedirectToAction("Login", "Account");
         }
     }
 }

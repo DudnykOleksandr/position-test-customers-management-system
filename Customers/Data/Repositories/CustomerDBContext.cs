@@ -11,6 +11,9 @@ namespace Data.Repositories
         public virtual DbSet<Department> Department { get; set; }
         public virtual DbSet<User> User { get; set; }
 
+        public CustomerDBContext(DbContextOptions<CustomerDBContext> options) : base(options)
+        { }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Address>(entity =>
