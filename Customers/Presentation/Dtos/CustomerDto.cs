@@ -1,10 +1,11 @@
 ﻿using Data.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Presentation.Dtos
 {
-    public class CustomerDto
+    public class CustomerDto : BaseDto
     {
         public CustomerDto()
         {
@@ -48,7 +49,19 @@ namespace Presentation.Dtos
 
         public Customer ToDataModel()
         {
-            return new Customer();
+            var dataModel= new Customer();
+            dataModel.Id = Guid.Parse(Id);
+            dataModel.Name = this.Name;
+            dataModel.Email = this.Email;
+            dataModel.Phone = this.Phone;
+            dataModel.Comments = this.Comments;
+            dataModel.Type = this.Type;
+            dataModel.NumberOfSchools = this.NumberOfSchools;
+
+            dataModel.AddressId = Guid.Parse(this.AddressId);
+            dataModel.Address = this.Address.ToDataModel();
+
+            return dataModel;
         }
     }
 }

@@ -1,9 +1,8 @@
-﻿using Data.Models;
-using System;
+﻿using System;
 
 namespace Presentation.Dtos
 {
-    public partial class UserDto
+    public class UserDto : BaseDto
     {
         public Guid Id { get; set; }
         public Guid CustomerId { get; set; }

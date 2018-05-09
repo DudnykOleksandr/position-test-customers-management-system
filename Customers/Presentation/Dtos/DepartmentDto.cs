@@ -1,15 +1,9 @@
-﻿using Data.Models;
-using System;
-using System.Collections.Generic;
+﻿using System;
 
 namespace Presentation.Dtos
 {
-    public partial class DepartmentDto
+    public class DepartmentDto : BaseDto
     {
-        public DepartmentDto()
-        {
-        }
-
         public Guid Id { get; set; }
         public Guid CustomerId { get; set; }
         public string Name { get; set; }
