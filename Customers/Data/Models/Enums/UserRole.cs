@@ -1,6 +1,6 @@
 ﻿namespace Data.Models
 {
-    public enum UserRole
+    public enum UserRole : short
     {
         RegularUser,
         AdminUser

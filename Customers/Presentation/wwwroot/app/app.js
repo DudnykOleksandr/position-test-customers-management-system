@@ -4,7 +4,17 @@
     app.value('entityActionType', EntityActionType);
     app.value('userRole', UserRole);
 
-    app.controller('CustomersController', ['$http', '$scope', 'customerType', function ($http, $scope, customerType) {
+    app.service('guidService', ['$http', function ($http) {
+        this.getGuid = function (numberOfGuidToGet) {
+            return $http.get('Common/GetGuid',
+                {
+                    params: { numberOfGuidToGet: numberOfGuidToGet },
+                    headers: { 'Content-Type': 'application/json;charset=utf-8;' }
+                });
+        };
+    }]);
+
+    app.controller('CustomersController', ['$http', '$scope', 'customerType', 'guidService', function ($http, $scope, customerType, guidService) {
         var self = this;
 
         self.customers = [];
@@ -12,7 +22,21 @@
         self.customerType = customerType;
 
         self.createNewCustomer = function () {
-            self.currentCustomer = new CustomerModel();
+            var newCustomer = new CustomerModel()
+            newCustomer.NumberOfSchools = 0;
+
+            guidService.getGuid(2).then(
+                function (response) {
+                    newCustomer.Id = response.data[0];
+                    newCustomer.Type = 0;
+                    newCustomer.AddressId = response.data[1];
+                    newCustomer.Address = {};
+                    newCustomer.Address.Id = response.data[1];
+                    self.currentCustomer = newCustomer;
+                }, function (error) {
+                    alert("Failed");
+                }
+            );
         }
 
         self.editCustomer = function (customer) {
@@ -55,7 +79,7 @@
         loadCustomers();
     }]);
 
-    app.controller('ContactsController', function () {
+    app.controller('ContactsController', ['guidService', function (guidService) {
         var self = this;
 
         self.currentContact = null;
@@ -68,6 +92,6 @@
             customer.Contacts.push(self.currentContact);
             self.currentContact = null;
         }
-    });
+    }]);
 
 })();

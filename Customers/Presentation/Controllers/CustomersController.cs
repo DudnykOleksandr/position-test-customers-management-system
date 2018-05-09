@@ -1,21 +1,17 @@
-﻿using Data.Models;
-using Data.Repositories;
+﻿using Data.Repositories;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Presentation.Dtos;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace Presentation.Controllers
 {
     public class CustomersController : Controller
     {
-        private readonly CustomerDBContext _context;
+        private readonly ICustomerRepository _customerRepository;
 
-        public CustomersController(CustomerDBContext context)
+        public CustomersController(ICustomerRepository customerRepository)
         {
-            _context = context;
+            _customerRepository = customerRepository;
         }
 
         //[Authorize]
@@ -27,7 +23,8 @@ namespace Presentation.Controllers
         //[Authorize]
         public JsonResult GetAllCustomers()
         {
-            return Json(_context.Customer.Include(c => c.Contacts).ToList());
+            var allCustomerDtos = _customerRepository.GetAllCustomers().ToDataModels().ToList();
+            return Json(allCustomerDtos);
         }
 
         //[Authorize]
@@ -75,9 +72,11 @@ namespace Presentation.Controllers
                 //    foreach (var contactToRemove in contactsToRemove)
                 //        _context.Contact.Remove(contactToRemove);
                 //}
-                new CustomerRepository().SaveCustomer(customerDto.ToDataModel());
+                _customerRepository.SaveCustomer(customerDto.ToDataModel());
             }
-            return Ok(_context.Customer.ToList());
+            var allCustomerDtos = _customerRepository.GetAllCustomers().ToDataModels().ToList();
+
+            return Ok(allCustomerDtos);
         }
     }
 }

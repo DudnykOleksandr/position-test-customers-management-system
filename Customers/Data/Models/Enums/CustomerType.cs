@@ -1,6 +1,6 @@
 ﻿namespace Data.Models
 {
-    public enum CustomerType
+    public enum CustomerType : short
     {
         Municipality,
         Bussiness

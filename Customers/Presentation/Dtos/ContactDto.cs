@@ -4,7 +4,7 @@ namespace Presentation.Dtos
 {
     public class ContactDto : BaseDto
     {
-        public Guid Id { get; set; }
+        public Guid ContactId { get; set; }
         public Guid CustomerId { get; set; }
         public string Name { get; set; }
         public string Role { get; set; }

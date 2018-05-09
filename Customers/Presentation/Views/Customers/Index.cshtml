@@ -71,9 +71,14 @@
                     </div>
                     <div class="col-sm-2">
                         <label class="control-label">Customer Type</label>
-                        <select class="form-control" ng-model="customersCtrl.currentCustomer.Type" required>
-                            <option ng-repeat="(key, value) in customersCtrl.customerType" value="{{value}}">{{key}}</option>
+                        <select class="form-control" ng-model="customersCtrl.currentCustomer.Type"
+                                ng-options="key for (key, value) in customersCtrl.customerType" required>
+                            <option value="" ng-show="false"></option>
                         </select>
+                    </div>
+                    <div class="col-sm-2" ng-show="customersCtrl.currentCustomer.Type == customersCtrl.customerType.Municipality">
+                        <label class="control-label">Number of schools</label>
+                        <input type="number" class="form-control" ng-model="customersCtrl.currentCustomer.NumberOfSchools" />
                     </div>
                 </div>
                 <div class="form-group row">

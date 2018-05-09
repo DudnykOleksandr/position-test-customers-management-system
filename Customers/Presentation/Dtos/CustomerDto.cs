@@ -15,7 +15,7 @@ namespace Presentation.Dtos
         }
 
         [Required]
-        public string Id { get; set; }
+        public string CustomerId { get; set; }
 
         [Required]
         [MaxLength(50)]
@@ -43,6 +43,7 @@ namespace Presentation.Dtos
         public int NumberOfSchools { get; set; }
 
         public AddressDto Address { get; set; }
+
         public ICollection<ContactDto> Contacts { get; set; }
         public ICollection<DepartmentDto> Departments { get; set; }
         public ICollection<UserDto> Users { get; set; }
@@ -50,7 +51,7 @@ namespace Presentation.Dtos
         public Customer ToDataModel()
         {
             var dataModel= new Customer();
-            dataModel.CustomerId = Guid.Parse(Id);
+            dataModel.CustomerId = Guid.Parse(CustomerId);
             dataModel.Name = this.Name;
             dataModel.Email = this.Email;
             dataModel.Phone = this.Phone;
@@ -62,6 +63,20 @@ namespace Presentation.Dtos
             dataModel.Address = this.Address.ToDataModel();
 
             return dataModel;
+        }
+
+        public void FromDataModel(Customer dataModel)
+        {
+            CustomerId = dataModel.CustomerId.ToString();
+            Name = dataModel.Name;
+            Email = dataModel.Email;
+            Phone = dataModel.Phone;
+            Comments = dataModel.Comments;
+            Type = dataModel.Type;
+            NumberOfSchools = dataModel.NumberOfSchools;
+            AddressId = dataModel.AddressId.ToString();
+            Address = new AddressDto();
+            Address.FromDataModel(dataModel.Address);
         }
     }
 }

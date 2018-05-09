@@ -30,6 +30,8 @@ namespace Presentation
 
             var connection = @"Server=PC-218719\SQLEXPRESS;Database=CustomerDB;Trusted_Connection=True;ConnectRetryCount=0";
             services.AddDbContext<CustomerDBContext>(options => options.UseSqlServer(connection));
+
+            services.AddScoped<ICustomerRepository, CustomerRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

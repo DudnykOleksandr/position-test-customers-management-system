@@ -6,8 +6,8 @@ namespace Presentation.Dtos
 {
     public class AddressDto : BaseDto
     {
-         [Required]
-        public string Id { get; set; }
+        [Required]
+        public string AddressId { get; set; }
 
         [Required]
         [MaxLength(30)]
@@ -24,12 +24,20 @@ namespace Presentation.Dtos
         public Address ToDataModel()
         {
             var dataModel = new Address();
-            dataModel.AddressId = Guid.Parse(Id);
+            dataModel.AddressId = Guid.Parse(AddressId);
             dataModel.Country = this.Country;
             dataModel.City = this.City;
             dataModel.Address1 = this.Address;
 
             return dataModel;
+        }
+
+        public void FromDataModel(Address dataModel)
+        {
+            AddressId = dataModel.AddressId.ToString();
+            Country = dataModel.Country;
+            City = dataModel.City;
+            Address = dataModel.Address1;
         }
     }
 }

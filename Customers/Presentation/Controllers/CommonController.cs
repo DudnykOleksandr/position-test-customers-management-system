@@ -6,9 +6,14 @@ namespace Presentation.Controllers
     public class CommonController : Controller
     {
         [HttpGet]
-        public JsonResult GetGuid()
+        public JsonResult GetGuid(int numberOfGuidToGet)
         {
-            return  Json(Guid.NewGuid().ToString());
+            var guids = new Guid[numberOfGuidToGet];
+            for (int i = 0; i < numberOfGuidToGet; i++)
+            {
+                guids[i] = Guid.NewGuid();
+            }
+            return  Json(guids);
         }
     }
 }
