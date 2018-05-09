@@ -18,7 +18,7 @@ namespace Data.Repositories
         {
             modelBuilder.Entity<Address>(entity =>
             {
-                entity.Property(e => e.Id).ValueGeneratedNever();
+                entity.Property(e => e.AddressId).ValueGeneratedNever();
 
                 entity.Property(e => e.Address1)
                     .IsRequired()
@@ -36,7 +36,7 @@ namespace Data.Repositories
 
             modelBuilder.Entity<Contact>(entity =>
             {
-                entity.Property(e => e.Id).ValueGeneratedNever();
+                entity.Property(e => e.ContactId).ValueGeneratedNever();
 
                 entity.Property(e => e.Email)
                     .IsRequired()
@@ -60,7 +60,7 @@ namespace Data.Repositories
 
             modelBuilder.Entity<Customer>(entity =>
             {
-                entity.Property(e => e.Id).ValueGeneratedNever();
+                entity.Property(e => e.CustomerId).ValueGeneratedNever();
 
                 entity.Property(e => e.Comments).HasMaxLength(100);
 
@@ -87,7 +87,7 @@ namespace Data.Repositories
 
             modelBuilder.Entity<Department>(entity =>
             {
-                entity.Property(e => e.Id).ValueGeneratedNever();
+                entity.Property(e => e.DepartmentId).ValueGeneratedNever();
 
                 entity.Property(e => e.Name)
                     .IsRequired()
@@ -108,7 +108,7 @@ namespace Data.Repositories
 
             modelBuilder.Entity<User>(entity =>
             {
-                entity.Property(e => e.Id).ValueGeneratedNever();
+                entity.Property(e => e.UserId).ValueGeneratedNever();
 
                 entity.Property(e => e.Email)
                     .IsRequired()

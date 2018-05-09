@@ -50,7 +50,7 @@ namespace Presentation.Dtos
         public Customer ToDataModel()
         {
             var dataModel= new Customer();
-            dataModel.Id = Guid.Parse(Id);
+            dataModel.CustomerId = Guid.Parse(Id);
             dataModel.Name = this.Name;
             dataModel.Email = this.Email;
             dataModel.Phone = this.Phone;

@@ -1,11 +1,15 @@
 ﻿(function () {
     var app = angular.module('customers', []);
+    app.value('customerType', CustomerType);
+    app.value('entityActionType', EntityActionType);
+    app.value('userRole', UserRole);
 
-    app.controller('CustomersController', ['$http', function ($http) {
+    app.controller('CustomersController', ['$http', '$scope', 'customerType', function ($http, $scope, customerType) {
         var self = this;
 
         self.customers = [];
         self.currentCustomer = null;
+        self.customerType = customerType;
 
         self.createNewCustomer = function () {
             self.currentCustomer = new CustomerModel();
@@ -13,9 +17,13 @@
 
         self.editCustomer = function (customer) {
             self.currentCustomer = customer;
-        }
+        };
 
         self.saveCustomer = function () {
+            if (!$scope.customerForm.$valid) {
+                return;
+            }
+
             $http.post('Customers/CreateFromJson',
                 self.currentCustomer,
                 {
@@ -30,12 +38,21 @@
                 });
         };
 
-        $http.get('Customers/GetAllCustomers')
-            .then(function (response) {
-                self.customers = response.data;
-            }, function (error) {
-                alert("Failed");
-            });
+        self.discardCustomerChanges = function () {
+            self.currentCustomer = null;
+            loadCustomers();
+        };
+
+        var loadCustomers = function () {
+            $http.get('Customers/GetAllCustomers')
+                .then(function (response) {
+                    self.customers = response.data;
+                }, function (error) {
+                    alert("Failed");
+                });
+        };
+
+        loadCustomers();
     }]);
 
     app.controller('ContactsController', function () {

@@ -24,54 +24,111 @@
     </nav>
     <hr />
     <div class="container body-content" ng-controller="CustomersController as customersCtrl">
-        <p>
-            <a ng-click="customersCtrl.createNewCustomer()">Add new customer</a>
-        </p>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>
-                        Name
-                    </th>
-                    <th>
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr ng-repeat="customer in customersCtrl.customers">
-                    <td>
-                        <span> {{customer.Name}} </span>
-                    </td>
-                    <td>
-                        <a ng-click="customersCtrl.editCustomer(customer)">Edit</a>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-        <div ng-show="customersCtrl.currentCustomer">
-            <label class="control-label">Name</label>
-            <input type="text" class="form-control" ng-model="customersCtrl.currentCustomer.Name" />
-            <label class="control-label">Contacts</label>
-            <div ng-controller="ContactsController as contactsCtrl">
-                <a ng-click="contactsCtrl.createNewContact()">Add new contact</a>
-                <ul ng-repeat="contact in customersCtrl.currentCustomer.Contacts">
-                    <li>
-                        <span>{{contact.Name}}</span>
-                    </li>
-                </ul>
-                <div ng-show="contactsCtrl.currentContact">
-                    <label class="control-label">Name</label>
-                    <input type="text" class="form-control" ng-model="contactsCtrl.currentContact.Name" />
-                    <input type="button" class="btn btn-default" ng-click="contactsCtrl.saveContact(customersCtrl.currentCustomer)" value="Save contact" />
+        <div ng-show="!customersCtrl.currentCustomer">
+            <p>
+                <a ng-click="customersCtrl.createNewCustomer()">Add new customer</a>
+            </p>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            Name
+                        </th>
+                        <th>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="customer in customersCtrl.customers">
+                        <td>
+                            <span> {{customer.Name}} </span>
+                        </td>
+                        <td>
+                            <a ng-click="customersCtrl.editCustomer(customer)">Edit</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <form name="customerForm">
+            <div class="container" ng-show="customersCtrl.currentCustomer">
+                <div class="form-group row">
+                    <div class="col-sm-2">
+                        <label class="control-label">Name</label>
+                        <input type="text" class="form-control" ng-model="customersCtrl.currentCustomer.Name" required maxlength="50" />
+                    </div>
+                    <div class="col-sm-2">
+                        <label class="control-label">Email</label>
+                        <input type="email" class="form-control" ng-model="customersCtrl.currentCustomer.Email" required maxlength="100" />
+                    </div>
+                    <div class="col-sm-2">
+                        <label class="control-label">Phone</label>
+                        <input type="tel" class="form-control" ng-model="customersCtrl.currentCustomer.Phone" required maxlength="30" />
+                    </div>
+                    <div class="col-sm-2">
+                        <label class="control-label">Comments</label>
+                        <input type="text" class="form-control" ng-model="customersCtrl.currentCustomer.Comments" maxlength="100" />
+                    </div>
+                    <div class="col-sm-2">
+                        <label class="control-label">Customer Type</label>
+                        <select class="form-control" ng-model="customersCtrl.currentCustomer.Type" required>
+                            <option ng-repeat="(key, value) in customersCtrl.customerType" value="{{value}}">{{key}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-2">
+                        <label class="control-label">Address</label>
+                    </div>
+                    <div class="col-sm-2">
+                        <label class="control-label">Country</label>
+                        <input type="text" class="form-control" ng-model="customersCtrl.currentCustomer.Address.Country" required maxlength="30" />
+                    </div>
+                    <div class="col-sm-2">
+                        <label class="control-label">City</label>
+                        <input type="text" class="form-control" ng-model="customersCtrl.currentCustomer.Address.City" required maxlength="30" />
+                    </div>
+                    <div class="col-sm-2">
+                        <label class="control-label">Address</label>
+                        <input type="text" class="form-control" ng-model="customersCtrl.currentCustomer.Address.Address" required maxlength="100" />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-12">
+                        <label class="control-label">Contacts</label>
+                        <div ng-controller="ContactsController as contactsCtrl">
+                            <a ng-click="contactsCtrl.createNewContact()">Add new contact</a>
+                            <ul ng-repeat="contact in customersCtrl.currentCustomer.Contacts">
+                                <li>
+                                    <span>{{contact.Name}}</span>
+                                </li>
+                            </ul>
+                            <div ng-show="contactsCtrl.currentContact">
+                                <label class="control-label">Name</label>
+                                <input type="text" class="form-control" ng-model="contactsCtrl.currentContact.Name" />
+                                <input type="button" class="btn btn-default" ng-click="contactsCtrl.saveContact(customersCtrl.currentCustomer)" value="Save contact" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-2">
+                        <input type="submit" class="btn btn-success" ng-click="customersCtrl.saveCustomer()" value="Save customer" />
+                    </div>
+                    <div class="col-sm-2">
+                        <input type="button" class="btn btn-warning" ng-click="customersCtrl.discardCustomerChanges()" value="Discard changes" />
+                    </div>
                 </div>
             </div>
-            <input type="button" class="btn btn-default" ng-click="customersCtrl.saveCustomer()" value="Save customer" />
-        </div>
-        <hr />
-        <footer>
-            <p>&copy; Customers management application</p>
-        </footer>
+        </form>
     </div>
+    <hr />
+    <footer>
+        <p>&copy; Customers management application</p>
+    </footer>
+    <script>
+        @await Component.InvokeAsync("EnumsToJavaScript")
+    </script>
     <script src="~/lib/jquery/dist/jquery.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
     <script src="~/lib/angular/angular.min.js"></script>

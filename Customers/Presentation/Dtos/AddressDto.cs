@@ -24,7 +24,7 @@ namespace Presentation.Dtos
         public Address ToDataModel()
         {
             var dataModel = new Address();
-            dataModel.Id = Guid.Parse(Id);
+            dataModel.AddressId = Guid.Parse(Id);
             dataModel.Country = this.Country;
             dataModel.City = this.City;
             dataModel.Address1 = this.Address;
