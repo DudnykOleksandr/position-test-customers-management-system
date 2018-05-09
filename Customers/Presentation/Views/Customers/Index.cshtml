@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Customers management application</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
 </head>
 <body>
     <nav class="navbar" style="background-color: #eee;">
@@ -24,7 +25,7 @@
     </nav>
     <hr />
     <div class="container body-content" ng-controller="CustomersController as customersCtrl">
-        <div ng-show="!customersCtrl.currentCustomer">
+        <div ng-show="!customersCtrl.isDetailEditVisible()">
             <p>
                 <a ng-click="customersCtrl.createNewCustomer()">Add new customer</a>
             </p>
@@ -33,6 +34,18 @@
                     <tr>
                         <th>
                             Name
+                        </th>
+                        <th>
+                            Email
+                        </th>
+                        <th>
+                            Phone
+                        </th>
+                        <th>
+                            Comments
+                        </th>
+                        <th>
+                            Address
                         </th>
                         <th>
                         </th>
@@ -44,14 +57,28 @@
                             <span> {{customer.Name}} </span>
                         </td>
                         <td>
+                            <span> {{customer.Email}} </span>
+                        </td>
+                        <td>
+                            <span> {{customer.Phone}} </span>
+                        </td>
+                        <td>
+                            <span> {{customer.Comments}} </span>
+                        </td>
+                        <td>
+                            <span> {{customer.Address.Address}} </span>
+                        </td>
+                        <td>
+                            <a ng-click="customersCtrl.showCustomerDetails(customer)">Details</a>
                             <a ng-click="customersCtrl.editCustomer(customer)">Edit</a>
+                            <a ng-click="customersCtrl.deleteCustomer(customer)">Delete</a>
                         </td>
                     </tr>
                 </tbody>
             </table>
         </div>
         <form name="customerForm">
-            <div class="container" ng-show="customersCtrl.currentCustomer">
+            <div class="container" ng-show="customersCtrl.isDetailEditVisible()">
                 <div class="form-group row">
                     <div class="col-sm-2">
                         <label class="control-label">Name</label>
@@ -102,7 +129,7 @@
                     <div class="col-sm-12">
                         <label class="control-label">Contacts</label>
                         <div ng-controller="ContactsController as contactsCtrl">
-                            <a ng-click="contactsCtrl.createNewContact()">Add new contact</a>
+                            <a  ng-show="customersCtrl.isEditMode()" ng-click="contactsCtrl.createNewContact()">Add new contact</a>
                             <ul ng-repeat="contact in customersCtrl.currentCustomer.Contacts">
                                 <li>
                                     <span>{{contact.Name}}</span>
@@ -117,11 +144,16 @@
                     </div>
                 </div>
                 <div class="form-group row">
-                    <div class="col-sm-2">
-                        <input type="submit" class="btn btn-success" ng-click="customersCtrl.saveCustomer()" value="Save customer" />
+                    <div class="col-sm-2" ng-show="customersCtrl.isDetailsMode()">
+                        <input type="button" class="btn btn-success" ng-click="customersCtrl.discardCustomerChanges()" value="Go back" />
                     </div>
-                    <div class="col-sm-2">
-                        <input type="button" class="btn btn-warning" ng-click="customersCtrl.discardCustomerChanges()" value="Discard changes" />
+                    <div ng-show="customersCtrl.isEditMode()">
+                        <div class="col-sm-2">
+                            <input type="button" class="btn btn-warning" ng-click="customersCtrl.discardCustomerChanges()" value="Discard changes" />
+                        </div>
+                        <div class="col-sm-2">
+                            <input type="submit" class="btn btn-success" ng-click="customersCtrl.saveCustomer()" value="Save customer" />
+                        </div>
                     </div>
                 </div>
             </div>

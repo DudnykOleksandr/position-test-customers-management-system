@@ -1,12 +1,15 @@
 ﻿using Data.Models;
+using System;
 using System.Collections.Generic;
 
 namespace Data.Repositories
 {
     public interface ICustomerRepository
     {
-        IEnumerable<Customer> GetAllCustomers();
+        IEnumerable<Customer> GetAll();
 
-        void SaveCustomer(Customer customer);
+        void Save(Customer customer);
+
+        void Delete(Guid customerId);
     }
 }

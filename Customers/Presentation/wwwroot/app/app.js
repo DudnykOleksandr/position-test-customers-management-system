@@ -17,29 +17,50 @@
     app.controller('CustomersController', ['$http', '$scope', 'customerType', 'guidService', function ($http, $scope, customerType, guidService) {
         var self = this;
 
+        var mode = null;
+        var modes = { Details: 0, Edit: 1 };
+
         self.customers = [];
         self.currentCustomer = null;
         self.customerType = customerType;
 
+        self.isDetailEditVisible = function () {
+            return self.currentCustomer != null;
+        };
+        self.isDetailsMode = function () {
+            return mode === modes.Details;
+        };
+        self.isEditMode = function () {
+            return mode === modes.Edit;
+        };
+
         self.createNewCustomer = function () {
+            mode = modes.Edit;
+
             var newCustomer = new CustomerModel()
+            newCustomer.Type = 0;
+            newCustomer.Address = {};
             newCustomer.NumberOfSchools = 0;
 
             guidService.getGuid(2).then(
                 function (response) {
                     newCustomer.Id = response.data[0];
-                    newCustomer.Type = 0;
                     newCustomer.AddressId = response.data[1];
-                    newCustomer.Address = {};
                     newCustomer.Address.Id = response.data[1];
                     self.currentCustomer = newCustomer;
                 }, function (error) {
                     alert("Failed");
                 }
             );
-        }
+        };
+
+        self.showCustomerDetails = function (customer) {
+            mode = modes.Details;
+            self.currentCustomer = customer;
+        };
 
         self.editCustomer = function (customer) {
+            mode = modes.Edit;
             self.currentCustomer = customer;
         };
 
@@ -48,7 +69,7 @@
                 return;
             }
 
-            $http.post('Customers/CreateFromJson',
+            $http.post('Customers/Save',
                 self.currentCustomer,
                 {
                     headers: {
@@ -62,13 +83,29 @@
                 });
         };
 
+        self.deleteCustomer = function (customer) {
+            if (confirm("Delete customer?")) {
+                $http.get('Customers/Delete',
+                    {
+                        params: { customerId: customer.CustomerId },
+                        headers: { 'Content-Type': 'application/json;charset=utf-8;' }
+                    })
+                    .then(function (response) {
+                        self.customers = response.data;
+                    }, function (error) {
+                        alert("Failed");
+                    });
+            }
+        };
+
         self.discardCustomerChanges = function () {
+            mode = null;
             self.currentCustomer = null;
             loadCustomers();
         };
 
         var loadCustomers = function () {
-            $http.get('Customers/GetAllCustomers')
+            $http.get('Customers/GetAll')
                 .then(function (response) {
                     self.customers = response.data;
                 }, function (error) {
