@@ -58,6 +58,7 @@ namespace Presentation.Dtos
             dataModel.Comments = this.Comments;
             dataModel.Type = this.Type;
             dataModel.NumberOfSchools = this.NumberOfSchools;
+            dataModel.ActionType = this.ActionType;
 
             dataModel.AddressId = Guid.Parse(this.AddressId);
             dataModel.Address = this.Address.ToDataModel();

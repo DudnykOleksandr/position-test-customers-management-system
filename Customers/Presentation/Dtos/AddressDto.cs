@@ -28,6 +28,7 @@ namespace Presentation.Dtos
             dataModel.Country = this.Country;
             dataModel.City = this.City;
             dataModel.Address1 = this.Address;
+            dataModel.ActionType = this.ActionType;
 
             return dataModel;
         }
