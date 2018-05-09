@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Data;
 
 namespace Data.Repositories
 {
@@ -67,7 +68,18 @@ namespace Data.Repositories
             //        _context.Contact.Remove(contactToRemove);
             //}
 
-            _dbContext.Add(customer);
+            if (customer.ActionType == EntityActionType.Add)
+            {
+                _dbContext.Add(customer);
+            }
+            if (customer.ActionType == EntityActionType.Update)
+            {
+                var existingCustomer = GetCustomerWithRelatedData(customer.CustomerId);
+                _dbContext.Entry(existingCustomer).CurrentValues.SetValues(customer);
+
+                ProcessChildEntity(customer.Address, existingCustomer.Address);
+            }
+
             _dbContext.SaveChanges();
         }
 
@@ -77,6 +89,35 @@ namespace Data.Repositories
             _dbContext.Customer.Attach(employer);
             _dbContext.Customer.Remove(employer);
             _dbContext.SaveChanges();
+        }
+
+        private void ProcessChildEntity(Base entity, Base existingEntity)
+        {
+            if (entity.ActionType == EntityActionType.Add)
+            {
+                _dbContext.Add(entity);
+            }
+            if (entity.ActionType == EntityActionType.Update)
+            {
+                _dbContext.Entry(existingEntity).CurrentValues.SetValues(entity);
+            }
+        }
+
+        private Customer GetCustomerWithRelatedData(Guid customerId)
+        {
+            var customer = _dbContext.Customer
+                .Where(c => c.CustomerId == customerId)
+                .Include(c => c.Contacts)
+                .Include(c => c.Address)
+                .Include(c => c.Departments)
+                .Include(c => c.Users)
+                .SingleOrDefault();
+
+            if (customer != null)
+                return customer;
+
+            //TODO add specific type of exception
+            throw new Exception(string.Format("Customer with Id {0} not found", customerId));
         }
     }
 }

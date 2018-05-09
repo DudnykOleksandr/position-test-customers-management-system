@@ -26,58 +26,63 @@
     <hr />
     <div class="container body-content" ng-controller="CustomersController as customersCtrl">
         <div ng-show="!customersCtrl.isDetailEditVisible()">
-            <p>
+            <div class="form-group row">
+                <label class="control-label">Customers</label>
+            </div>
+            <div class="form-group row">
                 <a ng-click="customersCtrl.createNewCustomer()">Add new customer</a>
-            </p>
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>
-                            Name
-                        </th>
-                        <th>
-                            Email
-                        </th>
-                        <th>
-                            Phone
-                        </th>
-                        <th>
-                            Comments
-                        </th>
-                        <th>
-                            Address
-                        </th>
-                        <th>
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr ng-repeat="customer in customersCtrl.customers">
-                        <td>
-                            <span> {{customer.Name}} </span>
-                        </td>
-                        <td>
-                            <span> {{customer.Email}} </span>
-                        </td>
-                        <td>
-                            <span> {{customer.Phone}} </span>
-                        </td>
-                        <td>
-                            <span> {{customer.Comments}} </span>
-                        </td>
-                        <td>
-                            <span> {{customer.Address.Address}} </span>
-                        </td>
-                        <td>
-                            <a ng-click="customersCtrl.showCustomerDetails(customer)">Details</a>
-                            <a ng-click="customersCtrl.editCustomer(customer)">Edit</a>
-                            <a ng-click="customersCtrl.deleteCustomer(customer)">Delete</a>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+            </div>
+            <div class="form-group row">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>
+                                Name
+                            </th>
+                            <th>
+                                Email
+                            </th>
+                            <th>
+                                Phone
+                            </th>
+                            <th>
+                                Comments
+                            </th>
+                            <th>
+                                Address
+                            </th>
+                            <th>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="customer in customersCtrl.customers">
+                            <td>
+                                <span> {{customer.Name}} </span>
+                            </td>
+                            <td>
+                                <span> {{customer.Email}} </span>
+                            </td>
+                            <td>
+                                <span> {{customer.Phone}} </span>
+                            </td>
+                            <td>
+                                <span> {{customer.Comments}} </span>
+                            </td>
+                            <td>
+                                <span> {{customer.Address.Address}} </span>
+                            </td>
+                            <td>
+                                <a ng-click="customersCtrl.showCustomerDetails(customer)">Details</a>
+                                <a ng-click="customersCtrl.editCustomer(customer)">Edit</a>
+                                <a ng-click="customersCtrl.deleteCustomer(customer)">Delete</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
-        <div class="container" ng-show="customersCtrl.isDetailEditVisible()">
+        <div class="form-group row" ng-show="customersCtrl.isDetailEditVisible()">
 
             <section ng-controller="TabController as tabCtrl">
                 <ul class="nav nav-pills">
@@ -91,7 +96,7 @@
                         <a href="" ng-click="tabCtrl.setTab(3)">Departments</a>
                     </li>
                 </ul>
-                </br>
+                <br>
                 <div ng-show="tabCtrl.isSet(1)">
                     <form name="customerForm">
                         <div class="form-group row">
@@ -120,7 +125,7 @@
                             </div>
                             <div class="col-sm-2" ng-show="customersCtrl.currentCustomer.Type == customersCtrl.customerType.Municipality">
                                 <label class="control-label">Number of schools</label>
-                                <input type="number" class="form-control" ng-model="customersCtrl.currentCustomer.NumberOfSchools" />
+                                <input type="number" class="form-control" ng-model="customersCtrl.currentCustomer.NumberOfSchools" min="0" />
                             </div>
                         </div>
                         <div class="form-group row">
