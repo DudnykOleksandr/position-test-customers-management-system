@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Data.Models
 {
-    public partial class Department
+    public partial class Department : Base
     {
         public Department()
         {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Data.Models
 {
-    public partial class Customer
+    public partial class Customer : Base
     {
         public Customer()
         {
@@ -18,7 +18,7 @@ namespace Data.Models
         public string Email { get; set; }
         public string Phone { get; set; }
         public string Comments { get; set; }
-        public short Type { get; set; }
+        public CustomerType Type { get; set; }
         public int NumberOfSchools { get; set; }
 
         public Address Address { get; set; }

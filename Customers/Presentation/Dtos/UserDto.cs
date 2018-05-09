@@ -1,8 +1,9 @@
-﻿using System;
+﻿using Data.Models;
+using System;
 
-namespace Data.Models
+namespace Presentation.Dtos
 {
-    public partial class User : Base
+    public partial class UserDto
     {
         public Guid Id { get; set; }
         public Guid CustomerId { get; set; }
@@ -13,12 +14,12 @@ namespace Data.Models
         public string LastName { get; set; }
         public string Phone { get; set; }
         public string Email { get; set; }
-        public UserRole Role { get; set; }
+        public short Role { get; set; }
         public string UserName { get; set; }
         public string PasswordHash { get; set; }
         public string PasswordHashSalt { get; set; }
 
-        public Customer Customer { get; set; }
-        public Department Department { get; set; }
+        public CustomerDto Customer { get; set; }
+        public DepartmentDto Department { get; set; }
     }
 }
