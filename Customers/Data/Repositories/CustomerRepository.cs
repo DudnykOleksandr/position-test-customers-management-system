@@ -16,6 +16,11 @@ namespace Data.Repositories
             _dbContext = dbContext;
         }
 
+        public IEnumerable<string> GetAllUserNames()
+        {
+            return _dbContext.User.Select(u=>u.UserName).ToList();
+        }
+
         public IEnumerable<Customer> GetAll()
         {
             return _dbContext.Customer
@@ -65,7 +70,7 @@ namespace Data.Repositories
             else if (entity.ActionType == EntityActionType.Update)
                 _dbContext.Entry(existingEntity).CurrentValues.SetValues(entity);
             else if (entity.ActionType == EntityActionType.Delete)
-                _dbContext.Remove(entity);
+                _dbContext.Remove(existingEntity);
         }
 
         private Customer GetCustomerWithRelatedData(Guid customerId)
