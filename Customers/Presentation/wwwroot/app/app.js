@@ -35,20 +35,17 @@
             var mode = null;
 
             self.customers = [];
-            self.currentCustomer = null;
+            self.currentEntity = null;
             self.customerType = customerType;
 
             self.isDetailEditVisible = function () {
-                return self.currentCustomer != null;
-            };
-            self.isDetailsMode = function () {
-                return mode === modes.Details;
+                return self.currentEntity !== null;
             };
             self.isEditMode = function () {
                 return mode === modes.Edit;
             };
 
-            self.createNewCustomer = function () {
+            self.create = function () {
                 mode = modes.Edit;
 
                 var newCustomer = new CustomerModel()
@@ -63,46 +60,46 @@
                         newCustomer.Id = response.data[0];
                         newCustomer.AddressId = response.data[1];
                         newCustomer.Address.Id = response.data[1];
-                        self.currentCustomer = newCustomer;
+                        self.currentEntity = newCustomer;
                     }, function (error) {
                         alert("Failed");
                     }
                 );
             };
 
-            self.showCustomerDetails = function (customer) {
+            self.showDetails = function (customer) {
                 mode = modes.Details;
-                self.currentCustomer = customer;
+                self.currentEntity = customer;
             };
 
-            self.editCustomer = function (customer) {
+            self.edit = function (customer) {
                 mode = modes.Edit;
                 customer.ActionType = entityActionType.Update;
                 customer.Address.ActionType = entityActionType.Update;
 
-                self.currentCustomer = customer;
+                self.currentEntity = customer;
             };
 
-            self.saveCustomer = function () {
+            self.save = function () {
                 if (!jQuery("[name='customerForm']").get(0).reportValidity()) {
                     return;
                 }
 
                 $http.post('Customers/Save',
-                    self.currentCustomer,
+                    self.currentEntity,
                     {
                         headers: {
                             'Content-Type': 'application/json;charset=utf-8;'
                         }
                     }).then(function (response) {
-                        self.currentCustomer = null;
+                        self.currentEntity = null;
                         self.customers = response.data;
                     }, function (error) {
                         alert("Failed");
                     });
             };
 
-            self.deleteCustomer = function (customer) {
+            self.delete = function (customer) {
                 if (confirm("Delete customer?")) {
                     $http.get('Customers/Delete',
                         {
@@ -117,15 +114,15 @@
                 }
             };
 
-            self.discardCustomerChanges = function () {
+            self.discard = function () {
                 mode = null;
-                self.currentCustomer = null;
+                self.currentEntity = null;
                 loadCustomers();
             };
 
             self.getContacts = function () {
-                if (self.currentCustomer)
-                    return self.currentCustomer.Contacts.filter(item => item.ActionType != entityActionType.Delete);
+                if (self.currentEntity)
+                    return self.currentEntity.Contacts.filter(item => item.ActionType !== entityActionType.Delete);
                 else
                     return [];
             };
@@ -145,69 +142,69 @@
     app.controller('ContactsController', ['guidService', 'modes', 'entityActionType', '$scope', function (guidService, modes, entityActionType, $scope) {
         var self = this;
         var mode = null;
-        self.currentContact = null;
+        self.currentEntity = null;
 
         self.isDetailEditVisible = function () {
-            return self.currentContact != null;
-        };
-        self.isDetailsMode = function () {
-            return mode === modes.Details;
+            return self.currentEntity !== null;
         };
         self.isEditMode = function () {
             return mode === modes.Edit;
         };
 
-        self.createNewContact = function (currentCustomer) {
+        self.create = function (currentEntity) {
             mode = modes.Edit;
             var newContact = new ContactModel();
             newContact.ActionType = entityActionType.Add;
-            newContact.CustomerId = currentCustomer.CustomerId;
+            newContact.CustomerId = currentEntity.CustomerId;
 
             guidService.getGuid(1).then(
                 function (response) {
-                    newContact.Id = response.data;
-                    self.currentContact = newContact;
+                    newContact.ContactId = response.data[0];
+                    self.currentEntity = newContact;
                 }, function (error) {
                     alert("Failed");
                 }
             );
         };
 
-        self.editContact = function (contact) {
+        self.edit = function (contact) {
             mode = modes.Edit;
             var copyOfContact = JSON.parse(JSON.stringify(contact));
-            if (copyOfContact.ActionType != entityActionType.Add)
+            if (copyOfContact.ActionType !== entityActionType.Add)
                 copyOfContact.ActionType = entityActionType.Update;
 
-            self.currentContact = copyOfContact;
+            self.currentEntity = copyOfContact;
         };
 
-        self.saveContact = function (customer) {
+        self.save = function (customer) {
             if (!$scope.contactForm.$valid) {
                 return;
             }
 
-            var contact = customer.Contacts.find(item => item.ContactId === self.currentContact.ContactId);
+            var contact = customer.Contacts.find(item => item.ContactId === self.currentEntity.ContactId);
             if (!contact)
-                customer.Contacts.push(self.currentContact)
+                customer.Contacts.push(self.currentEntity)
             else
-                Object.assign(contact, self.currentContact);
+                Object.assign(contact, self.currentEntity);
 
-            self.currentContact = null;
+            self.currentEntity = null;
         };
 
-        self.deleteContact = function (contact, customer) {
+        self.delete = function (contact, customer) {
             if (confirm("Delete contact?")) {
                 if (contact.ActionType === entityActionType.Add)
-                    customer.Contacts = customer.Contacts.filter(item => item.ContactId != contact.ContactId);
-                else
-                    contact.ActionType === entityActionType.Delete;
+                    customer.Contacts = customer.Contacts.filter(item => item.ContactId !== contact.ContactId);
+                else {
+                    contact.ActionType = entityActionType.Delete;
+                    customer.Contacts.push({});
+                    customer.Contacts.pop();
+                }
             }
         };
 
-        self.discardContactChanges = function () {
+        self.discard = function () {
             mode = null;
-            self.currentContact = null;
+            self.currentEntity = null;
         };
     }]);
 

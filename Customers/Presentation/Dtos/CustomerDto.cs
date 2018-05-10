@@ -1,5 +1,6 @@
 ﻿using Data.Models;
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -50,34 +51,46 @@ namespace Presentation.Dtos
 
         public Customer ToDataModel()
         {
-            var dataModel= new Customer();
-            dataModel.CustomerId = Guid.Parse(CustomerId);
-            dataModel.Name = this.Name;
-            dataModel.Email = this.Email;
-            dataModel.Phone = this.Phone;
-            dataModel.Comments = this.Comments;
-            dataModel.Type = this.Type;
-            dataModel.NumberOfSchools = this.NumberOfSchools;
-            dataModel.ActionType = this.ActionType;
+            var dataModel = new Customer
+            {
+                CustomerId = Guid.Parse(CustomerId),
+                Name = this.Name,
+                Email = this.Email,
+                Phone = this.Phone,
+                Comments = this.Comments,
+                Type = this.Type,
+                NumberOfSchools = this.NumberOfSchools,
+                ActionType = this.ActionType,
 
-            dataModel.AddressId = Guid.Parse(this.AddressId);
-            dataModel.Address = this.Address.ToDataModel();
+                AddressId = Guid.Parse(this.AddressId),
+                Address = this.Address.ToDataModel()
+            };
+
+            foreach (var contact in Contacts)
+                dataModel.Contacts.Add(contact.ToDataModel());
 
             return dataModel;
         }
 
-        public void FromDataModel(Customer dataModel)
+        public static CustomerDto FromDataModel(Customer dataModel)
         {
-            CustomerId = dataModel.CustomerId.ToString();
-            Name = dataModel.Name;
-            Email = dataModel.Email;
-            Phone = dataModel.Phone;
-            Comments = dataModel.Comments;
-            Type = dataModel.Type;
-            NumberOfSchools = dataModel.NumberOfSchools;
-            AddressId = dataModel.AddressId.ToString();
-            Address = new AddressDto();
-            Address.FromDataModel(dataModel.Address);
+            var dto = new CustomerDto
+            {
+                CustomerId = dataModel.CustomerId.ToString(),
+                Name = dataModel.Name,
+                Email = dataModel.Email,
+                Phone = dataModel.Phone,
+                Comments = dataModel.Comments,
+                Type = dataModel.Type,
+                NumberOfSchools = dataModel.NumberOfSchools,
+                AddressId = dataModel.AddressId.ToString(),
+                Address = AddressDto.FromDataModel(dataModel.Address)
+            };
+
+            foreach (var contact in dataModel.Contacts)
+                dto.Contacts.Add(ContactDto.FromDataModel(contact));
+
+            return dto;
         }
     }
 }

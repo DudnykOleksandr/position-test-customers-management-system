@@ -1,6 +1,6 @@
 ﻿ContactModel = function () {
     var self = this;
 
-    self.ContactSid = "";
+    self.ContactId = "";
     self.Name = "";
 };

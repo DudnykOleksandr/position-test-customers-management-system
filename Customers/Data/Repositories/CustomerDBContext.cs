@@ -51,6 +51,10 @@ namespace Data.Repositories
                     .IsRequired()
                     .HasMaxLength(20);
 
+                entity.Property(e => e.Phone)
+                   .IsRequired()
+                   .HasMaxLength(30);
+
                 entity.HasOne(d => d.Customer)
                     .WithMany(p => p.Contacts)
                     .HasForeignKey(d => d.CustomerId)

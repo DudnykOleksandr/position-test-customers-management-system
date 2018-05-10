@@ -1,8 +1,6 @@
 ﻿using Data.Models;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace Presentation.Dtos
 {
@@ -12,9 +10,7 @@ namespace Presentation.Dtos
         {
             return customers.Select(item =>
              {
-                 var dtoItem = new CustomerDto();
-                 dtoItem.FromDataModel(item);
-                 return dtoItem;
+                 return CustomerDto.FromDataModel(item);
              });
         }
     }

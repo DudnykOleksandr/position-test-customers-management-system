@@ -30,7 +30,7 @@
                 <label class="control-label">Customers</label>
             </div>
             <div class="form-group row">
-                <a ng-click="customersCtrl.createNewCustomer()">Add new customer</a>
+                <a ng-click="customersCtrl.create()">Add new customer</a>
             </div>
             <div class="form-group row">
                 <table class="table">
@@ -73,9 +73,9 @@
                                 <span> {{customer.Address.Address}} </span>
                             </td>
                             <td>
-                                <a ng-click="customersCtrl.showCustomerDetails(customer)">Details</a>
-                                <a ng-click="customersCtrl.editCustomer(customer)">Edit</a>
-                                <a ng-click="customersCtrl.deleteCustomer(customer)">Delete</a>
+                                <a ng-click="customersCtrl.showDetails(customer)">Details</a>
+                                <a ng-click="customersCtrl.edit(customer)">Edit</a>
+                                <a ng-click="customersCtrl.delete(customer)">Delete</a>
                             </td>
                         </tr>
                     </tbody>
@@ -102,30 +102,30 @@
                         <div class="form-group row">
                             <div class="col-sm-2">
                                 <label class="control-label">Name</label>
-                                <input type="text" class="form-control" ng-model="customersCtrl.currentCustomer.Name" required maxlength="50" />
+                                <input type="text" class="form-control" ng-model="customersCtrl.currentEntity.Name" required maxlength="50" />
                             </div>
                             <div class="col-sm-2">
                                 <label class="control-label">Email</label>
-                                <input type="email" class="form-control" ng-model="customersCtrl.currentCustomer.Email" required maxlength="100" />
+                                <input type="email" class="form-control" ng-model="customersCtrl.currentEntity.Email" required maxlength="100" />
                             </div>
                             <div class="col-sm-2">
                                 <label class="control-label">Phone</label>
-                                <input type="tel" class="form-control" ng-model="customersCtrl.currentCustomer.Phone" required maxlength="30" />
+                                <input type="tel" class="form-control" ng-model="customersCtrl.currentEntity.Phone" required maxlength="30" />
                             </div>
                             <div class="col-sm-2">
                                 <label class="control-label">Comments</label>
-                                <input type="text" class="form-control" ng-model="customersCtrl.currentCustomer.Comments" maxlength="100" />
+                                <input type="text" class="form-control" ng-model="customersCtrl.currentEntity.Comments" maxlength="100" />
                             </div>
                             <div class="col-sm-2">
                                 <label class="control-label">Customer Type</label>
-                                <select class="form-control" ng-model="customersCtrl.currentCustomer.Type"
+                                <select class="form-control" ng-model="customersCtrl.currentEntity.Type"
                                         ng-options="key for (key, value) in customersCtrl.customerType" required>
                                     <option value="" ng-show="false"></option>
                                 </select>
                             </div>
-                            <div class="col-sm-2" ng-show="customersCtrl.currentCustomer.Type == customersCtrl.customerType.Municipality">
+                            <div class="col-sm-2" ng-show="customersCtrl.currentEntity.Type == customersCtrl.customerType.Municipality">
                                 <label class="control-label">Number of schools</label>
-                                <input type="number" class="form-control" ng-model="customersCtrl.currentCustomer.NumberOfSchools" min="0" />
+                                <input type="number" class="form-control" ng-model="customersCtrl.currentEntity.NumberOfSchools" min="0" />
                             </div>
                         </div>
                         <div class="form-group row">
@@ -134,15 +134,15 @@
                             </div>
                             <div class="col-sm-2">
                                 <label class="control-label">Country</label>
-                                <input type="text" class="form-control" ng-model="customersCtrl.currentCustomer.Address.Country" required maxlength="30" />
+                                <input type="text" class="form-control" ng-model="customersCtrl.currentEntity.Address.Country" required maxlength="30" />
                             </div>
                             <div class="col-sm-2">
                                 <label class="control-label">City</label>
-                                <input type="text" class="form-control" ng-model="customersCtrl.currentCustomer.Address.City" required maxlength="30" />
+                                <input type="text" class="form-control" ng-model="customersCtrl.currentEntity.Address.City" required maxlength="30" />
                             </div>
                             <div class="col-sm-2">
                                 <label class="control-label">Address</label>
-                                <input type="text" class="form-control" ng-model="customersCtrl.currentCustomer.Address.Address" required maxlength="100" />
+                                <input type="text" class="form-control" ng-model="customersCtrl.currentEntity.Address.Address" required maxlength="100" />
                             </div>
                         </div>
                     </form>
@@ -151,7 +151,7 @@
                             <label class="control-label">Contacts</label>
                             <div ng-controller="ContactsController as contactsCtrl">
                                 <div ng-show="!contactsCtrl.isDetailEditVisible()">
-                                    <a ng-show="customersCtrl.isEditMode()" ng-click="contactsCtrl.createNewContact(customersCtrl.currentCustomer)">Add new contact</a>
+                                    <a ng-show="customersCtrl.isEditMode()" ng-click="contactsCtrl.create(customersCtrl.currentEntity)">Add new contact</a>
                                     <table class="table">
                                         <thead>
                                             <tr>
@@ -185,47 +185,42 @@
                                                 <td>
                                                     <span> {{contact.Email}} </span>
                                                 </td>
-                                                <td>
-                                                    <a ng-click="contactsCtrl.editContact(contact)">Edit</a>
-                                                    <a ng-click="contactsCtrl.deleteContact(contact, customersCtrl.currentCustomer)">Delete</a>
+                                                <td ng-show="customersCtrl.isEditMode()">
+                                                    <a ng-click="contactsCtrl.edit(contact)">Edit</a>
+                                                    <a ng-click="contactsCtrl.delete(contact, customersCtrl.currentEntity)">Delete</a>
                                                 </td>
                                             </tr>
                                         </tbody>
                                     </table>
                                 </div>
-                                <div ng-show="contactsCtrl.currentContact">
+                                <div ng-show="contactsCtrl.currentEntity">
                                     <form name="contactForm">
                                         <div class="form-group row">
                                             <div class="col-sm-2">
                                                 <label class="control-label">Name</label>
-                                                <input type="text" class="form-control" ng-model="contactsCtrl.currentContact.Name" required maxlength="50" />
+                                                <input type="text" class="form-control" ng-model="contactsCtrl.currentEntity.Name" required maxlength="50" />
                                             </div>
                                             <div class="col-sm-2">
                                                 <label class="control-label">Role</label>
-                                                <input type="text" class="form-control" ng-model="contactsCtrl.currentContact.Role" required maxlength="20" />
+                                                <input type="text" class="form-control" ng-model="contactsCtrl.currentEntity.Role" required maxlength="20" />
                                             </div>
                                             <div class="col-sm-2">
                                                 <label class="control-label">Phone</label>
-                                                <input type="tel" class="form-control" ng-model="contactsCtrl.currentContact.Phone" required maxlength="30" />
+                                                <input type="tel" class="form-control" ng-model="contactsCtrl.currentEntity.Phone" required maxlength="30" />
                                             </div>
                                             <div class="col-sm-2">
                                                 <label class="control-label">Email</label>
-                                                <input type="email" class="form-control" ng-model="contactsCtrl.currentContact.Email" required maxlength="100" />
+                                                <input type="email" class="form-control" ng-model="contactsCtrl.currentEntity.Email" required maxlength="100" />
                                             </div>
                                         </div>
                                         <div class="form-group row">
-                                            <div class="col-sm-2" ng-show="contactsCtrl.isDetailsMode()">
-                                                <input type="button" class="btn btn-info" ng-click="contactsCtrl.discardContactChanges()" value="Go back" />
+                                            <div class="col-sm-2" ng-show="contactsCtrl.isDetailEditVisible()">
+                                                <input type="button" class="btn btn-info" ng-click="contactsCtrl.discard()" value="Discard changes (Go back)" />
                                             </div>
-                                            <div ng-show="contactsCtrl.isEditMode()">
-                                                <div class="col-sm-2">
-                                                    <input type="button" class="btn btn-info" ng-click="contactsCtrl.discardContactChanges()" value="Discard changes" />
-                                                </div>
-                                                <div class="col-sm-2">
-                                                    <input type="submit" class="btn btn-success"
-                                                           ng-click="contactsCtrl.saveContact(customersCtrl.currentCustomer)"
-                                                           value="Save contact" />
-                                                </div>
+                                            <div class="col-sm-2" ng-show="contactsCtrl.isEditMode()">
+                                                <input type="submit" class="btn btn-success"
+                                                       ng-click="contactsCtrl.save(customersCtrl.currentEntity)"
+                                                       value="Save contact" />
                                             </div>
                                         </div>
                                     </form>
@@ -240,16 +235,13 @@
                 </div>
             </section>
         </div>
-        <div class="form-group row" style="margin-left: -30px;">
-            <div class="col-sm-2" ng-show="customersCtrl.isDetailsMode()">
-                <input type="button" class="btn btn-info" ng-click="customersCtrl.discardCustomerChanges()" value="Go back" />
-            </div>
-            <div ng-show="customersCtrl.isEditMode()">
-                <div class="col-sm-2">
-                    <input type="button" class="btn btn-info" ng-click="customersCtrl.discardCustomerChanges()" value="Discard changes" />
+        <div class="form-group row">
+            <div class="row">
+                <div class="col-sm-2" ng-show="customersCtrl.isDetailEditVisible()">
+                    <input type="button" class="btn btn-info" ng-click="customersCtrl.discard()" value="Discard changes (Go back)" />
                 </div>
-                <div class="col-sm-2">
-                    <input type="submit" class="btn btn-success" ng-click="customersCtrl.saveCustomer()" value="Save customer" />
+                <div class="col-sm-2" ng-show="customersCtrl.isEditMode()">
+                    <input type="submit" class="btn btn-success" ng-click="customersCtrl.save()" value="Save customer" />
                 </div>
             </div>
         </div>

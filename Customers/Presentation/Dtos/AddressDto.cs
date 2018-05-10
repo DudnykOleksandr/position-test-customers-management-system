@@ -33,12 +33,17 @@ namespace Presentation.Dtos
             return dataModel;
         }
 
-        public void FromDataModel(Address dataModel)
+        public static AddressDto FromDataModel(Address dataModel)
         {
-            AddressId = dataModel.AddressId.ToString();
-            Country = dataModel.Country;
-            City = dataModel.City;
-            Address = dataModel.Address1;
+            var dto = new AddressDto
+            {
+                AddressId = dataModel.AddressId.ToString(),
+                Country = dataModel.Country,
+                City = dataModel.City,
+                Address = dataModel.Address1
+            };
+
+            return dto;
         }
     }
 }

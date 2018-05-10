@@ -28,56 +28,23 @@ namespace Data.Repositories
 
         public void Save(Customer customer)
         {
-            //Customer customerToSave = null;
-            //bool isNewCustomer = true;
-            //if (customer.Id == Guid.Empty)
-            //{
-            //    customer.Id = Guid.NewGuid();
-            //    _context.Customer.Add(customer);
-            //    customerToSave = new Customer();
-            //    customerToSave.Name = customer.Name;
-            //}
-            //else
-            //{
-            //    isNewCustomer = false;
-            //    customerToSave = _context.Customer.Where(c => c.Id == customer.Id).Include(c => c.Contacts).Single();
-            //    //customerToSave.Name = customer.Name;
-            //    _context.Entry(customerToSave).CurrentValues.SetValues(customer);
-            //}
-
-            //foreach (var contact in customer.Contacts)
-            //{
-            //    if (contact.Id == Guid.Empty)
-            //    {
-            //        contact.Id = Guid.NewGuid();
-            //        customerToSave.Contacts.Add(contact);
-            //        _context.Contact.Add(contact);
-            //    }
-            //    else
-            //    {
-            //        var existingContact = _context.Contact.Where(c => c.Id == contact.Id).Single();
-            //        //existingContact.Name = contact.Name;
-            //        _context.Entry(existingContact).CurrentValues.SetValues(contact);
-            //    }
-            //}
-            //if (!isNewCustomer)
-            //{
-            //    var contactIds = customer.Contacts.Select(c => c.Id);
-            //    var contactsToRemove = customerToSave.Contacts.Where(c => !contactIds.Contains(c.Id));
-            //    foreach (var contactToRemove in contactsToRemove)
-            //        _context.Contact.Remove(contactToRemove);
-            //}
-
             if (customer.ActionType == EntityActionType.Add)
             {
                 _dbContext.Add(customer);
             }
-            if (customer.ActionType == EntityActionType.Update)
+            else if (customer.ActionType == EntityActionType.Update)
             {
                 var existingCustomer = GetCustomerWithRelatedData(customer.CustomerId);
                 _dbContext.Entry(existingCustomer).CurrentValues.SetValues(customer);
 
                 ProcessChildEntity(customer.Address, existingCustomer.Address);
+
+                foreach (var contact in customer.Contacts)
+                {
+                    var existingContact = existingCustomer.Contacts.SingleOrDefault(item => item.ContactId == contact.ContactId);
+
+                    ProcessChildEntity(contact, existingContact);
+                }
             }
 
             _dbContext.SaveChanges();
@@ -94,13 +61,11 @@ namespace Data.Repositories
         private void ProcessChildEntity(Base entity, Base existingEntity)
         {
             if (entity.ActionType == EntityActionType.Add)
-            {
                 _dbContext.Add(entity);
-            }
-            if (entity.ActionType == EntityActionType.Update)
-            {
+            else if (entity.ActionType == EntityActionType.Update)
                 _dbContext.Entry(existingEntity).CurrentValues.SetValues(entity);
-            }
+            else if (entity.ActionType == EntityActionType.Delete)
+                _dbContext.Remove(entity);
         }
 
         private Customer GetCustomerWithRelatedData(Guid customerId)
