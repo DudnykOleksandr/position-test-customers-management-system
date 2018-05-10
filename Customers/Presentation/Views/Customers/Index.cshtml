@@ -145,44 +145,113 @@
                                 <input type="text" class="form-control" ng-model="customersCtrl.currentCustomer.Address.Address" required maxlength="100" />
                             </div>
                         </div>
-                        <div class="form-group row">
-                            <div class="col-sm-12">
-                                <label class="control-label">Contacts</label>
-                                <div ng-controller="ContactsController as contactsCtrl">
-                                    <a ng-show="customersCtrl.isEditMode()" ng-click="contactsCtrl.createNewContact()">Add new contact</a>
-                                    <ul ng-repeat="contact in customersCtrl.currentCustomer.Contacts">
-                                        <li>
-                                            <span>{{contact.Name}}</span>
-                                        </li>
-                                    </ul>
-                                    <div ng-show="contactsCtrl.currentContact">
-                                        <label class="control-label">Name</label>
-                                        <input type="text" class="form-control" ng-model="contactsCtrl.currentContact.Name" />
-                                        <input type="button" class="btn btn-default" ng-click="contactsCtrl.saveContact(customersCtrl.currentCustomer)" value="Save contact" />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <div class="col-sm-2" ng-show="customersCtrl.isDetailsMode()">
-                                <input type="button" class="btn btn-success" ng-click="customersCtrl.discardCustomerChanges()" value="Go back" />
-                            </div>
-                            <div ng-show="customersCtrl.isEditMode()">
-                                <div class="col-sm-2">
-                                    <input type="button" class="btn btn-warning" ng-click="customersCtrl.discardCustomerChanges()" value="Discard changes" />
-                                </div>
-                                <div class="col-sm-2">
-                                    <input type="submit" class="btn btn-success" ng-click="customersCtrl.saveCustomer(tabCtrl.getCustomersForm())" value="Save customer" />
-                                </div>
-                            </div>
-                        </div>
                     </form>
+                    <div class="form-group row">
+                        <div class="col-sm-12">
+                            <label class="control-label">Contacts</label>
+                            <div ng-controller="ContactsController as contactsCtrl">
+                                <div ng-show="!contactsCtrl.isDetailEditVisible()">
+                                    <a ng-show="customersCtrl.isEditMode()" ng-click="contactsCtrl.createNewContact(customersCtrl.currentCustomer)">Add new contact</a>
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>
+                                                    Name
+                                                </th>
+                                                <th>
+                                                    Role
+                                                </th>
+                                                <th>
+                                                    Phone
+                                                </th>
+                                                <th>
+                                                    Email
+                                                </th>
+                                                <th>
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="contact in customersCtrl.getContacts()">
+                                                <td>
+                                                    <span> {{contact.Name}} </span>
+                                                </td>
+                                                <td>
+                                                    <span> {{contact.Role}} </span>
+                                                </td>
+                                                <td>
+                                                    <span> {{contact.Phone}} </span>
+                                                </td>
+                                                <td>
+                                                    <span> {{contact.Email}} </span>
+                                                </td>
+                                                <td>
+                                                    <a ng-click="contactsCtrl.editContact(contact)">Edit</a>
+                                                    <a ng-click="contactsCtrl.deleteContact(contact, customersCtrl.currentCustomer)">Delete</a>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div ng-show="contactsCtrl.currentContact">
+                                    <form name="contactForm">
+                                        <div class="form-group row">
+                                            <div class="col-sm-2">
+                                                <label class="control-label">Name</label>
+                                                <input type="text" class="form-control" ng-model="contactsCtrl.currentContact.Name" required maxlength="50" />
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <label class="control-label">Role</label>
+                                                <input type="text" class="form-control" ng-model="contactsCtrl.currentContact.Role" required maxlength="20" />
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <label class="control-label">Phone</label>
+                                                <input type="tel" class="form-control" ng-model="contactsCtrl.currentContact.Phone" required maxlength="30" />
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <label class="control-label">Email</label>
+                                                <input type="email" class="form-control" ng-model="contactsCtrl.currentContact.Email" required maxlength="100" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <div class="col-sm-2" ng-show="contactsCtrl.isDetailsMode()">
+                                                <input type="button" class="btn btn-info" ng-click="contactsCtrl.discardContactChanges()" value="Go back" />
+                                            </div>
+                                            <div ng-show="contactsCtrl.isEditMode()">
+                                                <div class="col-sm-2">
+                                                    <input type="button" class="btn btn-info" ng-click="contactsCtrl.discardContactChanges()" value="Discard changes" />
+                                                </div>
+                                                <div class="col-sm-2">
+                                                    <input type="submit" class="btn btn-success"
+                                                           ng-click="contactsCtrl.saveContact(customersCtrl.currentCustomer)"
+                                                           value="Save contact" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div ng-show="tabCtrl.isSet(2)">
                 </div>
                 <div ng-show="tabCtrl.isSet(3)">
                 </div>
             </section>
+        </div>
+        <div class="form-group row" style="margin-left: -30px;">
+            <div class="col-sm-2" ng-show="customersCtrl.isDetailsMode()">
+                <input type="button" class="btn btn-info" ng-click="customersCtrl.discardCustomerChanges()" value="Go back" />
+            </div>
+            <div ng-show="customersCtrl.isEditMode()">
+                <div class="col-sm-2">
+                    <input type="button" class="btn btn-info" ng-click="customersCtrl.discardCustomerChanges()" value="Discard changes" />
+                </div>
+                <div class="col-sm-2">
+                    <input type="submit" class="btn btn-success" ng-click="customersCtrl.saveCustomer()" value="Save customer" />
+                </div>
+            </div>
         </div>
     </div>
     <hr />
