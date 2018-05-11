@@ -65,9 +65,13 @@ namespace Presentation.Dtos
                 AddressId = Guid.Parse(this.AddressId),
                 Address = this.Address.ToDataModel()
             };
+            dataModel.Address.ActionType = dataModel.ActionType;
 
             foreach (var contact in Contacts)
                 dataModel.Contacts.Add(contact.ToDataModel());
+
+            foreach (var department in Departments)
+                dataModel.Departments.Add(department.ToDataModel());
 
             return dataModel;
         }
@@ -89,6 +93,9 @@ namespace Presentation.Dtos
 
             foreach (var contact in dataModel.Contacts)
                 dto.Contacts.Add(ContactDto.FromDataModel(contact));
+
+            foreach (var department in dataModel.Departments)
+                dto.Departments.Add(DepartmentDto.FromDataModel(department));
 
             return dto;
         }

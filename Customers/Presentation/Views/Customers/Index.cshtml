@@ -52,6 +52,7 @@
                                 Address
                             </th>
                             <th>
+                                Actions
                             </th>
                         </tr>
                     </thead>
@@ -90,10 +91,10 @@
                         <a href="" ng-click="tabCtrl.setTab(1)">General Info</a>
                     </li>
                     <li ng-class="{ active:tabCtrl.isSet(2) }">
-                        <a href="" ng-click="tabCtrl.setTab(2)">Users</a>
+                        <a href="" ng-click="tabCtrl.setTab(2)">Departments</a>
                     </li>
                     <li ng-class="{ active:tabCtrl.isSet(3) }">
-                        <a href="" ng-click="tabCtrl.setTab(3)">Departments</a>
+                        <a href="" ng-click="tabCtrl.setTab(3)">Users</a>
                     </li>
                 </ul>
                 <br>
@@ -168,6 +169,7 @@
                                                     Email
                                                 </th>
                                                 <th>
+                                                    Actions
                                                 </th>
                                             </tr>
                                         </thead>
@@ -193,7 +195,7 @@
                                         </tbody>
                                     </table>
                                 </div>
-                                <div ng-show="contactsCtrl.currentEntity">
+                                <div ng-show="contactsCtrl.isDetailEditVisible()">
                                     <form name="contactForm">
                                         <div class="form-group row">
                                             <div class="col-sm-2">
@@ -230,6 +232,98 @@
                     </div>
                 </div>
                 <div ng-show="tabCtrl.isSet(2)">
+                    <div class="form-group row">
+                        <div class="col-sm-12">
+                            <div ng-controller="DepartmentsController as departmentsCtrl">
+                                <div ng-show="!departmentsCtrl.isDetailEditVisible()">
+                                    <a ng-show="customersCtrl.isEditMode()"
+                                       ng-click="departmentsCtrl.create(customersCtrl.currentEntity)">Add new department</a>
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>
+                                                    Name
+                                                </th>
+                                                <th>
+                                                    Manager
+                                                </th>
+                                                <th>
+                                                    Address country
+                                                </th>
+                                                <th>
+                                                    Address City
+                                                </th>
+                                                <th>
+                                                    Address
+                                                </th>
+                                                <th>
+                                                    Actions
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="department in customersCtrl.getDepartments()">
+                                                <td>
+                                                    <span> {{department.Name}} </span>
+                                                </td>
+                                                <td>
+                                                    <span> </span>
+                                                </td>
+                                                <td>
+                                                    <span> {{department.Address.Country}} </span>
+                                                </td>
+                                                <td>
+                                                    <span> {{department.Address.City}} </span>
+                                                </td>
+                                                <td>
+                                                    <span> {{department.Address.Address}} </span>
+                                                </td>
+                                                <td ng-show="customersCtrl.isEditMode()">
+                                                    <a ng-click="departmentsCtrl.edit(department)">Edit</a>
+                                                    <a ng-click="departmentsCtrl.delete(department, customersCtrl.currentEntity)">Delete</a>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div ng-show="departmentsCtrl.isDetailEditVisible()">
+                                    <form name="departmentForm">
+                                        <div class="form-group row">
+                                            <div class="col-sm-2">
+                                                <label class="control-label">Name</label>
+                                                <input type="text" class="form-control" ng-model="departmentsCtrl.currentEntity.Name" required maxlength="50" />
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <label class="control-label">Manager</label>
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <label class="control-label">Address country</label>
+                                                <input type="text" class="form-control" ng-model="departmentsCtrl.currentEntity.Address.Country" required maxlength="30" />
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <label class="control-label">Address City</label>
+                                                <input type="text" class="form-control" ng-model="departmentsCtrl.currentEntity.Address.City" required maxlength="30" />
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <label class="control-label">Address</label>
+                                                <input type="text" class="form-control" ng-model="departmentsCtrl.currentEntity.Address.Address" required maxlength="100" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <div class="col-sm-2" ng-show="departmentsCtrl.isDetailEditVisible()">
+                                                <input type="button" class="btn btn-info" ng-click="departmentsCtrl.discard()" value="Discard changes (Go back)" />
+                                            </div>
+                                            <div class="col-sm-2" ng-show="departmentsCtrl.isEditMode()">
+                                                <input type="submit" class="btn btn-success"
+                                                       ng-click="departmentsCtrl.save(customersCtrl.currentEntity)"
+                                                       value="Save department" />
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div ng-show="tabCtrl.isSet(3)">
                 </div>
@@ -257,8 +351,6 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
     <script src="~/lib/angular/angular.min.js"></script>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/app/ContactModel.js"></script>
-    <script src="~/app/CustomerModel.js"></script>
     <script src="~/app/app.js"></script>
 </body>
 </html>

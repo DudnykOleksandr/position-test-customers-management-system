@@ -13,14 +13,18 @@ namespace Presentation.Dtos
 
         public Department ToDataModel()
         {
-            var dataModel = new Department();
-            dataModel.DepartmentId = Guid.Parse(DepartmentId);
-            dataModel.CustomerId = Guid.Parse(CustomerId);
-            dataModel.Name = this.Name;
-            dataModel.ActionType = this.ActionType;
+            var dataModel = new Department
+            {
+                DepartmentId = Guid.Parse(DepartmentId),
+                CustomerId = Guid.Parse(CustomerId),
+                Name = this.Name,
+                ActionType = this.ActionType,
 
-            dataModel.AddressId = Guid.Parse(this.AddressId);
-            dataModel.Address = this.Address.ToDataModel();
+                AddressId = Guid.Parse(this.AddressId),
+                Address = this.Address.ToDataModel()
+            };
+
+            dataModel.Address.ActionType = dataModel.ActionType;
 
             return dataModel;
         }

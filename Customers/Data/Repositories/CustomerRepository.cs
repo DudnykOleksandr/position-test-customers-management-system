@@ -18,7 +18,7 @@ namespace Data.Repositories
 
         public IEnumerable<string> GetAllUserNames()
         {
-            return _dbContext.User.Select(u=>u.UserName).ToList();
+            return _dbContext.User.Select(u => u.UserName).ToList();
         }
 
         public IEnumerable<Customer> GetAll()
@@ -26,7 +26,7 @@ namespace Data.Repositories
             return _dbContext.Customer
                 .Include(c => c.Contacts)
                 .Include(c => c.Address)
-                .Include(c => c.Departments)
+                .Include(c => c.Departments).ThenInclude(cd => cd.Address)
                 .Include(c => c.Users)
                 .ToList();
         }
@@ -50,16 +50,33 @@ namespace Data.Repositories
 
                     ProcessChildEntity(contact, existingContact);
                 }
+
+                foreach (var user in customer.Users)
+                {
+                    var existingUser = existingCustomer.Users.SingleOrDefault(item => item.UserId == user.UserId);
+
+                    ProcessChildEntity(user, existingUser);
+                }
+
+                foreach (var department in customer.Departments)
+                {
+                    var existingDepartment = existingCustomer.Departments.SingleOrDefault(item => item.DepartmentId == department.DepartmentId);
+
+                    ProcessChildEntity(department.Address, existingDepartment.Address);
+
+                    ProcessChildEntity(department, existingDepartment);
+                }
             }
 
             _dbContext.SaveChanges();
         }
 
-        public void Delete(Guid customerId)
+        public void Delete(Customer customer)
         {
-            var employer = new Customer { CustomerId = customerId };
-            _dbContext.Customer.Attach(employer);
-            _dbContext.Customer.Remove(employer);
+            _dbContext.Customer.Attach(customer);
+            _dbContext.Address.Attach(customer.Address);
+            _dbContext.Customer.Remove(customer);
+            _dbContext.Address.Remove(customer.Address);
             _dbContext.SaveChanges();
         }
 
@@ -70,7 +87,11 @@ namespace Data.Repositories
             else if (entity.ActionType == EntityActionType.Update)
                 _dbContext.Entry(existingEntity).CurrentValues.SetValues(entity);
             else if (entity.ActionType == EntityActionType.Delete)
+            {
                 _dbContext.Remove(existingEntity);
+                if (existingEntity is Department)
+                    _dbContext.Remove(((Department)existingEntity).Address);
+            }
         }
 
         private Customer GetCustomerWithRelatedData(Guid customerId)
@@ -79,7 +100,7 @@ namespace Data.Repositories
                 .Where(c => c.CustomerId == customerId)
                 .Include(c => c.Contacts)
                 .Include(c => c.Address)
-                .Include(c => c.Departments)
+                .Include(c => c.Departments).ThenInclude(cd => cd.Address)
                 .Include(c => c.Users)
                 .SingleOrDefault();
 

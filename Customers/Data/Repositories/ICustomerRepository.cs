@@ -12,6 +12,6 @@ namespace Data.Repositories
 
         void Save(Customer customer);
 
-        void Delete(Guid customerId);
+        void Delete(Customer customer);
     }
 }

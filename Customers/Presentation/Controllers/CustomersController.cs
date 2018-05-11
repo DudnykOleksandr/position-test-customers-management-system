@@ -15,7 +15,7 @@ namespace Presentation.Controllers
         {
             _customerRepository = customerRepository;
         }
-     
+
         public ViewResult Index()
         {
             return View();
@@ -33,20 +33,22 @@ namespace Presentation.Controllers
             if (ModelState.IsValid)
             {
                 _customerRepository.Save(customerDto.ToDataModel());
+                var allCustomerDtos = _customerRepository.GetAll().ToDataModels().ToList();
+                return Ok(allCustomerDtos);
             }
-            var allCustomerDtos = _customerRepository.GetAll().ToDataModels().ToList();
-
-            return Ok(allCustomerDtos);
+            return BadRequest();
         }
 
-        [HttpGet]
-        public IActionResult Delete(string customerId)
+        [HttpPost]
+        public IActionResult Delete([FromBody]CustomerDto customerDto)
         {
-            var customerGuid = Guid.Parse(customerId);
-            _customerRepository.Delete(customerGuid);
-            var allCustomerDtos = _customerRepository.GetAll().ToDataModels().ToList();
-
-            return Ok(allCustomerDtos);
+            if (ModelState.IsValid)
+            {
+                _customerRepository.Delete(customerDto.ToDataModel());
+                var allCustomerDtos = _customerRepository.GetAll().ToDataModels().ToList();
+                return Ok(allCustomerDtos);
+            }
+            return BadRequest();
         }
     }
 }
