@@ -1,7 +1,7 @@
 {
   "runtimeTarget": {
     "name": ".NETCoreApp,Version=v2.0",
-    "signature": "00f10b7d110a7a34e6ca7dec29d48a45b6942e94"
+    "signature": "e033f48bb5d2a6c6980f386e10af9655b055ad2f"
   },
   "compilationOptions": {
     "defines": [
@@ -26,12 +26,18 @@
           "AngularJS.Core": "1.6.8",
           "Bussiness": "1.0.0",
           "Data": "1.0.0",
+          "Localization.AspNetCore.TagHelpers": "0.3.0",
           "Microsoft.AspNetCore.All": "2.0.7",
           "Microsoft.NETCore.App": "2.0.0",
           "log4net": "2.0.8"
         },
         "runtime": {
           "Presentation.dll": {}
+        },
+        "resources": {
+          "en/Presentation.resources.dll": {
+            "locale": "en"
+          }
         },
         "compile": {
           "Presentation.dll": {}
@@ -75,6 +81,19 @@
             "rid": "win-x86",
             "assetType": "native"
           }
+        }
+      },
+      "Localization.AspNetCore.TagHelpers/0.3.0": {
+        "dependencies": {
+          "Microsoft.AspNetCore.Mvc.Localization": "2.0.3",
+          "Microsoft.AspNetCore.Razor.Runtime": "2.0.2",
+          "NETStandard.Library": "2.0.0"
+        },
+        "runtime": {
+          "lib/netstandard1.6.1/Localization.AspNetCore.TagHelpers.dll": {}
+        },
+        "compile": {
+          "lib/netstandard1.6.1/Localization.AspNetCore.TagHelpers.dll": {}
         }
       },
       "log4net/2.0.8": {
@@ -4206,6 +4225,13 @@
       "sha512": "sha512-GsCf4q+eyaI49rCPlgYxdxa1SQCysXFFdSJWdstrwxytg4+VPYLYrXD4AT2rjHVJ+UF7SSWX9CapWEYaU4ejVQ==",
       "path": "libuv/1.10.0",
       "hashPath": "libuv.1.10.0.nupkg.sha512"
+    },
+    "Localization.AspNetCore.TagHelpers/0.3.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-spG/0NEWU/gNMo8P/V5wfDJUkx6pWENDLM2wCpmsI07eyWci/gL/DlOFdwp0Xln6eNWDFa0/xgikIYsdextb2A==",
+      "path": "localization.aspnetcore.taghelpers/0.3.0",
+      "hashPath": "localization.aspnetcore.taghelpers.0.3.0.nupkg.sha512"
     },
     "log4net/2.0.8": {
       "type": "package",
