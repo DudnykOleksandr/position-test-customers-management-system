@@ -1,23 +1,48 @@
-﻿
-using Data.Models;
+﻿using Data.Models;
 using System;
-using System.Security;
+using System.ComponentModel.DataAnnotations;
 
 namespace Presentation.Dtos
 {
     public class UserDto : BaseDto
     {
+        [Required]
+        [StringLength(maximumLength: 36, MinimumLength = 36)]
         public string UserId { get; set; }
+
+        [StringLength(maximumLength: 36, MinimumLength = 36)]
         public string CustomerId { get; set; }
+
+        [StringLength(maximumLength: 36, MinimumLength = 36)]
         public string DepartmentId { get; set; }
+
         public bool IsDepartmentManager { get; set; }
+
+        [Required]
+        [MaxLength(128)]
         public string FirstName { get; set; }
+
+        [MaxLength(128)]
         public string MiddleName { get; set; }
+
+        [MaxLength(128)]
         public string LastName { get; set; }
+
+        [Required]
+        [DataType(DataType.PhoneNumber)]
+        [MaxLength(30)]
         public string Phone { get; set; }
+
+        [Required]
+        [EmailAddress]
+        [MaxLength(100)]
         public string Email { get; set; }
-        public UserRole Role { get; set; }
+
+        [Required]
+        [RegularExpression(@"^[a-zA-Z][a-zA-Z0-9-_\.]{1,30}$")]
         public string UserName { get; set; }
+
+        [RegularExpression(@"[0-9a-zA-Z]{4,8}")]
         public string Password { get; set; }
 
         public User ToDataModel()
@@ -32,13 +57,17 @@ namespace Presentation.Dtos
             dataModel.LastName = this.LastName;
             dataModel.Phone = this.Phone;
             dataModel.Email = this.Email;
-            dataModel.Role = this.Role;
+            dataModel.Role = UserRole.RegularUser;
             dataModel.UserName = this.UserName;
             dataModel.ActionType = this.ActionType;
 
-            if (this.ActionType == EntityActionType.Add || !string.IsNullOrEmpty(this.Password))
+            if (dataModel.ActionType == EntityActionType.Add && string.IsNullOrEmpty(this.Password))
+                throw new Exception("User model is not valid");
+
+            if (!string.IsNullOrEmpty(this.Password))
             {
-                //todo add password management
+                dataModel.PasswordHash = this.Password.GetHashCode().ToString();
+                dataModel.PasswordHashSalt = "test";
             }
 
 
@@ -49,7 +78,7 @@ namespace Presentation.Dtos
         {
             var dto = new UserDto
             {
-                UserId= dataModel.UserId.ToString(),
+                UserId = dataModel.UserId.ToString(),
                 DepartmentId = dataModel.DepartmentId.ToString(),
                 CustomerId = dataModel.CustomerId.ToString(),
                 IsDepartmentManager = dataModel.IsDepartmentManager,
@@ -58,7 +87,6 @@ namespace Presentation.Dtos
                 LastName = dataModel.LastName,
                 Phone = dataModel.Phone,
                 Email = dataModel.Email,
-                Role = dataModel.Role,
                 UserName = dataModel.UserName
             };
 

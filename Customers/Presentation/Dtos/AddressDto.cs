@@ -7,6 +7,7 @@ namespace Presentation.Dtos
     public class AddressDto : BaseDto
     {
         [Required]
+        [StringLength(maximumLength: 36, MinimumLength = 36)]
         public string AddressId { get; set; }
 
         [Required]

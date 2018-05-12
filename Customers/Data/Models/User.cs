@@ -5,7 +5,7 @@ namespace Data.Models
     public partial class User : Base
     {
         public Guid UserId { get; set; }
-        public Guid CustomerId { get; set; }
+        public Guid? CustomerId { get; set; }
         public Guid? DepartmentId { get; set; }
         public bool IsDepartmentManager { get; set; }
         public string FirstName { get; set; }

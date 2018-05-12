@@ -1,15 +1,35 @@
 ﻿using Data.Models;
 using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace Presentation.Dtos
 {
     public class ContactDto : BaseDto
     {
+        [Required]
+        [StringLength(maximumLength: 36,MinimumLength = 36)]
         public string ContactId { get; set; }
+
+        [Required]
+        [StringLength(maximumLength: 36, MinimumLength = 36)]
         public string CustomerId { get; set; }
+
+        [Required]
+        [MaxLength(50)]
         public string Name { get; set; }
+
+        [Required]
+        [MaxLength(20)]
         public string Role { get; set; }
+
+        [Required]
+        [EmailAddress]
+        [MaxLength(100)]
         public string Email { get; set; }
+
+        [Required]
+        [DataType(DataType.PhoneNumber)]
+        [MaxLength(30)]
         public string Phone { get; set; }
 
         public Contact ToDataModel()

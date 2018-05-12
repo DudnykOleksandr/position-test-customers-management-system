@@ -1,14 +1,27 @@
 ﻿using Data.Models;
 using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace Presentation.Dtos
 {
     public class DepartmentDto : BaseDto
     {
+        [Required]
+        [StringLength(maximumLength: 36, MinimumLength = 36)]
         public string DepartmentId { get; set; }
+
+        [Required]
+        [StringLength(maximumLength: 36, MinimumLength = 36)]
         public string CustomerId { get; set; }
-        public string Name { get; set; }
+
+        [Required]
+        [StringLength(maximumLength: 36, MinimumLength = 36)]
         public string AddressId { get; set; }
+
+        [Required]
+        [MaxLength(50)]
+        public string Name { get; set; }
+
         public AddressDto Address { get; set; }
 
         public Department ToDataModel()

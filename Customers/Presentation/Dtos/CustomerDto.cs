@@ -16,6 +16,7 @@ namespace Presentation.Dtos
         }
 
         [Required]
+        [StringLength(maximumLength: 36, MinimumLength = 36)]
         public string CustomerId { get; set; }
 
         [Required]
@@ -23,6 +24,7 @@ namespace Presentation.Dtos
         public string Name { get; set; }
 
         [Required]
+        [StringLength(maximumLength: 36, MinimumLength = 36)]
         public string AddressId { get; set; }
 
         [Required]
@@ -73,6 +75,9 @@ namespace Presentation.Dtos
             foreach (var department in Departments)
                 dataModel.Departments.Add(department.ToDataModel());
 
+            foreach (var user in Users)
+                dataModel.Users.Add(user.ToDataModel());
+
             return dataModel;
         }
 
@@ -96,6 +101,9 @@ namespace Presentation.Dtos
 
             foreach (var department in dataModel.Departments)
                 dto.Departments.Add(DepartmentDto.FromDataModel(department));
+
+            foreach (var user in dataModel.Users)
+                dto.Users.Add(UserDto.FromDataModel(user));
 
             return dto;
         }

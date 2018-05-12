@@ -46,25 +46,32 @@ namespace Data.Repositories
 
                 foreach (var contact in customer.Contacts)
                 {
-                    var existingContact = existingCustomer.Contacts.SingleOrDefault(item => item.ContactId == contact.ContactId);
+                    var existingEntity = existingCustomer.Contacts.SingleOrDefault(item => item.ContactId == contact.ContactId);
 
-                    ProcessChildEntity(contact, existingContact);
+                    ProcessChildEntity(contact, existingEntity);
                 }
 
                 foreach (var user in customer.Users)
                 {
-                    var existingUser = existingCustomer.Users.SingleOrDefault(item => item.UserId == user.UserId);
+                    var existingEntity = existingCustomer.Users.SingleOrDefault(item => item.UserId == user.UserId);
 
-                    ProcessChildEntity(user, existingUser);
+                    ProcessChildEntity(user, existingEntity);
                 }
 
                 foreach (var department in customer.Departments)
                 {
-                    var existingDepartment = existingCustomer.Departments.SingleOrDefault(item => item.DepartmentId == department.DepartmentId);
+                    var existingEntity = existingCustomer.Departments.SingleOrDefault(item => item.DepartmentId == department.DepartmentId);
 
-                    ProcessChildEntity(department.Address, existingDepartment.Address);
+                    ProcessChildEntity(department.Address, existingEntity.Address);
 
-                    ProcessChildEntity(department, existingDepartment);
+                    ProcessChildEntity(department, existingEntity);
+                }
+
+                foreach (var user in customer.Users)
+                {
+                    var existingEntity = existingCustomer.Users.SingleOrDefault(item => item.UserId == user.UserId);
+
+                    ProcessChildEntity(user, existingEntity);
                 }
             }
 
@@ -91,6 +98,8 @@ namespace Data.Repositories
                 _dbContext.Remove(existingEntity);
                 if (existingEntity is Department)
                     _dbContext.Remove(((Department)existingEntity).Address);
+
+                //todo add aditional logic for making null when On Department.Manger when User is removed and User.Department when Department is removed.
             }
         }
 

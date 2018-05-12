@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-<html ng-app="customers">
+<html ng-app="Customers">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -84,21 +84,20 @@
             </div>
         </div>
         <div class="form-group row" ng-show="customersCtrl.isDetailEditVisible()">
-
-            <section ng-controller="TabController as tabCtrl">
+            <section ng-controller="TabsController as tabsCtrl">
                 <ul class="nav nav-pills">
-                    <li ng-class="{ active:tabCtrl.isSet(1) }">
-                        <a href="" ng-click="tabCtrl.setTab(1)">General Info</a>
+                    <li ng-class="{ active:tabsCtrl.isSet(1) }">
+                        <a href="" ng-click="tabsCtrl.setTab(1)">General Info</a>
                     </li>
-                    <li ng-class="{ active:tabCtrl.isSet(2) }">
-                        <a href="" ng-click="tabCtrl.setTab(2)">Departments</a>
+                    <li ng-class="{ active:tabsCtrl.isSet(2) }">
+                        <a href="" ng-click="tabsCtrl.setTab(2)">Departments</a>
                     </li>
-                    <li ng-class="{ active:tabCtrl.isSet(3) }">
-                        <a href="" ng-click="tabCtrl.setTab(3)">Users</a>
+                    <li ng-class="{ active:tabsCtrl.isSet(3) }">
+                        <a href="" ng-click="tabsCtrl.setTab(3)">Users</a>
                     </li>
                 </ul>
                 <br>
-                <div ng-show="tabCtrl.isSet(1)">
+                <div ng-show="tabsCtrl.isSet(1)">
                     <form name="customerForm">
                         <div class="form-group row">
                             <div class="col-sm-2">
@@ -231,7 +230,7 @@
                         </div>
                     </div>
                 </div>
-                <div ng-show="tabCtrl.isSet(2)">
+                <div ng-show="tabsCtrl.isSet(2)">
                     <div class="form-group row">
                         <div class="col-sm-12">
                             <div ng-controller="DepartmentsController as departmentsCtrl">
@@ -325,7 +324,109 @@
                         </div>
                     </div>
                 </div>
-                <div ng-show="tabCtrl.isSet(3)">
+                <div ng-show="tabsCtrl.isSet(3)">
+                    <div class="form-group row">
+                        <div class="col-sm-12">
+                            <div ng-controller="UsersController as usersCtrl">
+                                <div ng-show="!usersCtrl.isDetailEditVisible()">
+                                    <a ng-show="customersCtrl.isEditMode()"
+                                       ng-click="usersCtrl.create(customersCtrl.currentEntity)">Add new user</a>
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>
+                                                    FirstName
+                                                </th>
+                                                <th>
+                                                    MiddleName
+                                                </th>
+                                                <th>
+                                                    LastName
+                                                </th>
+                                                <th>
+                                                    Phone
+                                                </th>
+                                                <th>
+                                                    Email
+                                                </th>
+                                                <th>
+                                                    UserName
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="user in customersCtrl.getUsers()">
+                                                <td>
+                                                    <span> {{user.FirstName}} </span>
+                                                </td>
+                                                <td>
+                                                    <span> {{user.MiddleName}} </span>
+                                                </td>
+                                                <td>
+                                                    <span> {{user.LastName}} </span>
+                                                </td>
+                                                <td>
+                                                    <span> {{user.Phone}} </span>
+                                                </td>
+                                                <td>
+                                                    <span> {{user.Email}} </span>
+                                                </td>
+                                                <td>
+                                                    <span> {{user.UserName}} </span>
+                                                </td>
+                                                <td ng-show="customersCtrl.isEditMode()">
+                                                    <a ng-click="usersCtrl.edit(user)">Edit</a>
+                                                    <a ng-click="usersCtrl.delete(user, customersCtrl.currentEntity)">Delete</a>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div ng-show="usersCtrl.isDetailEditVisible()">
+                                    <form name="userForm">
+                                        <div class="form-group row">
+                                            <div class="col-sm-2">
+                                                <label class="control-label">FirstName</label>
+                                                <input type="text" class="form-control" ng-model="usersCtrl.currentEntity.FirstName" required maxlength="128" />
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <label class="control-label">MiddleName</label>
+                                                <input type="text" class="form-control" ng-model="usersCtrl.currentEntity.MiddleName" maxlength="128" />
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <label class="control-label">Phone</label>
+                                                <input type="tel" class="form-control" ng-model="usersCtrl.currentEntity.Phone" required maxlength="30" />
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <label class="control-label">Email</label>
+                                                <input type="email" class="form-control" ng-model="usersCtrl.currentEntity.Email" required maxlength="100" />
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <label class="control-label">UserName</label>
+                                                <input type="text" class="form-control" ng-model="usersCtrl.currentEntity.UserName" 
+                                                       required pattern="^[a-zA-Z][a-zA-Z0-9-_\.]{1,30}$" />
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <label class="control-label">Password</label>
+                                                <input type="password" class="form-control" ng-model="usersCtrl.currentEntity.Password"
+                                                       title="Enter an ID consisting of 4-8 hexadecimal digits" ng-required="usersCtrl.isPasswordRequired()" pattern="[0-9a-zA-Z]{4,8}" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <div class="col-sm-2" ng-show="usersCtrl.isDetailEditVisible()">
+                                                <input type="button" class="btn btn-info" ng-click="usersCtrl.discard()" value="Discard changes (Go back)" />
+                                            </div>
+                                            <div class="col-sm-2" ng-show="usersCtrl.isEditMode()">
+                                                <input type="submit" class="btn btn-success"
+                                                       ng-click="usersCtrl.save(customersCtrl.currentEntity)"
+                                                       value="Save user" />
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </section>
         </div>
@@ -347,11 +448,17 @@
     <script>
         @await Component.InvokeAsync("EnumsToJavaScript")
     </script>
-    <script src="~/lib/jquery/dist/jquery.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="~/lib/angular/angular.min.js"></script>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
+
     <script src="~/app/app.js"></script>
+    <script src="~/app/customersController.js"></script>
+    <script src="~/app/tabsController.js"></script>
+    <script src="~/app/contactsController.js"></script>
+    <script src="~/app/departmentsController.js"></script>
+    <script src="~/app/usersController.js"></script>
 </body>
 </html>
 
