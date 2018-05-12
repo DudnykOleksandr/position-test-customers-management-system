@@ -76,7 +76,7 @@ namespace Presentation.Dtos
                 dataModel.Departments.Add(department.ToDataModel());
 
             foreach (var user in Users)
-                dataModel.Users.Add(user.ToDataModel());
+                dataModel.Users.Add(user.ToDataModel(Departments));
 
             return dataModel;
         }

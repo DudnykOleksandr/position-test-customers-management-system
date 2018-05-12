@@ -1,5 +1,6 @@
 ﻿using Data.Models;
 using System;
+using System.Linq;
 using System.ComponentModel.DataAnnotations;
 
 namespace Presentation.Dtos
@@ -17,6 +18,9 @@ namespace Presentation.Dtos
         [Required]
         [StringLength(maximumLength: 36, MinimumLength = 36)]
         public string AddressId { get; set; }
+
+        [StringLength(maximumLength: 36)]
+        public string ManagerUserId { get; set; }
 
         [Required]
         [MaxLength(50)]
@@ -53,6 +57,13 @@ namespace Presentation.Dtos
                 AddressId = dataModel.AddressId.ToString(),
                 Address = AddressDto.FromDataModel(dataModel.Address)
             };
+
+            var managerUser = dataModel.Users.SingleOrDefault(u => u.IsDepartmentManager);
+            if (managerUser != null)
+            {
+                dto.ManagerUserId = managerUser.UserId.ToString();
+            }
+
 
             return dto;
         }

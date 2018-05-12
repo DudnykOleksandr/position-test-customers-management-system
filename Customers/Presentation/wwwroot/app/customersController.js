@@ -105,18 +105,26 @@
                 return [];
         };
 
-        self.getDepartments = function () {
-            if (self.currentEntity)
-                return self.currentEntity.Departments.filter(item => item.ActionType !== entityActionType.Delete);
-            else
-                return [];
+        self.getDepartments = function (includeEmpty) {
+            var result = [];
+            if (self.currentEntity) {
+                result = self.currentEntity.Departments.filter(item => item.ActionType !== entityActionType.Delete);
+                //if (includeEmpty && includeEmpty === 'true')
+                    //result.unshift({ DepartmentId: '', Name: ''});
+            }
+            return result;
         };
 
-        self.getUsers = function () {
-            if (self.currentEntity)
-                return self.currentEntity.Users.filter(item => item.ActionType !== entityActionType.Delete);
-            else
-                return [];
+        self.getUsers = function (department, includeEmpty) {
+            var result = [];
+            if (self.currentEntity) {
+                result = self.currentEntity.Users.filter(item => item.ActionType !== entityActionType.Delete);
+                if (department)
+                    result = result.filter(user => user.DepartmentId === department.DepartmentId);
+                //if (includeEmpty && includeEmpty === 'true')
+                    //result.unshift({ UserId: '', UserName: ''});
+            }
+            return result;
         };
 
         var loadCustomers = function () {

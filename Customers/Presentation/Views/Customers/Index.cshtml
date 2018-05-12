@@ -244,16 +244,16 @@
                                                     Name
                                                 </th>
                                                 <th>
-                                                    Manager
-                                                </th>
-                                                <th>
                                                     Address country
                                                 </th>
                                                 <th>
-                                                    Address City
+                                                    Address city
                                                 </th>
                                                 <th>
                                                     Address
+                                                </th>
+                                                <th>
+                                                    Manager
                                                 </th>
                                                 <th>
                                                     Actions
@@ -266,9 +266,6 @@
                                                     <span> {{department.Name}} </span>
                                                 </td>
                                                 <td>
-                                                    <span> </span>
-                                                </td>
-                                                <td>
                                                     <span> {{department.Address.Country}} </span>
                                                 </td>
                                                 <td>
@@ -276,6 +273,9 @@
                                                 </td>
                                                 <td>
                                                     <span> {{department.Address.Address}} </span>
+                                                </td>
+                                                <td>
+                                                    <span> {{departmentsCtrl.getManagerUserName(department, customersCtrl.getUsers(department))}} </span>
                                                 </td>
                                                 <td ng-show="customersCtrl.isEditMode()">
                                                     <a ng-click="departmentsCtrl.edit(department)">Edit</a>
@@ -294,6 +294,9 @@
                                             </div>
                                             <div class="col-sm-2">
                                                 <label class="control-label">Manager</label>
+                                                <select class="form-control" ng-model="departmentsCtrl.currentEntity.ManagerUserId"
+                                                        ng-options="user.UserId as user.UserName for user in customersCtrl.getUsers(departmentsCtrl.currentEntity, 'true')">
+                                                </select>
                                             </div>
                                             <div class="col-sm-2">
                                                 <label class="control-label">Address country</label>
@@ -402,8 +405,16 @@
                                                 <input type="email" class="form-control" ng-model="usersCtrl.currentEntity.Email" required maxlength="100" />
                                             </div>
                                             <div class="col-sm-2">
+                                                <label class="control-label">Department</label>
+                                                <select class="form-control" ng-model="usersCtrl.currentEntity.DepartmentId"
+                                                        ng-options="department.DepartmentId as department.Name for department in customersCtrl.getDepartments('true')">
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <div class="col-sm-2">
                                                 <label class="control-label">UserName</label>
-                                                <input type="text" class="form-control" ng-model="usersCtrl.currentEntity.UserName" 
+                                                <input type="text" class="form-control" ng-model="usersCtrl.currentEntity.UserName"
                                                        required pattern="^[a-zA-Z][a-zA-Z0-9-_\.]{1,30}$" />
                                             </div>
                                             <div class="col-sm-2">

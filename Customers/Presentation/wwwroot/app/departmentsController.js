@@ -11,6 +11,15 @@
             return mode === modes.Edit;
         };
 
+        self.getManagerUserName = function (department, users) {
+            var result = "No manager";
+            if (department.ManagerUserId) {
+                var managerUser = users.find(u => u.UserId === department.ManagerUserId);
+                result = managerUser.UserName;
+            }
+            return result;
+        }
+
         self.create = function (customer) {
             mode = modes.Edit;
             var newEntity = {};

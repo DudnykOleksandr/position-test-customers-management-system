@@ -1,5 +1,7 @@
 ﻿using Data.Models;
 using System;
+using System.Linq;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Presentation.Dtos
@@ -13,10 +15,8 @@ namespace Presentation.Dtos
         [StringLength(maximumLength: 36, MinimumLength = 36)]
         public string CustomerId { get; set; }
 
-        [StringLength(maximumLength: 36, MinimumLength = 36)]
+        [StringLength(maximumLength: 36)]
         public string DepartmentId { get; set; }
-
-        public bool IsDepartmentManager { get; set; }
 
         [Required]
         [MaxLength(128)]
@@ -45,13 +45,12 @@ namespace Presentation.Dtos
         [RegularExpression(@"[0-9a-zA-Z]{4,8}")]
         public string Password { get; set; }
 
-        public User ToDataModel()
+        public User ToDataModel(IEnumerable<DepartmentDto> departments)
         {
             var dataModel = new User();
             dataModel.UserId = Guid.Parse(UserId);
             dataModel.CustomerId = Guid.Parse(CustomerId);
             dataModel.DepartmentId = string.IsNullOrEmpty(DepartmentId) ? (Guid?)null : Guid.Parse(DepartmentId);
-            dataModel.IsDepartmentManager = this.IsDepartmentManager;
             dataModel.FirstName = this.FirstName;
             dataModel.MiddleName = this.MiddleName;
             dataModel.LastName = this.LastName;
@@ -60,6 +59,8 @@ namespace Presentation.Dtos
             dataModel.Role = UserRole.RegularUser;
             dataModel.UserName = this.UserName;
             dataModel.ActionType = this.ActionType;
+
+            dataModel.IsDepartmentManager = departments.Any(d=>d.ManagerUserId == UserId);
 
             if (dataModel.ActionType == EntityActionType.Add && string.IsNullOrEmpty(this.Password))
                 throw new Exception("User model is not valid");
@@ -81,7 +82,6 @@ namespace Presentation.Dtos
                 UserId = dataModel.UserId.ToString(),
                 DepartmentId = dataModel.DepartmentId.ToString(),
                 CustomerId = dataModel.CustomerId.ToString(),
-                IsDepartmentManager = dataModel.IsDepartmentManager,
                 FirstName = dataModel.FirstName,
                 MiddleName = dataModel.MiddleName,
                 LastName = dataModel.LastName,
