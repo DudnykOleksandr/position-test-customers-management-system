@@ -103,21 +103,9 @@ namespace Data.Repositories
                 _dbContext.Entry(existingEntity).CurrentValues.SetValues(entity);
             }
             else if (entity.ActionType == EntityActionType.Delete)
-            {
                 _dbContext.Remove(existingEntity);
 
-                if (existingEntity is Department)
-                {
-                    var existingDepartment = (Department)existingEntity;
-                    var managerUser = existingDepartment.Users.SingleOrDefault(u => u.IsDepartmentManager);
-                    managerUser.IsDepartmentManager = false;
-                    _dbContext.Remove((existingDepartment).Address);
-                    _dbContext.Update(managerUser);
-
-                }
-
-                //todo add aditional logic for making null when On Department.Manger when User is removed and User.Department when Department is removed.
-            }
+            //todo add aditional logic for making null when On Department.Manger when User is removed and User.Department when Department is removed.
         }
 
         private Customer GetCustomerWithRelatedData(Guid customerId)

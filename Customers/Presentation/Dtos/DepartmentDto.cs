@@ -19,9 +19,6 @@ namespace Presentation.Dtos
         [StringLength(maximumLength: 36, MinimumLength = 36)]
         public string AddressId { get; set; }
 
-        [StringLength(maximumLength: 36)]
-        public string ManagerUserId { get; set; }
-
         [Required]
         [MaxLength(50)]
         public string Name { get; set; }
@@ -57,13 +54,6 @@ namespace Presentation.Dtos
                 AddressId = dataModel.AddressId.ToString(),
                 Address = AddressDto.FromDataModel(dataModel.Address)
             };
-
-            var managerUser = dataModel.Users.SingleOrDefault(u => u.IsDepartmentManager);
-            if (managerUser != null)
-            {
-                dto.ManagerUserId = managerUser.UserId.ToString();
-            }
-
 
             return dto;
         }

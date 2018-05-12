@@ -4,6 +4,9 @@
 
         var mode = null;
 
+        var emptyUser = { UserId: '', UserName: '' };
+        var emptyDepartment = { DepartmentId: '', Name: '' };
+
         self.customers = [];
         self.currentEntity = null;
         self.customerType = customerType;
@@ -109,8 +112,8 @@
             var result = [];
             if (self.currentEntity) {
                 result = self.currentEntity.Departments.filter(item => item.ActionType !== entityActionType.Delete);
-                //if (includeEmpty && includeEmpty === 'true')
-                    //result.unshift({ DepartmentId: '', Name: ''});
+                if (includeEmpty && includeEmpty === 'true')
+                    result.unshift(emptyDepartment);
             }
             return result;
         };
@@ -121,8 +124,8 @@
                 result = self.currentEntity.Users.filter(item => item.ActionType !== entityActionType.Delete);
                 if (department)
                     result = result.filter(user => user.DepartmentId === department.DepartmentId);
-                //if (includeEmpty && includeEmpty === 'true')
-                    //result.unshift({ UserId: '', UserName: ''});
+                if (includeEmpty && includeEmpty === 'true')
+                    result.unshift(emptyUser);
             }
             return result;
         };

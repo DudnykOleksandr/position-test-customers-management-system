@@ -61,6 +61,8 @@
             else
                 Object.assign(existingEntity, self.currentEntity);
 
+            //todo add logic that makes IsDepartmentManager = true
+
             self.currentEntity = null;
             mode = null;
         };
@@ -71,6 +73,8 @@
                     customer.Departments = customer.Departments.filter(item => item.DepartmentId !== entity.DepartmentId);
                 else
                     entity.ActionType = entityActionType.Delete;
+
+                //todo add logic that makes IsDepartmentManager = false
             }
         };
 

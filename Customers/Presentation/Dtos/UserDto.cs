@@ -18,6 +18,8 @@ namespace Presentation.Dtos
         [StringLength(maximumLength: 36)]
         public string DepartmentId { get; set; }
 
+        public bool IsDepartmentManager { get; set; }
+
         [Required]
         [MaxLength(128)]
         public string FirstName { get; set; }
@@ -58,9 +60,8 @@ namespace Presentation.Dtos
             dataModel.Email = this.Email;
             dataModel.Role = UserRole.RegularUser;
             dataModel.UserName = this.UserName;
+            dataModel.IsDepartmentManager = this.IsDepartmentManager;
             dataModel.ActionType = this.ActionType;
-
-            dataModel.IsDepartmentManager = departments.Any(d=>d.ManagerUserId == UserId);
 
             if (dataModel.ActionType == EntityActionType.Add && string.IsNullOrEmpty(this.Password))
                 throw new Exception("User model is not valid");
@@ -87,7 +88,8 @@ namespace Presentation.Dtos
                 LastName = dataModel.LastName,
                 Phone = dataModel.Phone,
                 Email = dataModel.Email,
-                UserName = dataModel.UserName
+                UserName = dataModel.UserName,
+                IsDepartmentManager = dataModel.IsDepartmentManager
             };
 
             return dto;
