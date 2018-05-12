@@ -79,6 +79,12 @@ namespace Data.Repositories
         {
             _dbContext.Customer.Attach(customer);
             _dbContext.Address.Attach(customer.Address);
+            foreach (var department in customer.Departments)
+            {
+                _dbContext.Address.Attach(department.Address);
+                _dbContext.Address.Remove(department.Address);
+            }
+            
             _dbContext.Customer.Remove(customer);
             _dbContext.Address.Remove(customer.Address);
             _dbContext.SaveChanges();
@@ -104,8 +110,6 @@ namespace Data.Repositories
             }
             else if (entity.ActionType == EntityActionType.Delete)
                 _dbContext.Remove(existingEntity);
-
-            //todo add aditional logic for making null when On Department.Manger when User is removed and User.Department when Department is removed.
         }
 
         private Customer GetCustomerWithRelatedData(Guid customerId)

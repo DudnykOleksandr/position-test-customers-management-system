@@ -43,15 +43,17 @@
         };
 
         self.save = function (customer) {
-            if (!$scope.userForm.$valid) {
+            if (!$scope.userForm.$valid)
                 return;
-            }
 
             var existingEntity = customer.Users.find(item => item.UserId === self.currentEntity.UserId);
             if (!existingEntity)
                 customer.Users.push(self.currentEntity)
-            else
+            else {
+                if (existingEntity.DepartmentId !== self.currentEntity.DepartmentId)
+                    self.currentEntity.IsDepartmentManager = false;
                 Object.assign(existingEntity, self.currentEntity);
+            }
 
             self.currentEntity = null;
             mode = null;

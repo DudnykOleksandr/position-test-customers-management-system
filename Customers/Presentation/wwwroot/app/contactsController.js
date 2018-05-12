@@ -39,9 +39,8 @@
         };
 
         self.save = function (customer) {
-            if (!$scope.contactForm.$valid) {
+            if (!$scope.contactForm.$valid)
                 return;
-            }
 
             var existingEntity = customer.Contacts.find(item => item.ContactId === self.currentEntity.ContactId);
             if (!existingEntity)

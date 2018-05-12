@@ -26,6 +26,7 @@
             newCustomer.Address = {};
             newCustomer.Contacts = [];
             newCustomer.Departments = [];
+            newCustomer.Users = [];
             newCustomer.NumberOfSchools = 0;
             newCustomer.ActionType = entityActionType.Add;
 
@@ -56,9 +57,8 @@
         };
 
         self.save = function () {
-            if (!jQuery("[name='customerForm']").get(0).reportValidity()) {
+            if (!jQuery("[name='customerForm']").get(0).reportValidity())
                 return;
-            }
 
             $http.post('Customers/Save',
                 self.currentEntity,

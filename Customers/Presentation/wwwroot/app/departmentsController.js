@@ -13,12 +13,11 @@
 
         self.getManagerUserName = function (department, users) {
             var result = "No manager";
-            if (department.ManagerUserId) {
-                var managerUser = users.find(u => u.UserId === department.ManagerUserId);
+            var managerUser = users.find(u => u.IsDepartmentManager === true);
+            if (managerUser)
                 result = managerUser.UserName;
-            }
             return result;
-        }
+        };
 
         self.create = function (customer) {
             mode = modes.Edit;
@@ -41,27 +40,44 @@
             );
         };
 
-        self.edit = function (entity) {
+        self.edit = function (entity, customer) {
             mode = modes.Edit;
             var copyOfEntity = JSON.parse(JSON.stringify(entity));
             if (copyOfEntity.ActionType !== entityActionType.Add)
                 copyOfEntity.ActionType = entityActionType.Update;
 
+            //select user manager
+            var managerUser = customer.Users.filter(user => user.DepartmentId === entity.DepartmentId).find(user => user.IsDepartmentManager === true);
+            if (managerUser)
+                copyOfEntity.ManagerUserId = managerUser.UserId;
+
             self.currentEntity = copyOfEntity;
         };
 
         self.save = function (customer) {
-            if (!$scope.departmentForm.$valid) {
+            if (!$scope.departmentForm.$valid)
                 return;
-            }
 
             var existingEntity = customer.Departments.find(item => item.DepartmentId === self.currentEntity.DepartmentId);
             if (!existingEntity)
                 customer.Departments.push(self.currentEntity)
-            else
+            else {
                 Object.assign(existingEntity, self.currentEntity);
 
-            //todo add logic that makes IsDepartmentManager = true
+                //setting IsDepartmentManager flag
+                var userManagerId = self.currentEntity.ManagerUserId;
+                customer.Users.filter(user => user.DepartmentId === self.currentEntity.DepartmentId && user.IsDepartmentManager === true)
+                    .forEach(user => {
+                        if (userManagerId && user.UserId !== userManagerId)
+                            user.IsDepartmentManager = false; user.ActionType = entityActionType.Update;
+                    });
+
+                if (userManagerId) {
+                    var managerUser = customer.Users.find(user => user.UserId === userManagerId);
+                    managerUser.IsDepartmentManager = true;
+                    managerUser.ActionType = entityActionType.Update;
+                }
+            }
 
             self.currentEntity = null;
             mode = null;
@@ -74,7 +90,9 @@
                 else
                     entity.ActionType = entityActionType.Delete;
 
-                //todo add logic that makes IsDepartmentManager = false
+                //clearing IsDepartmentManager flag
+                customer.Users.filter(user => user.DepartmentId === entity.DepartmentId && user.IsDepartmentManager === true)
+                    .forEach(user => { user.IsDepartmentManager = false; user.ActionType = entityActionType.Update; });
             }
         };
 

@@ -278,7 +278,7 @@
                                                     <span> {{departmentsCtrl.getManagerUserName(department, customersCtrl.getUsers(department))}} </span>
                                                 </td>
                                                 <td ng-show="customersCtrl.isEditMode()">
-                                                    <a ng-click="departmentsCtrl.edit(department)">Edit</a>
+                                                    <a ng-click="departmentsCtrl.edit(department, customersCtrl.currentEntity)">Edit</a>
                                                     <a ng-click="departmentsCtrl.delete(department, customersCtrl.currentEntity)">Delete</a>
                                                 </td>
                                             </tr>
