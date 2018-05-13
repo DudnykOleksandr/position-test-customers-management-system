@@ -1,26 +1,31 @@
 ﻿using Data.Repositories;
+using Data.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using System.Linq;
+using Bussiness;
+using Microsoft.AspNetCore.Authorization;
+using System;
 
 namespace Presentation.Controllers
 {
     public class AccountController : Controller
     {
         private readonly ICustomerRepository _customerRepository;
+        private readonly IAccountManager _accountManager;
 
-        public AccountController(ICustomerRepository customerRepository)
+        public AccountController(ICustomerRepository customerRepository, IAccountManager accountManager)
         {
             _customerRepository = customerRepository;
+            _accountManager = accountManager;
         }
 
-        //[Authorize]
         [HttpGet]
         public JsonResult IsUserNameUnique(string userName)
-        { 
+        {
             var existingUserNames = _customerRepository.GetAllUserNames();
 
             if (existingUserNames.Contains(userName))
@@ -40,30 +45,54 @@ namespace Presentation.Controllers
         [HttpPost]
         public IActionResult Login(string userName, string password)
         {
-            if (userName == "Admin")
+            if (!string.IsNullOrEmpty(userName) && !string.IsNullOrEmpty(password))
             {
-                var identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme);
-                identity.AddClaim(new Claim(ClaimTypes.Name, userName));
+                var user = _accountManager.VerifyUserPassword(userName, password);
+                if (user != null)
+                {
+                    var identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme);
+                    identity.AddClaim(new Claim(ClaimTypes.Name, userName));
 
-                HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity));
+                    if (user.Role == UserRole.AdminUser)
+                        identity.AddClaim(new Claim("IsAdmin", string.Empty));
+                    else
+                        identity.AddClaim(new Claim("CustomerId", user.CustomerId.ToString()));
 
-                return RedirectToAction("Index", "Customers");
+                    HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity));
+
+                    return RedirectToAction("Index", "Customers");
+                }
             }
-            else
-            {
-                ViewBag.ErrMsg = "UserName or Password is invalid";
+            ViewBag.ErrMsg = "UserName or Password is invalid";
 
-                return View();
-            }
+            return View();
+
         }
 
-        //[Authorize]
+        [Authorize]
         [HttpGet]
         public IActionResult Logout()
         {
             HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
 
             return RedirectToAction("Login", "Account");
+        }
+
+        [HttpGet]
+        public EmptyResult AddDefaultAdminUser()
+        {
+            var user = new User();
+            user.UserId = Guid.NewGuid();
+            user.UserName = "Admin";
+            user.Role = UserRole.AdminUser;
+            user.PasswordHashSalt = AccountManager.GenerateRandomSalt();
+            user.PasswordHash = AccountManager.Hash(user.PasswordHashSalt, "P@ssw0rd");
+            user.Email = "admin@admin";
+            user.FirstName = "admin";
+            user.Phone = "empty";
+            _customerRepository.CreateUser(user);
+
+            return new EmptyResult();
         }
     }
 }

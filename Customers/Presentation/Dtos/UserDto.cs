@@ -3,6 +3,7 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using Bussiness;
 
 namespace Presentation.Dtos
 {
@@ -68,8 +69,8 @@ namespace Presentation.Dtos
 
             if (!string.IsNullOrEmpty(this.Password))
             {
-                dataModel.PasswordHash = this.Password.GetHashCode().ToString();
-                dataModel.PasswordHashSalt = "test";
+                dataModel.PasswordHashSalt = AccountManager.GenerateRandomSalt();
+                dataModel.PasswordHash = AccountManager.Hash(dataModel.PasswordHashSalt, this.Password);
             }
 
 

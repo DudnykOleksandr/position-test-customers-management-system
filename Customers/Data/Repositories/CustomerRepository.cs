@@ -20,15 +20,24 @@ namespace Data.Repositories
             return _dbContext.User.Select(u => u.UserName).ToList();
         }
 
-        public IEnumerable<Customer> GetAll()
+        public User GetUser(string userName)
         {
-            return _dbContext.Customer
-                .Include(c => c.Contacts)
-                .Include(c => c.Address)
-                .Include(c => c.Departments).ThenInclude(cd => cd.Address)
-                .Include(c => c.Departments).ThenInclude(cd => cd.Users)
-                .Include(c => c.Users)
-                .ToList();
+            return _dbContext.User.SingleOrDefault(u => u.UserName == userName);
+        }
+
+        public IEnumerable<Customer> GetAll(string customerId = "")
+        {
+            var result = _dbContext.Customer
+                    .Include(c => c.Contacts)
+                    .Include(c => c.Address)
+                    .Include(c => c.Departments).ThenInclude(cd => cd.Address)
+                    .Include(c => c.Departments).ThenInclude(cd => cd.Users)
+                    .Include(c => c.Users);
+
+            if (!string.IsNullOrEmpty(customerId))
+                result.Where(c => c.CustomerId.ToString() == customerId);
+
+            return result.ToList();
         }
 
         public void Save(Customer customer)
@@ -83,7 +92,7 @@ namespace Data.Repositories
                 _dbContext.Address.Attach(department.Address);
                 _dbContext.Address.Remove(department.Address);
             }
-            
+
             _dbContext.Customer.Remove(customer);
             _dbContext.Address.Remove(customer.Address);
             _dbContext.SaveChanges();
@@ -127,6 +136,12 @@ namespace Data.Repositories
 
             //TODO add specific type of exception
             throw new Exception(string.Format("Customer with Id {0} not found", customerId));
+        }
+
+        public void CreateUser(User user)
+        {
+            _dbContext.User.Add(user);
+            _dbContext.SaveChanges();
         }
     }
 }

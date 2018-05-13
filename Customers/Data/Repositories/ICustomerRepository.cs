@@ -1,5 +1,4 @@
 ﻿using Data.Models;
-using System;
 using System.Collections.Generic;
 
 namespace Data.Repositories
@@ -8,10 +7,14 @@ namespace Data.Repositories
     {
         IEnumerable<string> GetAllUserNames();
 
-        IEnumerable<Customer> GetAll();
+        User GetUser(string userName);
+
+        IEnumerable<Customer> GetAll(string customerId = "");
 
         void Save(Customer customer);
 
         void Delete(Customer customer);
+
+        void CreateUser(User user);
     }
 }

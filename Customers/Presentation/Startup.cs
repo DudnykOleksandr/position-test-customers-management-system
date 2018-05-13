@@ -1,4 +1,5 @@
-﻿using Data.Repositories;
+﻿using Bussiness;
+using Data.Repositories;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -33,17 +34,21 @@ namespace Presentation
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(options => options.LoginPath = new PathString("/Account/Login"));
 
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("Admin", policy => policy.RequireClaim("IsAdmin"));
+            });
+
             var connection = @"Server=PC-218719\SQLEXPRESS;Database=CustomerDB;Trusted_Connection=True;ConnectRetryCount=0";
             services.AddDbContext<CustomerDBContext>(options => options.UseSqlServer(connection));
 
             services.AddScoped<ICustomerRepository, CustomerRepository>();
+            services.AddScoped<IAccountManager, AccountManager>();
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            //Adds the authentication middleware to the pipeline
-            //app.UseAuthentication();
+            app.UseAuthentication();
 
             if (env.IsDevelopment())
             {
