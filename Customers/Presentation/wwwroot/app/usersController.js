@@ -32,7 +32,7 @@
                             $scope.userForm.userName.$setValidity('duplicate', !response.data);
                         }, function (error) {
                             $log.error(error);
-                            alert("Failed");
+                            alert("Failed to check user name uniqueness");
                         });
                 }
             }
@@ -52,7 +52,7 @@
                     self.currentEntity = newEntity;
                 }, function (error) {
                     $log.error(error);
-                    alert("Failed");
+                    alert("Failed to generate identifiers");
                 }
             );
         };

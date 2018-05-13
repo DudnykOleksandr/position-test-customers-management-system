@@ -31,18 +31,29 @@ namespace Presentation.Controllers
 
         public JsonResult GetAll()
         {
-            var customerId = string.Empty;
-            var customerIdClaim = HttpContext.User.Claims.FirstOrDefault(c => c.Type == Constants.CustomerIdClaimTypeName);
-            if (customerIdClaim != null)
-                customerId = customerIdClaim.Value;
-            else
+            try
             {
-                var adminClaim = HttpContext.User.Claims.FirstOrDefault(c => c.Type == Constants.AdminClaimTypeName);
-                if (adminClaim == null)
-                    RedirectToAction("Login", "Account");
+                var customerId = string.Empty;
+                var customerIdClaim = HttpContext.User.Claims.FirstOrDefault(c => c.Type == Constants.CustomerIdClaimTypeName);
+                if (customerIdClaim != null)
+                    customerId = customerIdClaim.Value;
+                else
+                {
+                    var adminClaim = HttpContext.User.Claims.FirstOrDefault(c => c.Type == Constants.AdminClaimTypeName);
+                    if (adminClaim == null)
+                        RedirectToAction("Login", "Account");
+                }
+                var allCustomerDtos = _customerRepository.GetAll(customerId).ToDataModels().ToList();
+                return Json(allCustomerDtos);
             }
-            var allCustomerDtos = _customerRepository.GetAll(customerId).ToDataModels().ToList();
-            return Json(allCustomerDtos);
+            catch (Exception ex)
+            {
+                log.Error(ex);
+                var result = Json(null);
+                result.StatusCode = StatusCodes.Status500InternalServerError;
+
+                return result;
+            }
         }
 
         [HttpPost]
@@ -51,9 +62,17 @@ namespace Presentation.Controllers
         {
             if (ModelState.IsValid)
             {
-                _customerRepository.Save(customerDto.ToDataModel());
-                var allCustomerDtos = _customerRepository.GetAll().ToDataModels().ToList();
-                return Ok(allCustomerDtos);
+                try
+                {
+                    _customerRepository.Save(customerDto.ToDataModel());
+                    var allCustomerDtos = _customerRepository.GetAll().ToDataModels().ToList();
+                    return Ok(allCustomerDtos);
+                }
+                catch (Exception ex)
+                {
+                    log.Error(ex);
+                    return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+                }
             }
             return BadRequest();
         }
@@ -64,9 +83,17 @@ namespace Presentation.Controllers
         {
             if (ModelState.IsValid)
             {
-                _customerRepository.Delete(customerDto.ToDataModel());
-                var allCustomerDtos = _customerRepository.GetAll().ToDataModels().ToList();
-                return Ok(allCustomerDtos);
+                try
+                {
+                    _customerRepository.Delete(customerDto.ToDataModel());
+                    var allCustomerDtos = _customerRepository.GetAll().ToDataModels().ToList();
+                    return Ok(allCustomerDtos);
+                }
+                catch (Exception ex)
+                {
+                    log.Error(ex);
+                    return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+                }
             }
             return BadRequest();
         }

@@ -56,8 +56,6 @@ namespace Presentation
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            app.UseAuthentication();
-
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -67,10 +65,8 @@ namespace Presentation
                 app.UseExceptionHandler("Error");
             }
 
-            var supportedCultures = new[]
-           {
-                new CultureInfo("en")
-            };
+            app.UseAuthentication();
+            var supportedCultures = new[] { new CultureInfo("en") };
             app.UseRequestLocalization(new RequestLocalizationOptions
             {
                 DefaultRequestCulture = new RequestCulture("en"),

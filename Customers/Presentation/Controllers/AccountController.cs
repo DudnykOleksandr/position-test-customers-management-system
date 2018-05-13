@@ -28,14 +28,23 @@ namespace Presentation.Controllers
         [HttpGet]
         public JsonResult IsUserNameUnique(string userName)
         {
-            var existingUserNames = _customerRepository.GetAllUserNames();
-
-            if (existingUserNames.Contains(userName))
+            try
             {
-                return Json(true);
-            }
+                var existingUserNames = _customerRepository.GetAllUserNames();
+                if (existingUserNames.Contains(userName))
+                    return Json(true);
 
-            return Json(false);
+                return Json(false);
+            }
+            catch (Exception ex)
+            {
+                log.Error(ex);
+
+                var result = Json(null);
+                result.StatusCode = StatusCodes.Status500InternalServerError;
+
+                return result;
+            }
         }
 
         [HttpGet]
@@ -47,28 +56,38 @@ namespace Presentation.Controllers
         [HttpPost]
         public IActionResult Login(string userName, string password)
         {
+            ViewBag.ShowErrMsg = false;
+
             if (!string.IsNullOrEmpty(userName) && !string.IsNullOrEmpty(password))
             {
-                var user = _accountManager.VerifyUserPassword(userName, password);
-                if (user != null)
+                try
                 {
-                    var identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme);
-                    identity.AddClaim(new Claim(ClaimTypes.Name, userName));
+                    var user = _accountManager.VerifyUserPassword(userName, password);
+                    if (user != null)
+                    {
+                        var identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme);
+                        identity.AddClaim(new Claim(ClaimTypes.Name, userName));
 
-                    if (user.Role == UserRole.AdminUser)
-                        identity.AddClaim(new Claim(Constants.AdminClaimTypeName, string.Empty));
-                    else
-                        identity.AddClaim(new Claim(Constants.CustomerIdClaimTypeName, user.CustomerId.ToString()));
+                        if (user.Role == UserRole.AdminUser)
+                            identity.AddClaim(new Claim(Constants.AdminClaimTypeName, string.Empty));
+                        else
+                            identity.AddClaim(new Claim(Constants.CustomerIdClaimTypeName, user.CustomerId.ToString()));
 
-                    HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity));
+                        HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity));
 
-                    return RedirectToAction("Index", "Customers");
+                        return RedirectToAction("Index", "Customers");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    log.Error(ex);
+                    return View("Error");
                 }
             }
-            ViewBag.ErrMsg = "UserName or Password is invalid";
+
+            ViewBag.ShowErrMsg = true;
 
             return View();
-
         }
 
         [Authorize]
@@ -80,21 +99,21 @@ namespace Presentation.Controllers
             return RedirectToAction("Login", "Account");
         }
 
-        [HttpGet]
-        public EmptyResult AddDefaultAdminUser()
-        {
-            var user = new User();
-            user.UserId = Guid.NewGuid();
-            user.UserName = "Admin";
-            user.Role = UserRole.AdminUser;
-            user.PasswordHashSalt = AccountManager.GenerateRandomSalt();
-            user.PasswordHash = AccountManager.Hash(user.PasswordHashSalt, "P@ssw0rd");
-            user.Email = "admin@admin";
-            user.FirstName = "admin";
-            user.Phone = "empty";
-            _customerRepository.CreateUser(user);
+        //[HttpGet]
+        //public EmptyResult AddDefaultAdminUser()
+        //{
+        //    var user = new User();
+        //    user.UserId = Guid.NewGuid();
+        //    user.UserName = "Admin";
+        //    user.Role = UserRole.AdminUser;
+        //    user.PasswordHashSalt = AccountManager.GenerateRandomSalt();
+        //    user.PasswordHash = AccountManager.Hash(user.PasswordHashSalt, "P@ssw0rd");
+        //    user.Email = "admin@admin";
+        //    user.FirstName = "admin";
+        //    user.Phone = "empty";
+        //    _customerRepository.CreateUser(user);
 
-            return new EmptyResult();
-        }
+        //    return new EmptyResult();
+        //}
     }
 }

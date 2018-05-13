@@ -117,16 +117,19 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ErrorMsg" xml:space="preserve">
+    <value>*User name or Password is invalid</value>
+  </data>
   <data name="LoginButtonLabel" xml:space="preserve">
     <value>Log in</value>
-  </data>
-  <data name="LoginLabel" xml:space="preserve">
-    <value>Login</value>
   </data>
   <data name="LoginPageLabel" xml:space="preserve">
     <value>Log in page</value>
   </data>
   <data name="PasswordLabel" xml:space="preserve">
     <value>Password</value>
+  </data>
+  <data name="UseNameLabel" xml:space="preserve">
+    <value>User name</value>
   </data>
 </root>

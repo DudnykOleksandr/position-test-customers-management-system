@@ -7,6 +7,8 @@
         var emptyUser = { UserId: '', UserName: '' };
         var emptyDepartment = { DepartmentId: '', Name: '' };
 
+        self.savingErrMsg = null;
+
         self.customers = [];
         self.currentEntity = null;
         self.customerType = customerType;
@@ -38,7 +40,7 @@
                     self.currentEntity = newCustomer;
                 }, function (error) {
                     $log.error(error);
-                    alert("Failed");
+                    alert("Failed to generate identifiers");
                 }
             );
         };
@@ -73,7 +75,7 @@
                     self.customers = response.data;
                 }, function (error) {
                     $log.error(error);
-                    alert("Failed");
+                    alert("Failed to save customer");
                 });
         };
 
@@ -90,7 +92,7 @@
                         self.customers = response.data;
                     }, function (error) {
                         $log.error(error);
-                        alert("Failed");
+                        alert("Failed to delete customer");
                     });
             }
         };
@@ -136,7 +138,7 @@
                     self.customers = response.data;
                 }, function (error) {
                     $log.error(error);
-                    alert("Failed");
+                    alert("Failed to load customers");
                 });
         };
 

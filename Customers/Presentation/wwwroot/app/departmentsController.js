@@ -35,7 +35,7 @@
                     self.currentEntity = newEntity;
                 }, function (error) {
                     $log.error(error);
-                    alert("Failed");
+                    alert("Failed to generate identifiers");
                 }
             );
         };

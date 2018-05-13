@@ -1,1 +1,14 @@
 INFO  2018-05-13 17:19:11,926   350ms Program                ?                  - Application - Main is invoked
+INFO  2018-05-13 19:49:05,493   119ms Program                ?                  - Application - Main is invoked
+INFO  2018-05-13 20:39:37,645   134ms Program                ?                  - Application - Main is invoked
+INFO  2018-05-13 20:39:58,019   409ms Program                ?                  - Application - Main is invoked
+INFO  2018-05-13 20:42:04,806   118ms Program                ?                  - Application - Main is invoked
+INFO  2018-05-13 20:42:14,177   313ms Program                ?                  - Application - Main is invoked
+ERROR 2018-05-13 20:43:19,246 65382ms AccountController      ?                  - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Presentation.Controllers.AccountController.Login(String userName, String password) in D:\Git Projects\test\Customers\Presentation\Controllers\AccountController.cs:line 71
+ERROR 2018-05-13 20:44:52,192 158328ms CustomersController    ?                  - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Presentation.Controllers.CustomersController.GetAll() in D:\Git Projects\test\Customers\Presentation\Controllers\CustomersController.cs:line 39
+INFO  2018-05-13 20:48:24,901   385ms Program                ?                  - Application - Main is invoked
+ERROR 2018-05-13 20:48:56,496 31980ms CustomersController    ?                  - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Presentation.Controllers.CustomersController.GetAll() in D:\Git Projects\test\Customers\Presentation\Controllers\CustomersController.cs:line 39
+INFO  2018-05-13 20:52:50,285   342ms Program                ?                  - Application - Main is invoked

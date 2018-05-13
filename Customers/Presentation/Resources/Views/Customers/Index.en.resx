@@ -225,4 +225,10 @@
   <data name="DuplicateLabel" xml:space="preserve">
     <value>*duplicate</value>
   </data>
+  <data name="SavingErrMsg" xml:space="preserve">
+    <value>*Problem happend on saving</value>
+  </data>
+  <data name="ValidationErrMsg" xml:space="preserve">
+    <value>*Customer is not valid</value>
+  </data>
 </root>

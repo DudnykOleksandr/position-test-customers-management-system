@@ -16,13 +16,19 @@
                     <h4>@Localizer["LoginPageLabel"]</h4>
                     <hr />
                     <div class="form-group">
-                        <label>@Localizer["LoginLabel"]</label>
+                        <label>@Localizer["UseNameLabel"]</label>
                         <input type="text" name="userName" class="form-control" required />
                     </div>
                     <div class="form-group">
                         <label>@Localizer["PasswordLabel"]</label>
                         <input type="password" name="password" class="form-control" required />
                     </div>
+                    @if (ViewBag.ShowErrMsg != null && ViewBag.ShowErrMsg)
+                    {
+                        <div class="form-group">
+                            <span class="text-danger">@Localizer["ErrorMsg"]</span>
+                        </div>
+                    }
                     <div class="form-group">
                         <button type="submit" class="btn btn-default">@Localizer["LoginButtonLabel"]</button>
                     </div>
