@@ -25,7 +25,7 @@ namespace WebApplication1.Models
         {
             modelBuilder.Entity<Address>(entity =>
             {
-                entity.Property(e => e.Id).ValueGeneratedNever();
+                entity.Property(e => e.AddressId).ValueGeneratedNever();
 
                 entity.Property(e => e.Address1)
                     .IsRequired()
@@ -43,7 +43,7 @@ namespace WebApplication1.Models
 
             modelBuilder.Entity<Contact>(entity =>
             {
-                entity.Property(e => e.Id).ValueGeneratedNever();
+                entity.Property(e => e.ContactId).ValueGeneratedNever();
 
                 entity.Property(e => e.Email)
                     .IsRequired()
@@ -53,6 +53,11 @@ namespace WebApplication1.Models
                 entity.Property(e => e.Name)
                     .IsRequired()
                     .HasMaxLength(50);
+
+                entity.Property(e => e.Phone)
+                    .IsRequired()
+                    .HasMaxLength(30)
+                    .IsUnicode(false);
 
                 entity.Property(e => e.Role)
                     .IsRequired()
@@ -66,7 +71,7 @@ namespace WebApplication1.Models
 
             modelBuilder.Entity<Customer>(entity =>
             {
-                entity.Property(e => e.Id).ValueGeneratedNever();
+                entity.Property(e => e.CustomerId).ValueGeneratedNever();
 
                 entity.Property(e => e.Comments).HasMaxLength(100);
 
@@ -93,7 +98,7 @@ namespace WebApplication1.Models
 
             modelBuilder.Entity<Department>(entity =>
             {
-                entity.Property(e => e.Id).ValueGeneratedNever();
+                entity.Property(e => e.DepartmentId).ValueGeneratedNever();
 
                 entity.Property(e => e.Name)
                     .IsRequired()
@@ -113,7 +118,19 @@ namespace WebApplication1.Models
 
             modelBuilder.Entity<User>(entity =>
             {
-                entity.Property(e => e.Id).ValueGeneratedNever();
+                entity.HasIndex(e => e.UserName)
+                    .HasName("UQ_UserName")
+                    .IsUnique();
+
+                entity.HasIndex(e => new { e.DepartmentId, e.IsDepartmentManager })
+                    .HasName("UQ_IsDepartmentManager")
+                    .IsUnique();
+
+                entity.HasIndex(e => new { e.PasswordHash, e.PasswordHashSalt })
+                    .HasName("UQ_Password")
+                    .IsUnique();
+
+                entity.Property(e => e.UserId).ValueGeneratedNever();
 
                 entity.Property(e => e.Email)
                     .IsRequired()
@@ -148,6 +165,7 @@ namespace WebApplication1.Models
                 entity.HasOne(d => d.Customer)
                     .WithMany(p => p.User)
                     .HasForeignKey(d => d.CustomerId)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("FK_User_Customer");
 
                 entity.HasOne(d => d.Department)

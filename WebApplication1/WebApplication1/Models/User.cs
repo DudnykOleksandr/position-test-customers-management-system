@@ -5,8 +5,8 @@ namespace WebApplication1.Models
 {
     public partial class User
     {
-        public Guid Id { get; set; }
-        public Guid CustomerId { get; set; }
+        public Guid UserId { get; set; }
+        public Guid? CustomerId { get; set; }
         public Guid? DepartmentId { get; set; }
         public bool IsDepartmentManager { get; set; }
         public string FirstName { get; set; }

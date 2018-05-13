@@ -27,34 +27,5 @@ namespace WebApplication1
         {
             return Json(_context.Customer.ToList());
         }
-
-        [HttpPost]
-        public JsonResult CreateFromJson([FromBody]Customer customer)
-        {
-            if (customer.CustomerId == Guid.Empty) {
-                customer.CustomerId = Guid.NewGuid();
-                _context.Entry(customer).State = EntityState.Added;
-            }
-            else
-                _context.Entry(customer).State = EntityState.Modified;
-
-            foreach (var contact in customer.Contacts)
-            {
-                if (contact.ContactId == Guid.Empty)
-                {
-                    contact.ContactId = Guid.NewGuid();
-                    _context.Entry(contact).State = EntityState.Added;
-                }
-                else
-                    _context.Entry(contact).State = EntityState.Modified;
-            }
-
-            if (ModelState.IsValid)
-            {
-                _context.Add(customer);
-                _context.SaveChanges();
-            }
-            return GetAllCustomers();
-        }
     }
 }
