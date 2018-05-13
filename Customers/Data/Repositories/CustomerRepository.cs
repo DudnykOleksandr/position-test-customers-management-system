@@ -27,7 +27,7 @@ namespace Data.Repositories
 
         public IEnumerable<Customer> GetAll(string customerId = "")
         {
-            var result = _dbContext.Customer
+            var query = _dbContext.Customer
                     .Include(c => c.Contacts)
                     .Include(c => c.Address)
                     .Include(c => c.Departments).ThenInclude(cd => cd.Address)
@@ -35,9 +35,9 @@ namespace Data.Repositories
                     .Include(c => c.Users);
 
             if (!string.IsNullOrEmpty(customerId))
-                result.Where(c => c.CustomerId.ToString() == customerId);
+                return query.Where(c => c.CustomerId.ToString() == customerId).ToList();
 
-            return result.ToList();
+            return query.ToList();
         }
 
         public void Save(Customer customer)

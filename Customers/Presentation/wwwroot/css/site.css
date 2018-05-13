@@ -11,3 +11,29 @@
 a:hover, a:focus {
     cursor: pointer;
 }
+
+.login-box {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+}
+
+.navbar.custom {
+    background-color: #eee !important;
+}
+
+.navbar.custom {
+    background-color: #eee !important;
+}
+
+    .navbar.custom h4 {
+        color: #9d9d9d !important;
+    }
+
+.nav.navbar-nav.custom {
+    position: fixed;
+    right: 0;
+}

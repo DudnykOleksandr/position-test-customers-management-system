@@ -1,4 +1,5 @@
 ﻿@using Microsoft.AspNetCore.Mvc.Localization
+@using Data.Models
 @inject IViewLocalizer Localizer
 
 <!DOCTYPE html>
@@ -11,16 +12,15 @@
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
 <body>
-    <nav class="navbar" style="background-color: #eee;">
+    <nav class="navbar custom">
         <div class="container">
             <div class="navbar-header">
-                <h4 style="color: #9d9d9d;">
+                <h4>
                     @Html.ActionLink(Localizer["ApplicationLabel"].Value, "Index", "Customers")
                 </h4>
             </div>
             <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav" style="position: fixed; right: 0;">
-                    <li>@Html.ActionLink("Log In", "LogIn", "Account")</li>
+                <ul class="nav navbar-nav custom">
                     <li>@Html.ActionLink("Log Out", "LogOut", "Account")</li>
                 </ul>
             </div>
@@ -30,32 +30,32 @@
     <div class="container body-content" ng-controller="CustomersController as customersCtrl">
         <div ng-show="!customersCtrl.isDetailEditVisible()">
             <div class="form-group row">
-                <label class="control-label">Customers</label>
+                <label class="control-label">@Localizer["CustomersLabel"]</label>
             </div>
             <div class="form-group row">
-                <a ng-click="customersCtrl.create()">Add new customer</a>
+                <a ng-click="customersCtrl.create()">@Localizer["AddNewCustomerLabel"]</a>
             </div>
             <div class="form-group row">
                 <table class="table">
                     <thead>
                         <tr>
                             <th>
-                                Name
+                                @Localizer["NameLabel"]
                             </th>
                             <th>
-                                Email
+                                @Localizer["EmailLabel"]
                             </th>
                             <th>
-                                Phone
+                                @Localizer["PhoneLabel"]
                             </th>
                             <th>
-                                Comments
+                                @Localizer["CommentsLabel"]
                             </th>
                             <th>
-                                Address
+                                @Localizer["AddressLabel"]
                             </th>
                             <th>
-                                Actions
+                                @Localizer["ActionsLabel"]
                             </th>
                         </tr>
                     </thead>
@@ -77,9 +77,12 @@
                                 <span> {{customer.Address.Address}} </span>
                             </td>
                             <td>
-                                <a ng-click="customersCtrl.showDetails(customer)">Details</a>
-                                <a ng-click="customersCtrl.edit(customer)">Edit</a>
-                                <a ng-click="customersCtrl.delete(customer)">Delete</a>
+                                <a ng-click="customersCtrl.showDetails(customer)">@Localizer["DetailsLabel"]</a>
+                                @if (ViewBag.IsAdmin)
+                                {
+                                <a ng-click="customersCtrl.edit(customer)">@Localizer["EditLabel"]</a>
+                                <a ng-click="customersCtrl.delete(customer)">@Localizer["DeleteLabel"]</a>
+                                }
                             </td>
                         </tr>
                     </tbody>
@@ -90,68 +93,71 @@
             <section ng-controller="TabsController as tabsCtrl">
                 <ul class="nav nav-pills">
                     <li ng-class="{ active:tabsCtrl.isSet(1) }">
-                        <a href="" ng-click="tabsCtrl.setTab(1)">General Info</a>
+                        <a href="" ng-click="tabsCtrl.setTab(1)">@Localizer["GeneralInfoLabel"]</a>
                     </li>
-                    <li ng-class="{ active:tabsCtrl.isSet(2) }">
-                        <a href="" ng-click="tabsCtrl.setTab(2)">Departments</a>
-                    </li>
-                    <li ng-class="{ active:tabsCtrl.isSet(3) }">
-                        <a href="" ng-click="tabsCtrl.setTab(3)">Users</a>
-                    </li>
+                    @if (ViewBag.IsAdmin)
+                    {
+                        <li ng-class="{ active:tabsCtrl.isSet(2) }">
+                            <a href="" ng-click="tabsCtrl.setTab(2)">@Localizer["DepartmentsLabel"]</a>
+                        </li>
+                        <li ng-class="{ active:tabsCtrl.isSet(3) }">
+                            <a href="" ng-click="tabsCtrl.setTab(3)">@Localizer["UsersLabel"]</a>
+                        </li>
+                    }
                 </ul>
                 <br>
                 <div ng-show="tabsCtrl.isSet(1)">
                     <form name="customerForm">
                         <div class="form-group row">
                             <div class="col-sm-2">
-                                <label class="control-label">Name</label>
+                                <label class="control-label">@Localizer["NameLabel"]</label>
                                 <input type="text" class="form-control" ng-model="customersCtrl.currentEntity.Name" required maxlength="50" />
                             </div>
                             <div class="col-sm-2">
-                                <label class="control-label">Email</label>
+                                <label class="control-label">@Localizer["EmailLabel"]</label>
                                 <input type="email" class="form-control" ng-model="customersCtrl.currentEntity.Email" required maxlength="100" />
                             </div>
                             <div class="col-sm-2">
-                                <label class="control-label">Phone</label>
+                                <label class="control-label">@Localizer["PhoneLabel"]</label>
                                 <input type="tel" class="form-control" ng-model="customersCtrl.currentEntity.Phone" required maxlength="30" />
                             </div>
                             <div class="col-sm-2">
-                                <label class="control-label">Comments</label>
+                                <label class="control-label">@Localizer["CommentsLabel"]</label>
                                 <input type="text" class="form-control" ng-model="customersCtrl.currentEntity.Comments" maxlength="100" />
                             </div>
                             <div class="col-sm-2">
-                                <label class="control-label">Customer Type</label>
+                                <label class="control-label">@Localizer["CustomerTypeLabel"]</label>
                                 <select class="form-control" ng-model="customersCtrl.currentEntity.Type"
                                         ng-options="key for (key, value) in customersCtrl.customerType" required>
                                     <option value="" ng-show="false"></option>
                                 </select>
                             </div>
                             <div class="col-sm-2" ng-show="customersCtrl.currentEntity.Type == customersCtrl.customerType.Municipality">
-                                <label class="control-label">Number of schools</label>
+                                <label class="control-label">@Localizer["NumberSchoolsLabel"]</label>
                                 <input type="number" class="form-control" ng-model="customersCtrl.currentEntity.NumberOfSchools" min="0" />
                             </div>
                         </div>
                         <div class="form-group row">
                             <div class="col-sm-2">
-                                <label class="control-label">Address</label>
+                                <label class="control-label">@Localizer["AddressLabel"]</label>
                             </div>
                             <div class="col-sm-2">
-                                <label class="control-label">Country</label>
+                                <label class="control-label">@Localizer["CountryLabel"]</label>
                                 <input type="text" class="form-control" ng-model="customersCtrl.currentEntity.Address.Country" required maxlength="30" />
                             </div>
                             <div class="col-sm-2">
-                                <label class="control-label">City</label>
+                                <label class="control-label">@Localizer["CityLabel"]</label>
                                 <input type="text" class="form-control" ng-model="customersCtrl.currentEntity.Address.City" required maxlength="30" />
                             </div>
                             <div class="col-sm-2">
-                                <label class="control-label">Address</label>
+                                <label class="control-label">@Localizer["AddressLabel"]</label>
                                 <input type="text" class="form-control" ng-model="customersCtrl.currentEntity.Address.Address" required maxlength="100" />
                             </div>
                         </div>
                     </form>
                     <div class="form-group row">
                         <div class="col-sm-12">
-                            <label class="control-label">Contacts</label>
+                            <label class="control-label">@Localizer["ContactsLabel"]</label>
                             <div ng-controller="ContactsController as contactsCtrl">
                                 <div ng-show="!contactsCtrl.isDetailEditVisible()">
                                     <a ng-show="customersCtrl.isEditMode()" ng-click="contactsCtrl.create(customersCtrl.currentEntity)">Add new contact</a>
@@ -159,19 +165,19 @@
                                         <thead>
                                             <tr>
                                                 <th>
-                                                    Name
+                                                    @Localizer["NameLabel"]
                                                 </th>
                                                 <th>
-                                                    Role
+                                                    @Localizer["RoleLabel"]
                                                 </th>
                                                 <th>
-                                                    Phone
+                                                    @Localizer["PhoneLabel"]
                                                 </th>
                                                 <th>
-                                                    Email
+                                                    @Localizer["EmailLabel"]
                                                 </th>
                                                 <th>
-                                                    Actions
+                                                    @Localizer["ActionsLabel"]
                                                 </th>
                                             </tr>
                                         </thead>
@@ -190,8 +196,8 @@
                                                     <span> {{contact.Email}} </span>
                                                 </td>
                                                 <td ng-show="customersCtrl.isEditMode()">
-                                                    <a ng-click="contactsCtrl.edit(contact)">Edit</a>
-                                                    <a ng-click="contactsCtrl.delete(contact, customersCtrl.currentEntity)">Delete</a>
+                                                    <a ng-click="contactsCtrl.edit(contact)">@Localizer["EditLabel"]</a>
+                                                    <a ng-click="contactsCtrl.delete(contact, customersCtrl.currentEntity)">@Localizer["DeleteLabel"]</a>
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -201,31 +207,34 @@
                                     <form name="contactForm">
                                         <div class="form-group row">
                                             <div class="col-sm-2">
-                                                <label class="control-label">Name</label>
+                                                <label class="control-label">@Localizer["NameLabel"]</label>
                                                 <input type="text" class="form-control" ng-model="contactsCtrl.currentEntity.Name" required maxlength="50" />
                                             </div>
                                             <div class="col-sm-2">
-                                                <label class="control-label">Role</label>
+                                                <label class="control-label">@Localizer["RoleLabel"]</label>
                                                 <input type="text" class="form-control" ng-model="contactsCtrl.currentEntity.Role" required maxlength="20" />
                                             </div>
                                             <div class="col-sm-2">
-                                                <label class="control-label">Phone</label>
+                                                <label class="control-label">@Localizer["PhoneLabel"]</label>
                                                 <input type="tel" class="form-control" ng-model="contactsCtrl.currentEntity.Phone" required maxlength="30" />
                                             </div>
                                             <div class="col-sm-2">
-                                                <label class="control-label">Email</label>
+                                                <label class="control-label">@Localizer["EmailLabel"]</label>
                                                 <input type="email" class="form-control" ng-model="contactsCtrl.currentEntity.Email" required maxlength="100" />
                                             </div>
                                         </div>
                                         <div class="form-group row">
                                             <div class="col-sm-2" ng-show="contactsCtrl.isDetailEditVisible()">
-                                                <input type="button" class="btn btn-info" ng-click="contactsCtrl.discard()" value="Discard changes (Go back)" />
+                                                <input type="button" class="btn btn-info" ng-click="contactsCtrl.discard()" value="@Localizer["GoBackLabel"]" />
                                             </div>
-                                            <div class="col-sm-2" ng-show="contactsCtrl.isEditMode()">
-                                                <input type="submit" class="btn btn-success"
-                                                       ng-click="contactsCtrl.save(customersCtrl.currentEntity)"
-                                                       value="Save contact" />
-                                            </div>
+                                            @if (ViewBag.IsAdmin)
+                                            {
+                                                <div class="col-sm-2" ng-show="contactsCtrl.isEditMode()">
+                                                    <input type="submit" class="btn btn-success"
+                                                           ng-click="contactsCtrl.save(customersCtrl.currentEntity)"
+                                                           value="@Localizer["SaveContactLabel"]" />
+                                                </div>
+                                            }
                                         </div>
                                     </form>
                                 </div>
@@ -233,229 +242,240 @@
                         </div>
                     </div>
                 </div>
-                <div ng-show="tabsCtrl.isSet(2)">
-                    <div class="form-group row">
-                        <div class="col-sm-12">
-                            <div ng-controller="DepartmentsController as departmentsCtrl">
-                                <div ng-show="!departmentsCtrl.isDetailEditVisible()">
-                                    <a ng-show="customersCtrl.isEditMode()"
-                                       ng-click="departmentsCtrl.create(customersCtrl.currentEntity)">Add new department</a>
-                                    <table class="table">
-                                        <thead>
-                                            <tr>
-                                                <th>
-                                                    Name
-                                                </th>
-                                                <th>
-                                                    Address country
-                                                </th>
-                                                <th>
-                                                    Address city
-                                                </th>
-                                                <th>
-                                                    Address
-                                                </th>
-                                                <th>
-                                                    Manager
-                                                </th>
-                                                <th>
-                                                    Actions
-                                                </th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr ng-repeat="department in customersCtrl.getDepartments()">
-                                                <td>
-                                                    <span> {{department.Name}} </span>
-                                                </td>
-                                                <td>
-                                                    <span> {{department.Address.Country}} </span>
-                                                </td>
-                                                <td>
-                                                    <span> {{department.Address.City}} </span>
-                                                </td>
-                                                <td>
-                                                    <span> {{department.Address.Address}} </span>
-                                                </td>
-                                                <td>
-                                                    <span> {{departmentsCtrl.getManagerUserName(department, customersCtrl.getUsers(department))}} </span>
-                                                </td>
-                                                <td ng-show="customersCtrl.isEditMode()">
-                                                    <a ng-click="departmentsCtrl.edit(department, customersCtrl.currentEntity)">Edit</a>
-                                                    <a ng-click="departmentsCtrl.delete(department, customersCtrl.currentEntity)">Delete</a>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div ng-show="departmentsCtrl.isDetailEditVisible()">
-                                    <form name="departmentForm">
-                                        <div class="form-group row">
-                                            <div class="col-sm-2">
-                                                <label class="control-label">Name</label>
-                                                <input type="text" class="form-control" ng-model="departmentsCtrl.currentEntity.Name" required maxlength="50" />
+                @if (ViewBag.IsAdmin)
+                {
+                    <div ng-show="tabsCtrl.isSet(2)">
+                        <div class="form-group row">
+                            <div class="col-sm-12">
+                                <div ng-controller="DepartmentsController as departmentsCtrl">
+                                    <div ng-show="!departmentsCtrl.isDetailEditVisible()">
+                                        <a ng-show="customersCtrl.isEditMode()"
+                                           ng-click="departmentsCtrl.create(customersCtrl.currentEntity)">@Localizer["AddDepartmentLabel"]</a>
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th>
+                                                        @Localizer["NameLabel"]
+                                                    </th>
+                                                    <th>
+                                                        @Localizer["AddressLabel"] @Localizer["CountryLabel"]
+                                                    </th>
+                                                    <th>
+                                                        @Localizer["AddressLabel"] @Localizer["CityLabel"]
+                                                    </th>
+                                                    <th>
+                                                        @Localizer["AddressLabel"]
+                                                    </th>
+                                                    <th>
+                                                        @Localizer["ManagerLabel"]
+                                                    </th>
+                                                    <th>
+                                                        @Localizer["ActionsLabel"]
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="department in customersCtrl.getDepartments()">
+                                                    <td>
+                                                        <span> {{department.Name}} </span>
+                                                    </td>
+                                                    <td>
+                                                        <span> {{department.Address.Country}} </span>
+                                                    </td>
+                                                    <td>
+                                                        <span> {{department.Address.City}} </span>
+                                                    </td>
+                                                    <td>
+                                                        <span> {{department.Address.Address}} </span>
+                                                    </td>
+                                                    <td>
+                                                        <span> {{departmentsCtrl.getManagerUserName(department, customersCtrl.getUsers(department))}} </span>
+                                                    </td>
+                                                    <td ng-show="customersCtrl.isEditMode()">
+                                                        <a ng-click="departmentsCtrl.edit(department, customersCtrl.currentEntity)">@Localizer["EditLabel"]</a>
+                                                        <a ng-click="departmentsCtrl.delete(department, customersCtrl.currentEntity)">@Localizer["DeleteLabel"]</a>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div ng-show="departmentsCtrl.isDetailEditVisible()">
+                                        <form name="departmentForm">
+                                            <div class="form-group row">
+                                                <div class="col-sm-2">
+                                                    <label class="control-label">@Localizer["NameLabel"]</label>
+                                                    <input type="text" class="form-control" ng-model="departmentsCtrl.currentEntity.Name" required maxlength="50" />
+                                                </div>
+                                                <div class="col-sm-2">
+                                                    <label class="control-label">@Localizer["ManagerLabel"]</label>
+                                                    <select class="form-control" ng-model="departmentsCtrl.currentEntity.ManagerUserId"
+                                                            ng-options="user.UserId as user.UserName for user in customersCtrl.getUsers(departmentsCtrl.currentEntity, 'true')"></select>
+                                                </div>
+                                                <div class="col-sm-2">
+                                                    <label class="control-label">@Localizer["AddressLabel"] @Localizer["CountryLabel"]</label>
+                                                    <input type="text" class="form-control" ng-model="departmentsCtrl.currentEntity.Address.Country" required maxlength="30" />
+                                                </div>
+                                                <div class="col-sm-2">
+                                                    <label class="control-label">@Localizer["AddressLabel"] @Localizer["CityLabel"]</label>
+                                                    <input type="text" class="form-control" ng-model="departmentsCtrl.currentEntity.Address.City" required maxlength="30" />
+                                                </div>
+                                                <div class="col-sm-2">
+                                                    <label class="control-label">@Localizer["AddressLabel"]</label>
+                                                    <input type="text" class="form-control" ng-model="departmentsCtrl.currentEntity.Address.Address" required maxlength="100" />
+                                                </div>
                                             </div>
-                                            <div class="col-sm-2">
-                                                <label class="control-label">Manager</label>
-                                                <select class="form-control" ng-model="departmentsCtrl.currentEntity.ManagerUserId"
-                                                        ng-options="user.UserId as user.UserName for user in customersCtrl.getUsers(departmentsCtrl.currentEntity, 'true')"></select>
+                                            <div class="form-group row">
+                                                <div class="col-sm-2" ng-show="departmentsCtrl.isDetailEditVisible()">
+                                                    <input type="button" class="btn btn-info" ng-click="departmentsCtrl.discard()" value="@Localizer["GoBackLabel"]" />
+                                                </div>
+                                                <div class="col-sm-2" ng-show="departmentsCtrl.isEditMode()">
+                                                    <input type="submit" class="btn btn-success"
+                                                           ng-click="departmentsCtrl.save(customersCtrl.currentEntity)"
+                                                           value="@Localizer["SaveDepartmentLabel"]" />
+                                                </div>
                                             </div>
-                                            <div class="col-sm-2">
-                                                <label class="control-label">Address country</label>
-                                                <input type="text" class="form-control" ng-model="departmentsCtrl.currentEntity.Address.Country" required maxlength="30" />
-                                            </div>
-                                            <div class="col-sm-2">
-                                                <label class="control-label">Address City</label>
-                                                <input type="text" class="form-control" ng-model="departmentsCtrl.currentEntity.Address.City" required maxlength="30" />
-                                            </div>
-                                            <div class="col-sm-2">
-                                                <label class="control-label">Address</label>
-                                                <input type="text" class="form-control" ng-model="departmentsCtrl.currentEntity.Address.Address" required maxlength="100" />
-                                            </div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <div class="col-sm-2" ng-show="departmentsCtrl.isDetailEditVisible()">
-                                                <input type="button" class="btn btn-info" ng-click="departmentsCtrl.discard()" value="Discard changes (Go back)" />
-                                            </div>
-                                            <div class="col-sm-2" ng-show="departmentsCtrl.isEditMode()">
-                                                <input type="submit" class="btn btn-success"
-                                                       ng-click="departmentsCtrl.save(customersCtrl.currentEntity)"
-                                                       value="Save department" />
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div ng-show="tabsCtrl.isSet(3)">
-                    <div class="form-group row">
-                        <div class="col-sm-12">
-                            <div ng-controller="UsersController as usersCtrl">
-                                <div ng-show="!usersCtrl.isDetailEditVisible()">
-                                    <a ng-show="customersCtrl.isEditMode()"
-                                       ng-click="usersCtrl.create(customersCtrl.currentEntity)">Add new user</a>
-                                    <table class="table">
-                                        <thead>
-                                            <tr>
-                                                <th>
-                                                    FirstName
-                                                </th>
-                                                <th>
-                                                    MiddleName
-                                                </th>
-                                                <th>
-                                                    LastName
-                                                </th>
-                                                <th>
-                                                    Phone
-                                                </th>
-                                                <th>
-                                                    Email
-                                                </th>
-                                                <th>
-                                                    UserName
-                                                </th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr ng-repeat="user in customersCtrl.getUsers()">
-                                                <td>
-                                                    <span> {{user.FirstName}} </span>
-                                                </td>
-                                                <td>
-                                                    <span> {{user.MiddleName}} </span>
-                                                </td>
-                                                <td>
-                                                    <span> {{user.LastName}} </span>
-                                                </td>
-                                                <td>
-                                                    <span> {{user.Phone}} </span>
-                                                </td>
-                                                <td>
-                                                    <span> {{user.Email}} </span>
-                                                </td>
-                                                <td>
-                                                    <span> {{user.UserName}} </span>
-                                                </td>
-                                                <td ng-show="customersCtrl.isEditMode()">
-                                                    <a ng-click="usersCtrl.edit(user)">Edit</a>
-                                                    <a ng-click="usersCtrl.delete(user, customersCtrl.currentEntity)">Delete</a>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div ng-show="usersCtrl.isDetailEditVisible()">
-                                    <form name="userForm">
-                                        <div class="form-group row">
-                                            <div class="col-sm-2">
-                                                <label class="control-label">FirstName</label>
-                                                <input type="text" class="form-control" ng-model="usersCtrl.currentEntity.FirstName" required maxlength="128" />
-                                            </div>
-                                            <div class="col-sm-2">
-                                                <label class="control-label">MiddleName</label>
-                                                <input type="text" class="form-control" ng-model="usersCtrl.currentEntity.MiddleName" maxlength="128" />
-                                            </div>
-                                            <div class="col-sm-2">
-                                                <label class="control-label">Phone</label>
-                                                <input type="tel" class="form-control" ng-model="usersCtrl.currentEntity.Phone" required maxlength="30" />
-                                            </div>
-                                            <div class="col-sm-2">
-                                                <label class="control-label">Email</label>
-                                                <input type="email" class="form-control" ng-model="usersCtrl.currentEntity.Email" required maxlength="100" />
-                                            </div>
-                                            <div class="col-sm-2">
-                                                <label class="control-label">Department</label>
-                                                <select class="form-control" ng-model="usersCtrl.currentEntity.DepartmentId"
-                                                        ng-options="department.DepartmentId as department.Name for department in customersCtrl.getDepartments('true')"></select>
-                                            </div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <div class="col-sm-2">
-                                                <label class="control-label">UserName</label>
-                                                <input type="text" class="form-control" ng-model="usersCtrl.currentEntity.UserName"
-                                                       required pattern="^[a-zA-Z][a-zA-Z0-9-_\.]{1,30}$" />
-                                            </div>
-                                            <div class="col-sm-2">
-                                                <label class="control-label">Password</label>
-                                                <input type="password" class="form-control" ng-model="usersCtrl.currentEntity.Password"
-                                                       title="Enter an ID consisting of 4-8 hexadecimal digits" ng-required="usersCtrl.isPasswordRequired()" pattern="[0-9a-zA-Z]{4,8}" />
-                                            </div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <div class="col-sm-2" ng-show="usersCtrl.isDetailEditVisible()">
-                                                <input type="button" class="btn btn-info" ng-click="usersCtrl.discard()" value="Discard changes (Go back)" />
-                                            </div>
-                                            <div class="col-sm-2" ng-show="usersCtrl.isEditMode()">
-                                                <input type="submit" class="btn btn-success"
-                                                       ng-click="usersCtrl.save(customersCtrl.currentEntity)"
-                                                       value="Save user" />
-                                            </div>
-                                        </div>
-                                    </form>
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                    <div ng-show="tabsCtrl.isSet(3)">
+                        <div class="form-group row">
+                            <div class="col-sm-12">
+                                <div ng-controller="UsersController as usersCtrl">
+                                    <div ng-show="!usersCtrl.isDetailEditVisible()">
+                                        <a ng-show="customersCtrl.isEditMode()"
+                                           ng-click="usersCtrl.create(customersCtrl.currentEntity)">@Localizer["AddUserLabel"]</a>
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th>
+                                                        @Localizer["FirstNameLabel"]
+                                                    </th>
+                                                    <th>
+                                                        @Localizer["MiddleNameLabel"]
+                                                    </th>
+                                                    <th>
+                                                        @Localizer["LastNameLabel"]
+                                                    </th>
+                                                    <th>
+                                                        @Localizer["PhoneLabel"]
+                                                    </th>
+                                                    <th>
+                                                        @Localizer["EmailLabel"]
+                                                    </th>
+                                                    <th>
+                                                        @Localizer["UserNameLabel"]
+                                                        
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="user in customersCtrl.getUsers()">
+                                                    <td>
+                                                        <span> {{user.FirstName}} </span>
+                                                    </td>
+                                                    <td>
+                                                        <span> {{user.MiddleName}} </span>
+                                                    </td>
+                                                    <td>
+                                                        <span> {{user.LastName}} </span>
+                                                    </td>
+                                                    <td>
+                                                        <span> {{user.Phone}} </span>
+                                                    </td>
+                                                    <td>
+                                                        <span> {{user.Email}} </span>
+                                                    </td>
+                                                    <td>
+                                                        <span> {{user.UserName}} </span>
+                                                    </td>
+                                                    <td ng-show="customersCtrl.isEditMode()">
+                                                        <a ng-click="usersCtrl.edit(user)">@Localizer["EditLabel"]</a>
+                                                        <a ng-click="usersCtrl.delete(user, customersCtrl.currentEntity)">@Localizer["DeleteLabel"]</a>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div ng-show="usersCtrl.isDetailEditVisible()">
+                                        <form name="userForm">
+                                            <div class="form-group row">
+                                                <div class="col-sm-2">
+                                                    <label class="control-label">@Localizer["FirstNameLabel"]</label>
+                                                    <input type="text" class="form-control" ng-model="usersCtrl.currentEntity.FirstName" required maxlength="128" />
+                                                </div>
+                                                <div class="col-sm-2">
+                                                    <label class="control-label">@Localizer["MiddleNameLabel"]</label>
+                                                    <input type="text" class="form-control" ng-model="usersCtrl.currentEntity.MiddleName" maxlength="128" />
+                                                </div>
+                                                <div class="col-sm-2">
+                                                    <label class="control-label">@Localizer["LastNameLabel"]</label>
+                                                    <input type="text" class="form-control" ng-model="usersCtrl.currentEntity.LastName" maxlength="128" />
+                                                </div>
+                                                <div class="col-sm-2">
+                                                    <label class="control-label">@Localizer["PhoneLabel"]</label>
+                                                    <input type="tel" class="form-control" ng-model="usersCtrl.currentEntity.Phone" required maxlength="30" />
+                                                </div>
+                                                <div class="col-sm-2">
+                                                    <label class="control-label">@Localizer["EmailLabel"]</label>
+                                                    <input type="email" class="form-control" ng-model="usersCtrl.currentEntity.Email" required maxlength="100" />
+                                                </div>
+                                                <div class="col-sm-2">
+                                                    <label class="control-label">@Localizer["DepartmentLabel"]</label>
+                                                    <select class="form-control" ng-model="usersCtrl.currentEntity.DepartmentId"
+                                                            ng-options="department.DepartmentId as department.Name for department in customersCtrl.getDepartments('true')"></select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <div class="col-sm-2">
+                                                    <label class="control-label">@Localizer["UserNameLabel"]</label>
+                                                    <input type="text" class="form-control" ng-model="usersCtrl.currentEntity.UserName"
+                                                           required pattern="@Constants.UserNamePattern" />
+                                                </div>
+                                                <div class="col-sm-2">
+                                                    <label class="control-label">@Localizer["UserPasswordLabel"]</label>
+                                                    <input type="password" class="form-control" ng-model="usersCtrl.currentEntity.Password"
+                                                           title="Enter an ID consisting of 4-8 hexadecimal digits" ng-required="usersCtrl.isPasswordRequired()" pattern="@Constants.UserPasswordPattern" />
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <div class="col-sm-2" ng-show="usersCtrl.isDetailEditVisible()">
+                                                    <input type="button" class="btn btn-info" ng-click="usersCtrl.discard()" value="@Localizer["GoBackLabel"]" />
+                                                </div>
+                                                <div class="col-sm-2" ng-show="usersCtrl.isEditMode()">
+                                                    <input type="submit" class="btn btn-success"
+                                                           ng-click="usersCtrl.save(customersCtrl.currentEntity)"
+                                                           value="@Localizer["SaveUserLabel"]" />
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
             </section>
         </div>
         <div class="form-group row">
             <div class="row">
                 <div class="col-sm-2" ng-show="customersCtrl.isDetailEditVisible()">
-                    <input type="button" class="btn btn-info" ng-click="customersCtrl.discard()" value="Discard changes (Go back)" />
+                    <input type="button" class="btn btn-info" ng-click="customersCtrl.discard()" value="@Localizer["GoBackLabel"]" />
                 </div>
-                <div class="col-sm-2" ng-show="customersCtrl.isEditMode()">
-                    <input type="submit" class="btn btn-success" ng-click="customersCtrl.save()" value="Save customer" />
-                </div>
+                @if (ViewBag.IsAdmin)
+                {
+                    <div class="col-sm-2" ng-show="customersCtrl.isEditMode()">
+                        <input type="submit" class="btn btn-success" ng-click="customersCtrl.save()" value="@Localizer["SaveCustomerLabel"]" />
+                    </div>
+                }
             </div>
         </div>
     </div>
     <hr />
     <footer>
-        <p>&copy; Customers management application</p>
+        <p>&copy; @Localizer["ApplicationLabel"]</p>
     </footer>
     <script>
         @await Component.InvokeAsync("EnumsToJavaScript")

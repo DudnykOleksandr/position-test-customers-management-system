@@ -18,3 +18,5 @@ D:\Git Projects\test\Customers\Presentation\obj\Debug\netcoreapp2.0\Presentation
 D:\Git Projects\test\Customers\Presentation\bin\Debug\netcoreapp2.0\en\Presentation.resources.dll
 D:\Git Projects\test\Customers\Presentation\obj\Debug\netcoreapp2.0\en\Presentation.resources.dll
 D:\Git Projects\test\Customers\Presentation\obj\Debug\netcoreapp2.0\Presentation.Resources.Views.Customers.Index.en.resources
+D:\Git Projects\test\Customers\Presentation\obj\Debug\netcoreapp2.0\Presentation.Resources.Views.Account.Forbidden.en.resources
+D:\Git Projects\test\Customers\Presentation\obj\Debug\netcoreapp2.0\Presentation.Resources.Views.Account.Login.en.resources

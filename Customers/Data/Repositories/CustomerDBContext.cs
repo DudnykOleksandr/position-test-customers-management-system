@@ -112,6 +112,18 @@ namespace Data.Repositories
 
             modelBuilder.Entity<User>(entity =>
             {
+                entity.HasIndex(e => e.UserName)
+                   .HasName("UQ_UserName")
+                   .IsUnique();
+
+                entity.HasIndex(e => new { e.DepartmentId, e.IsDepartmentManager })
+                    .HasName("UQ_IsDepartmentManager")
+                    .IsUnique();
+
+                entity.HasIndex(e => new { e.PasswordHash, e.PasswordHashSalt })
+                    .HasName("UQ_Password")
+                    .IsUnique();
+
                 entity.Property(e => e.UserId).ValueGeneratedNever();
 
                 entity.Property(e => e.Email)

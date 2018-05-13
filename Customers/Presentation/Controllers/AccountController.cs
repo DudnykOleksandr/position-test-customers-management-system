@@ -54,9 +54,9 @@ namespace Presentation.Controllers
                     identity.AddClaim(new Claim(ClaimTypes.Name, userName));
 
                     if (user.Role == UserRole.AdminUser)
-                        identity.AddClaim(new Claim("IsAdmin", string.Empty));
+                        identity.AddClaim(new Claim(Constants.AdminClaimTypeName, string.Empty));
                     else
-                        identity.AddClaim(new Claim("CustomerId", user.CustomerId.ToString()));
+                        identity.AddClaim(new Claim(Constants.CustomerIdClaimTypeName, user.CustomerId.ToString()));
 
                     HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity));
 

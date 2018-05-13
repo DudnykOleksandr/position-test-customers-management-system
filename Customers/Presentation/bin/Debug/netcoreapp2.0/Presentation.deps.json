@@ -1,7 +1,7 @@
 {
   "runtimeTarget": {
     "name": ".NETCoreApp,Version=v2.0",
-    "signature": "e033f48bb5d2a6c6980f386e10af9655b055ad2f"
+    "signature": "0445510830f9944d9114a36f4801ba37736a955a"
   },
   "compilationOptions": {
     "defines": [
@@ -24,6 +24,7 @@
       "Presentation/1.0.0": {
         "dependencies": {
           "AngularJS.Core": "1.6.8",
+          "BuildBundlerMinifier": "2.7.385",
           "Bussiness": "1.0.0",
           "Data": "1.0.0",
           "Localization.AspNetCore.TagHelpers": "0.3.0",
@@ -44,6 +45,7 @@
         }
       },
       "AngularJS.Core/1.6.8": {},
+      "BuildBundlerMinifier/2.7.385": {},
       "Libuv/1.10.0": {
         "dependencies": {
           "Microsoft.NETCore.Platforms": "2.0.0"
@@ -4218,6 +4220,13 @@
       "sha512": "sha512-FPbo+j7DIlbBfhtcreJtu/sKEzLZ/DxTroxWSjzuT4nfvnYf42SPKlmU1J29OhqrEELyxj/yyq578Yo5AIb1Kw==",
       "path": "angularjs.core/1.6.8",
       "hashPath": "angularjs.core.1.6.8.nupkg.sha512"
+    },
+    "BuildBundlerMinifier/2.7.385": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-u/Q1RqLEJN3udX4pE4vxbpTGDldYiR+sFCXfi3LwAUxI4Q4ujM744+MucQnghEYlRaA6GOxdlRCREvg6kO5VrA==",
+      "path": "buildbundlerminifier/2.7.385",
+      "hashPath": "buildbundlerminifier.2.7.385.nupkg.sha512"
     },
     "Libuv/1.10.0": {
       "type": "package",

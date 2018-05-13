@@ -1,12 +1,15 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+
+<!DOCTYPE html>
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>Forbiden</title>
+    <title>@Localizer["ForbidenLabel"]</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
 </head>
 <body>
-    <h1 class="text-danger">Access forbiden</h1>
-    <h2 class="text-danger">Please navigate to @Html.ActionLink("Login page", "Login", "Account");</h2>
+    <h1 class="text-danger">@Localizer["AccessForbidenLabel"]</h1>
+    <h2 class="text-danger">@Localizer["PleaseNavigateLabel"] @Html.ActionLink("Login page", "Login", "Account");</h2>
 </body>
 </html>

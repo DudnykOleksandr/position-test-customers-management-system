@@ -42,10 +42,10 @@ namespace Presentation.Dtos
         public string Email { get; set; }
 
         [Required]
-        [RegularExpression(@"^[a-zA-Z][a-zA-Z0-9-_\.]{1,30}$")]
+        [RegularExpression(Constants.UserNamePattern)]
         public string UserName { get; set; }
 
-        [RegularExpression(@"[0-9a-zA-Z]{4,8}")]
+        [RegularExpression(Constants.UserPasswordPattern)]
         public string Password { get; set; }
 
         public User ToDataModel(IEnumerable<DepartmentDto> departments)

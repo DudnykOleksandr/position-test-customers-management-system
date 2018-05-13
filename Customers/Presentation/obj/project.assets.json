@@ -5,6 +5,12 @@
       "AngularJS.Core/1.6.8": {
         "type": "package"
       },
+      "BuildBundlerMinifier/2.7.385": {
+        "type": "package",
+        "build": {
+          "build/BuildBundlerMinifier.targets": {}
+        }
+      },
       "Libuv/1.10.0": {
         "type": "package",
         "dependencies": {
@@ -5020,6 +5026,25 @@
         "content/Scripts/angular.js",
         "content/Scripts/angular.min.js",
         "content/Scripts/angular.min.js.map"
+      ]
+    },
+    "BuildBundlerMinifier/2.7.385": {
+      "sha512": "u/Q1RqLEJN3udX4pE4vxbpTGDldYiR+sFCXfi3LwAUxI4Q4ujM744+MucQnghEYlRaA6GOxdlRCREvg6kO5VrA==",
+      "type": "package",
+      "path": "buildbundlerminifier/2.7.385",
+      "files": [
+        "build/BuildBundlerMinifier.targets",
+        "buildbundlerminifier.2.7.385.nupkg.sha512",
+        "buildbundlerminifier.nuspec",
+        "tools/net46/BundlerMinifier.dll",
+        "tools/net46/NUglify.dll",
+        "tools/net46/Newtonsoft.Json.dll",
+        "tools/netcoreapp2.0/BundlerMinifier.dll",
+        "tools/netcoreapp2.0/NUglify.dll",
+        "tools/netcoreapp2.0/Newtonsoft.Json.dll",
+        "tools/netstandard1.3/BundlerMinifier.dll",
+        "tools/netstandard1.3/NUglify.dll",
+        "tools/netstandard1.3/Newtonsoft.Json.dll"
       ]
     },
     "Libuv/1.10.0": {
@@ -13144,6 +13169,7 @@
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v2.0": [
       "AngularJS.Core >= 1.6.8",
+      "BuildBundlerMinifier >= 2.7.385",
       "Bussiness >= 1.0.0",
       "Data >= 1.0.0",
       "Localization.AspNetCore.TagHelpers >= 0.3.0",
@@ -13206,6 +13232,10 @@
           "AngularJS.Core": {
             "target": "Package",
             "version": "[1.6.8, )"
+          },
+          "BuildBundlerMinifier": {
+            "target": "Package",
+            "version": "[2.7.385, )"
           },
           "Localization.AspNetCore.TagHelpers": {
             "target": "Package",

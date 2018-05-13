@@ -1,4 +1,5 @@
 ﻿using Bussiness;
+using Data.Models;
 using Data.Repositories;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
@@ -36,7 +37,7 @@ namespace Presentation
 
             services.AddAuthorization(options =>
             {
-                options.AddPolicy("Admin", policy => policy.RequireClaim("IsAdmin"));
+                options.AddPolicy(Constants.AdminPolicyName, policy => policy.RequireClaim(Constants.AdminClaimTypeName));
             });
 
             var connection = @"Server=PC-218719\SQLEXPRESS;Database=CustomerDB;Trusted_Connection=True;ConnectRetryCount=0";

@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <PackageReference Include="AngularJS.Core" Version="1.6.8" />
+    <PackageReference Include="BuildBundlerMinifier" Version="2.7.385" />
     <PackageReference Include="Localization.AspNetCore.TagHelpers" Version="0.3.0" />
     <PackageReference Include="log4net" Version="2.0.8" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.7" />
