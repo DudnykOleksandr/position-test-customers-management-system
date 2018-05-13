@@ -116,10 +116,6 @@ namespace Data.Repositories
                    .HasName("UQ_UserName")
                    .IsUnique();
 
-                entity.HasIndex(e => new { e.DepartmentId, e.IsDepartmentManager })
-                    .HasName("UQ_IsDepartmentManager")
-                    .IsUnique();
-
                 entity.HasIndex(e => new { e.PasswordHash, e.PasswordHashSalt })
                     .HasName("UQ_Password")
                     .IsUnique();

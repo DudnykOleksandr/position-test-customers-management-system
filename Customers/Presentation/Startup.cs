@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
@@ -17,6 +18,13 @@ namespace Presentation
 {
     public class Startup
     {
+        public IConfiguration Configuration { get; }
+
+        public Startup(IConfiguration configuration)
+        {
+            Configuration = configuration;
+        }
+
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
@@ -40,8 +48,7 @@ namespace Presentation
                 options.AddPolicy(Constants.AdminPolicyName, policy => policy.RequireClaim(Constants.AdminClaimTypeName));
             });
 
-            var connection = @"Server=PC-218719\SQLEXPRESS;Database=CustomerDB;Trusted_Connection=True;ConnectRetryCount=0";
-            services.AddDbContext<CustomerDBContext>(options => options.UseSqlServer(connection));
+            services.AddDbContext<CustomerDBContext>(options => options.UseSqlServer(Configuration.GetConnectionString("CustomersDb")));
 
             services.AddScoped<ICustomerRepository, CustomerRepository>();
             services.AddScoped<IAccountManager, AccountManager>();

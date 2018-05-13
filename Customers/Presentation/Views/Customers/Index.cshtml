@@ -80,8 +80,8 @@
                                 <a ng-click="customersCtrl.showDetails(customer)">@Localizer["DetailsLabel"]</a>
                                 @if (ViewBag.IsAdmin)
                                 {
-                                <a ng-click="customersCtrl.edit(customer)">@Localizer["EditLabel"]</a>
-                                <a ng-click="customersCtrl.delete(customer)">@Localizer["DeleteLabel"]</a>
+                                    <a ng-click="customersCtrl.edit(customer)">@Localizer["EditLabel"]</a>
+                                    <a ng-click="customersCtrl.delete(customer)">@Localizer["DeleteLabel"]</a>
                                 }
                             </td>
                         </tr>
@@ -367,7 +367,6 @@
                                                     </th>
                                                     <th>
                                                         @Localizer["UserNameLabel"]
-                                                        
                                                     </th>
                                                 </tr>
                                             </thead>
@@ -431,8 +430,9 @@
                                             <div class="form-group row">
                                                 <div class="col-sm-2">
                                                     <label class="control-label">@Localizer["UserNameLabel"]</label>
-                                                    <input type="text" class="form-control" ng-model="usersCtrl.currentEntity.UserName"
-                                                           required pattern="@Constants.UserNamePattern" />
+                                                    <input name="userName" type="text" class="form-control" ng-change="usersCtrl.checkUniqueness(customersCtrl.currentEntity)" ng-model="usersCtrl.currentEntity.UserName"
+                                                           ng-model-options='{ debounce: 500 }' required pattern="@Constants.UserNamePattern" />
+                                                    <div class="text-danger" ng-show="userForm.userName.$error.duplicate">>@Localizer["DuplicateLabel"]</div>
                                                 </div>
                                                 <div class="col-sm-2">
                                                     <label class="control-label">@Localizer["UserPasswordLabel"]</label>

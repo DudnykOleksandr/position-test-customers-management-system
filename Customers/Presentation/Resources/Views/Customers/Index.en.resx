@@ -222,4 +222,7 @@
   <data name="UsersLabel" xml:space="preserve">
     <value>Users</value>
   </data>
+  <data name="DuplicateLabel" xml:space="preserve">
+    <value>*duplicate</value>
+  </data>
 </root>

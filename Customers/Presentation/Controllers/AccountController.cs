@@ -9,6 +9,7 @@ using System.Linq;
 using Bussiness;
 using Microsoft.AspNetCore.Authorization;
 using System;
+using log4net;
 
 namespace Presentation.Controllers
 {
@@ -16,6 +17,7 @@ namespace Presentation.Controllers
     {
         private readonly ICustomerRepository _customerRepository;
         private readonly IAccountManager _accountManager;
+        private static readonly ILog log = LogManager.GetLogger(typeof(AccountController));
 
         public AccountController(ICustomerRepository customerRepository, IAccountManager accountManager)
         {

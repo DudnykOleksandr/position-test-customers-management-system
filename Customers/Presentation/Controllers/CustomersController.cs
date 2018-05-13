@@ -1,5 +1,6 @@
 ﻿using Data.Models;
 using Data.Repositories;
+using log4net;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -13,6 +14,7 @@ namespace Presentation.Controllers
     public class CustomersController : Controller
     {
         private readonly ICustomerRepository _customerRepository;
+        private static readonly ILog log = LogManager.GetLogger(typeof(CustomersController));
 
         public CustomersController(ICustomerRepository customerRepository)
         {

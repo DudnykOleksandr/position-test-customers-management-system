@@ -1,5 +1,5 @@
-﻿angular.module('Customers').controller('UsersController', ['guidService', 'modes', 'entityActionType', '$scope', '$log',
-    function (guidService, modes, entityActionType, $scope, $log) {
+﻿angular.module('Customers').controller('UsersController', ['guidService', 'modes', 'entityActionType', '$scope', '$log', '$http',
+    function (guidService, modes, entityActionType, $scope, $log, $http) {
         var self = this;
         var mode = null;
         self.currentEntity = null;
@@ -13,6 +13,30 @@
 
         self.isPasswordRequired = function () {
             return self.currentEntity && self.currentEntity.ActionType === entityActionType.Add;
+        };
+
+        self.checkUniqueness = function (customer) {
+            if (self.currentEntity && self.currentEntity.UserName) {
+                var duplicateUserNameUser = customer.Users.find(u => u.UserName === self.currentEntity.UserName)
+                if (duplicateUserNameUser)
+                    $scope.userForm.userName.$setValidity('duplicate', false);
+                else {
+                    $http.get('Account/IsUserNameUnique',
+                        {
+                            params: { userName: self.currentEntity.UserName },
+                            headers: {
+                                'Content-Type': 'application/json;charset=utf-8;'
+                            }
+                        })
+                        .then(function (response) {
+                            $scope.userForm.userName.$setValidity('duplicate', !response.data);
+                        }, function (error) {
+                            $log.error(error);
+                            alert("Failed");
+                        });
+                }
+            }
+
         };
 
         self.create = function (customer) {
