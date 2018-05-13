@@ -25,6 +25,11 @@ namespace Data.Repositories
             return _dbContext.User.SingleOrDefault(u => u.UserName == userName);
         }
 
+        /// <summary>
+        /// Returns all customers data or specific one, if customerId is provided
+        /// </summary>
+        /// <param name="customerId"></param>
+        /// <returns></returns>
         public IEnumerable<Customer> GetAll(string customerId = "")
         {
             var query = _dbContext.Customer
@@ -40,6 +45,10 @@ namespace Data.Repositories
             return query.ToList();
         }
 
+        /// <summary>
+        /// Saves complex customer object
+        /// </summary>
+        /// <param name="customer"></param>
         public void Save(Customer customer)
         {
             if (customer.ActionType == EntityActionType.Add)
@@ -83,6 +92,10 @@ namespace Data.Repositories
             _dbContext.SaveChanges();
         }
 
+        /// <summary>
+        /// Deletes complex customer object
+        /// </summary>
+        /// <param name="customer"></param>
         public void Delete(Customer customer)
         {
             _dbContext.Customer.Attach(customer);
@@ -134,10 +147,13 @@ namespace Data.Repositories
             if (customer != null)
                 return customer;
 
-            //TODO add specific type of exception
             throw new Exception(string.Format("Customer with Id {0} not found", customerId));
         }
 
+        /// <summary>
+        /// Used to create default user
+        /// </summary>
+        /// <param name="user"></param>
         public void CreateUser(User user)
         {
             _dbContext.User.Add(user);

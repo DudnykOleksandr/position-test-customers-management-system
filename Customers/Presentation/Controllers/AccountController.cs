@@ -25,6 +25,11 @@ namespace Presentation.Controllers
             _accountManager = accountManager;
         }
 
+        /// <summary>
+        /// Checks user name uniqueness
+        /// </summary>
+        /// <param name="userName"></param>
+        /// <returns></returns>
         [HttpGet]
         public JsonResult IsUserNameUnique(string userName)
         {
@@ -62,14 +67,17 @@ namespace Presentation.Controllers
             {
                 try
                 {
+                    //veryfying user credentials and returning user if login is successful
                     var user = _accountManager.VerifyUserPassword(userName, password);
                     if (user != null)
                     {
                         var identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme);
                         identity.AddClaim(new Claim(ClaimTypes.Name, userName));
-
+                        
+                        //adding admin claim if current user is admin
                         if (user.Role == UserRole.AdminUser)
                             identity.AddClaim(new Claim(Constants.AdminClaimTypeName, string.Empty));
+                        //adding regular user claim
                         else
                             identity.AddClaim(new Claim(Constants.CustomerIdClaimTypeName, user.CustomerId.ToString()));
 

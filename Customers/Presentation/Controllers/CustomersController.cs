@@ -21,6 +21,7 @@ namespace Presentation.Controllers
             _customerRepository = customerRepository;
         }
 
+        [HttpGet]
         public ViewResult Index()
         {
             var adminClaim = HttpContext.User.Claims.FirstOrDefault(c => c.Type == Constants.AdminClaimTypeName);
@@ -29,19 +30,27 @@ namespace Presentation.Controllers
             return View();
         }
 
+        /// <summary>
+        /// Returns all customers or specific one if user is not admin
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
         public JsonResult GetAll()
         {
             try
             {
+                //checking regular user claim for customer id
                 var customerId = string.Empty;
                 var customerIdClaim = HttpContext.User.Claims.FirstOrDefault(c => c.Type == Constants.CustomerIdClaimTypeName);
                 if (customerIdClaim != null)
                     customerId = customerIdClaim.Value;
+                //if regular user claim is not found trying to check if it is admin user
                 else
                 {
                     var adminClaim = HttpContext.User.Claims.FirstOrDefault(c => c.Type == Constants.AdminClaimTypeName);
                     if (adminClaim == null)
-                        RedirectToAction("Login", "Account");
+                        //if admin claim is not found redirect to login
+                        throw new Exception("Current user claim is not found");
                 }
                 var allCustomerDtos = _customerRepository.GetAll(customerId).ToDataModels().ToList();
                 return Json(allCustomerDtos);
@@ -56,6 +65,11 @@ namespace Presentation.Controllers
             }
         }
 
+        /// <summary>
+        /// Saves complex cutomer object. Available only for admin user
+        /// </summary>
+        /// <param name="customerDto"></param>
+        /// <returns></returns>
         [HttpPost]
         [Authorize(Policy = Constants.AdminPolicyName)]
         public IActionResult Save([FromBody]CustomerDto customerDto)
@@ -77,6 +91,11 @@ namespace Presentation.Controllers
             return BadRequest();
         }
 
+        /// <summary>
+        /// Deletes complex customer object. Available only for admin user.
+        /// </summary>
+        /// <param name="customerDto"></param>
+        /// <returns></returns>
         [HttpPost]
         [Authorize(Policy = Constants.AdminPolicyName)]
         public IActionResult Delete([FromBody]CustomerDto customerDto)

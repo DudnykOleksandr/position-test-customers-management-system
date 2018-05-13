@@ -21,7 +21,7 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav custom">
-                    <li>@Html.ActionLink("Log Out", "LogOut", "Account")</li>
+                    <li>@Html.ActionLink("Log out", "LogOut", "Account")</li>
                 </ul>
             </div>
         </div>
@@ -139,14 +139,11 @@
                         </div>
                         <div class="form-group row">
                             <div class="col-sm-2">
-                                <label class="control-label">@Localizer["AddressLabel"]</label>
-                            </div>
-                            <div class="col-sm-2">
-                                <label class="control-label">@Localizer["CountryLabel"]</label>
+                                <label class="control-label">@Localizer["AddressLabel"] @Localizer["CountryLabel"]</label>
                                 <input type="text" class="form-control" ng-model="customersCtrl.currentEntity.Address.Country" required maxlength="30" />
                             </div>
                             <div class="col-sm-2">
-                                <label class="control-label">@Localizer["CityLabel"]</label>
+                                <label class="control-label">@Localizer["AddressLabel"] @Localizer["CityLabel"]</label>
                                 <input type="text" class="form-control" ng-model="customersCtrl.currentEntity.Address.City" required maxlength="30" />
                             </div>
                             <div class="col-sm-2">

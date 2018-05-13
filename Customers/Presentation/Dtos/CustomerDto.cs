@@ -67,6 +67,7 @@ namespace Presentation.Dtos
                 AddressId = Guid.Parse(this.AddressId),
                 Address = this.Address.ToDataModel()
             };
+            //adress object repeats customers action type
             dataModel.Address.ActionType = dataModel.ActionType;
 
             foreach (var contact in Contacts)

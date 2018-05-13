@@ -5,6 +5,11 @@ namespace Presentation.Controllers
 {
     public class CommonController : Controller
     {
+        /// <summary>
+        /// Returns stringified value of new guid
+        /// </summary>
+        /// <param name="numberOfGuidToGet"></param>
+        /// <returns></returns>
         [HttpGet]
         public JsonResult GetGuid(int numberOfGuidToGet)
         {

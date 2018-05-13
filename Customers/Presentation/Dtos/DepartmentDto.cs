@@ -37,7 +37,7 @@ namespace Presentation.Dtos
                 AddressId = Guid.Parse(this.AddressId),
                 Address = this.Address.ToDataModel()
             };
-
+            //adress object repeats customer's action type
             dataModel.Address.ActionType = dataModel.ActionType;
 
             return dataModel;
