@@ -1,4 +1,4 @@
-1. Refactor controllers to call PerformAction.
+1. Refactor controllers to call PerformAction. Introduce Services. Move logic from controller to services.
 2. Add more C# Unit tests.
 3. Add createdOn and modifiedOn columns on each entity.
 4. Refactor Index.cshtml. Move big logical parts to angular directives.
