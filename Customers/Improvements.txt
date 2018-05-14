@@ -1,0 +1,8 @@
+1. Refactor controllers to call PerformAction.
+2. Add more C# Unit tests.
+3. Add createdOn and modifiedOn columns on each entity.
+4. Refactor Index.cshtml. Move big logical parts to angular directives.
+5. Improve styling.
+5. Localize C# controllers.
+6. Make controller actions async.
+7. Add Info logs.
