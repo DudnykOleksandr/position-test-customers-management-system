@@ -15,6 +15,8 @@ namespace Data.Repositories
             _dbContext = dbContext;
         }
 
+        #region Public Methods
+
         public IEnumerable<string> GetAllUserNames()
         {
             return _dbContext.User.Select(u => u.UserName).ToList();
@@ -111,6 +113,20 @@ namespace Data.Repositories
             _dbContext.SaveChanges();
         }
 
+        /// <summary>
+        /// Used to create default user
+        /// </summary>
+        /// <param name="user"></param>
+        public void CreateUser(User user)
+        {
+            _dbContext.User.Add(user);
+            _dbContext.SaveChanges();
+        }
+
+        #endregion
+
+        #region Private Methods
+
         private void ProcessChildEntity(Base entity, Base existingEntity)
         {
             if (entity.ActionType == EntityActionType.Add)
@@ -150,14 +166,6 @@ namespace Data.Repositories
             throw new Exception(string.Format("Customer with Id {0} not found", customerId));
         }
 
-        /// <summary>
-        /// Used to create default user
-        /// </summary>
-        /// <param name="user"></param>
-        public void CreateUser(User user)
-        {
-            _dbContext.User.Add(user);
-            _dbContext.SaveChanges();
-        }
+        #endregion
     }
 }
