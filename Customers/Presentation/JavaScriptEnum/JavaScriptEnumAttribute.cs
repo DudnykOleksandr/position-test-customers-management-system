@@ -2,9 +2,9 @@
 
 namespace Presentation.JavaScriptEnum
 {
-    /// <summary>
-    /// Javascript traslating C# enum attribute
-    /// </summary>
+    // / <summary>
+    // / Javascript traslating C# enum attribute
+    // / </summary>
     public class JavaScriptEnumAttribute : Attribute
     {
     }

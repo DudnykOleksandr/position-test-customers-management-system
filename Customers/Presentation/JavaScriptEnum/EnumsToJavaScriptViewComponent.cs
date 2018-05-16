@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Html;
+﻿using log4net;
+using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyModel;
 using Newtonsoft.Json;

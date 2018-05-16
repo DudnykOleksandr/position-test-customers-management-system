@@ -44,13 +44,13 @@ namespace UnitTests
             controller.ControllerContext.HttpContext = new DefaultHttpContext();
             var claimsIdentity = new ClaimsIdentity();
             claimsIdentity.AddClaim(new Claim(Constants.AdminClaimTypeName, string.Empty));
-            controller.ControllerContext.HttpContext.User =  new ClaimsPrincipal(claimsIdentity);
+            controller.ControllerContext.HttpContext.User = new ClaimsPrincipal(claimsIdentity);
 
             // Act
             var result = controller.GetAll();
 
             // Assert
-            var jsonResult=Assert.IsType<JsonResult>(result);
+            var jsonResult = Assert.IsType<JsonResult>(result);
             Assert.NotNull(jsonResult.Value);
             customerRepositoryMock.Verify(foo => foo.GetAll(string.Empty), Times.Once());
         }

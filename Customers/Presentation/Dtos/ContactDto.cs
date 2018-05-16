@@ -7,7 +7,7 @@ namespace Presentation.Dtos
     public class ContactDto : BaseDto
     {
         [Required]
-        [StringLength(maximumLength: 36,MinimumLength = 36)]
+        [StringLength(maximumLength: 36, MinimumLength = 36)]
         public string ContactId { get; set; }
 
         [Required]

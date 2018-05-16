@@ -1,5 +1,4 @@
-﻿
-namespace Data.Models
+﻿namespace Data.Models
 {
     public static class Constants
     {
@@ -7,10 +6,7 @@ namespace Data.Models
         public const string UserPasswordPattern = @"[0-9a-zA-Z]{4,8}";
 
         public const string AdminPolicyName = "Admin";
-        public const string AdminClaimTypeName= "IsAdmin";
+        public const string AdminClaimTypeName = "IsAdmin";
         public const string CustomerIdClaimTypeName = "CustomerId";
-        
-        
-
     }
 }

@@ -64,11 +64,11 @@ namespace Presentation.Dtos
             dataModel.IsDepartmentManager = this.IsDepartmentManager;
             dataModel.ActionType = this.ActionType;
 
-            //password must be provided on user add
+            // password must be provided on user add
             if (dataModel.ActionType == EntityActionType.Add && string.IsNullOrEmpty(this.Password))
                 throw new Exception("User model is not valid");
 
-            //if password is not provided than do not update password and salt
+            // if password is not provided than do not update password and salt
             if (!string.IsNullOrEmpty(this.Password))
             {
                 dataModel.PasswordHashSalt = AccountManager.GenerateRandomSalt();

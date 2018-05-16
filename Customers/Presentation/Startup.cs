@@ -26,7 +26,7 @@ namespace Presentation
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
-        // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
+        // For more information on how to configure your application, visit https:// go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().AddJsonOptions(options =>
@@ -39,7 +39,7 @@ namespace Presentation
 
             services.AddLocalization(options => options.ResourcesPath = "Resources");
 
-            //Adds cookie middleware to the services collection and configures it
+            // Adds cookie middleware to the services collection and configures it
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(options => options.LoginPath = new PathString("/Account/Login"));
 

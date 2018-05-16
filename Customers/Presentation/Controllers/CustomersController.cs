@@ -13,8 +13,8 @@ namespace Presentation.Controllers
     [Authorize]
     public class CustomersController : Controller
     {
-        private readonly ICustomerRepository _customerRepository;
         private static readonly ILog log = LogManager.GetLogger(typeof(CustomersController));
+        private readonly ICustomerRepository _customerRepository;
 
         public CustomersController(ICustomerRepository customerRepository)
         {
@@ -30,26 +30,26 @@ namespace Presentation.Controllers
             return View();
         }
 
-        /// <summary>
-        /// Returns all customers or specific one if user is not admin
-        /// </summary>
-        /// <returns></returns>
+        // / <summary>
+        // / Returns all customers or specific one if user is not admin
+        // / </summary>
+        // / <returns></returns>
         [HttpGet]
         public JsonResult GetAll()
         {
             try
             {
-                //checking regular user claim for customer id
+                // checking regular user claim for customer id
                 var customerId = string.Empty;
                 var customerIdClaim = HttpContext.User.Claims.FirstOrDefault(c => c.Type == Constants.CustomerIdClaimTypeName);
                 if (customerIdClaim != null)
                     customerId = customerIdClaim.Value;
-                //if regular user claim is not found trying to check if it is admin user
                 else
                 {
+                    // if regular user claim is not found trying to check if it is admin user
                     var adminClaim = HttpContext.User.Claims.FirstOrDefault(c => c.Type == Constants.AdminClaimTypeName);
                     if (adminClaim == null)
-                        //if admin claim is not found redirect to login
+                        // if admin claim is not found redirect to login
                         throw new Exception("Current user claim is not found");
                 }
                 var allCustomerDtos = _customerRepository.GetAll(customerId).ToDataModels().ToList();
@@ -65,11 +65,11 @@ namespace Presentation.Controllers
             }
         }
 
-        /// <summary>
-        /// Saves complex cutomer object. Available only for admin user
-        /// </summary>
-        /// <param name="customerDto"></param>
-        /// <returns></returns>
+        // / <summary>
+        // / Saves complex cutomer object. Available only for admin user
+        // / </summary>
+        // / <param name="customerDto"></param>
+        // / <returns></returns>
         [HttpPost]
         [Authorize(Policy = Constants.AdminPolicyName)]
         public IActionResult Save([FromBody]CustomerDto customerDto)
@@ -91,11 +91,11 @@ namespace Presentation.Controllers
             return BadRequest();
         }
 
-        /// <summary>
-        /// Deletes complex customer object. Available only for admin user.
-        /// </summary>
-        /// <param name="customerDto"></param>
-        /// <returns></returns>
+        // / <summary>
+        // / Deletes complex customer object. Available only for admin user.
+        // / </summary>
+        // / <param name="customerDto"></param>
+        // / <returns></returns>
         [HttpPost]
         [Authorize(Policy = Constants.AdminPolicyName)]
         public IActionResult Delete([FromBody]CustomerDto customerDto)

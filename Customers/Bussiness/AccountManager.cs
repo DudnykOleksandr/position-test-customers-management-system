@@ -11,12 +11,40 @@ namespace Bussiness
     /// </summary>
     public class AccountManager : IAccountManager
     {
-        private readonly ICustomerRepository _customerRepository;
         private const int _saltSize = 6;
+        private readonly ICustomerRepository _customerRepository;
 
         public AccountManager(ICustomerRepository customerRepository)
         {
             _customerRepository = customerRepository;
+        }
+
+        /// <summary>
+        /// Computes hash from password and salt
+        /// </summary>
+        /// <param name="salt"></param>
+        /// <param name="password"></param>
+        /// <returns></returns>
+        public static string Hash(string salt, string password)
+        {
+            byte[] inputBytes = Encoding.Unicode.GetBytes(salt + password);
+            byte[] outputBytes;
+
+            using (var sha = new SHA256Managed())
+            {
+                outputBytes = sha.ComputeHash(inputBytes);
+            }
+
+            return Convert.ToBase64String(outputBytes);
+        }
+
+        /// <summary>
+        /// Generates random salt string
+        /// </summary>
+        /// <returns></returns>
+        public static string GenerateRandomSalt()
+        {
+            return Convert.ToBase64String(GenerateRandomBytes(_saltSize));
         }
 
         /// <summary>
@@ -47,35 +75,7 @@ namespace Bussiness
         /// <returns></returns>
         public static bool IsPasswordMatch(string salt, string hashedPassword, string password)
         {
-            return (hashedPassword == Hash(salt, password));
-        }
-
-        /// <summary>
-        /// Computes hash from password and salt
-        /// </summary>
-        /// <param name="salt"></param>
-        /// <param name="password"></param>
-        /// <returns></returns>
-        public static string Hash(string salt, string password)
-        {
-            byte[] inputBytes = Encoding.Unicode.GetBytes(salt + password);
-            byte[] outputBytes;
-
-            using (var sha = new SHA256Managed())
-            {
-                outputBytes = sha.ComputeHash(inputBytes);
-            }
-
-            return Convert.ToBase64String(outputBytes);
-        }
-
-        /// <summary>
-        /// Generates random salt string
-        /// </summary>
-        /// <returns></returns>
-        public static string GenerateRandomSalt()
-        {
-            return Convert.ToBase64String(GenerateRandomBytes(_saltSize));
+            return hashedPassword == Hash(salt, password);
         }
 
         private static byte[] GenerateRandomBytes(int arrayLength)

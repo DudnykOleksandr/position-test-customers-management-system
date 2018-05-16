@@ -15,9 +15,9 @@ namespace Presentation.Controllers
 {
     public class AccountController : Controller
     {
+        private static readonly ILog log = LogManager.GetLogger(typeof(AccountController));
         private readonly ICustomerRepository _customerRepository;
         private readonly IAccountManager _accountManager;
-        private static readonly ILog log = LogManager.GetLogger(typeof(AccountController));
 
         public AccountController(ICustomerRepository customerRepository, IAccountManager accountManager)
         {
@@ -25,11 +25,11 @@ namespace Presentation.Controllers
             _accountManager = accountManager;
         }
 
-        /// <summary>
-        /// Checks user name uniqueness
-        /// </summary>
-        /// <param name="userName"></param>
-        /// <returns></returns>
+        // / <summary>
+        // / Checks user name uniqueness
+        // / </summary>
+        // / <param name="userName"></param>
+        // / <returns></returns>
         [HttpGet]
         public JsonResult IsUserNameUnique(string userName)
         {
@@ -67,18 +67,18 @@ namespace Presentation.Controllers
             {
                 try
                 {
-                    //veryfying user credentials and returning user if login is successful
+                    // veryfying user credentials and returning user if login is successful
                     var user = _accountManager.VerifyUserPassword(userName, password);
                     if (user != null)
                     {
                         var identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme);
                         identity.AddClaim(new Claim(ClaimTypes.Name, userName));
-                        
-                        //adding admin claim if current user is admin
+
+                        // adding admin claim if current user is admin
                         if (user.Role == UserRole.AdminUser)
                             identity.AddClaim(new Claim(Constants.AdminClaimTypeName, string.Empty));
-                        //adding regular user claim
                         else
+                            // adding regular user claim
                             identity.AddClaim(new Claim(Constants.CustomerIdClaimTypeName, user.CustomerId.ToString()));
 
                         HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity));
@@ -107,21 +107,21 @@ namespace Presentation.Controllers
             return RedirectToAction("Login", "Account");
         }
 
-        //[HttpGet]
-        //public EmptyResult AddDefaultAdminUser()
-        //{
-        //    var user = new User();
-        //    user.UserId = Guid.NewGuid();
-        //    user.UserName = "Admin";
-        //    user.Role = UserRole.AdminUser;
-        //    user.PasswordHashSalt = AccountManager.GenerateRandomSalt();
-        //    user.PasswordHash = AccountManager.Hash(user.PasswordHashSalt, "P@ssw0rd");
-        //    user.Email = "admin@admin";
-        //    user.FirstName = "admin";
-        //    user.Phone = "empty";
-        //    _customerRepository.CreateUser(user);
+        // [HttpGet]
+        // public EmptyResult AddDefaultAdminUser()
+        // {
+        //     var user = new User();
+        //     user.UserId = Guid.NewGuid();
+        //     user.UserName = "Admin";
+        //     user.Role = UserRole.AdminUser;
+        //     user.PasswordHashSalt = AccountManager.GenerateRandomSalt();
+        //     user.PasswordHash = AccountManager.Hash(user.PasswordHashSalt, "P@ssw0rd");
+        //     user.Email = "admin@admin";
+        //     user.FirstName = "admin";
+        //     user.Phone = "empty";
+        //     _customerRepository.CreateUser(user);
 
-        //    return new EmptyResult();
-        //}
+        //     return new EmptyResult();
+        // }
     }
 }
